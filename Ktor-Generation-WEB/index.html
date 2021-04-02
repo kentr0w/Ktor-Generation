@@ -1,0 +1,122 @@
+<html>
+    <head>  
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/firstSection.css">
+        <link rel="stylesheet" href="css/secondSection.css">
+        <link rel="stylesheet" href="css/inputLeftMenu.css">
+        <link rel="stylesheet" href="Tree/tree.css">      
+        <title>Ktor - generation</title>
+        
+    </head>
+    <body>
+        <!-- <div id="rightMenuId" class="rightMenu" onmouseover="mouseOn()" onmouseout="mouseOff()"> -->
+          <div id="rightMenuId" class="rightMenu">
+          <div id="lineBetweenFirstAndSecondSectionId" class="lineBetweenFirstAndSecondSection"></div>    
+            <div class="configurationLabel">
+                <span class="configText" id = "configTextId">Configuratuion</span>
+            </div>
+            <div id="rightMenuContentId" class="rightMenuContent">
+                <br></br>
+
+                <div class="form__group field">
+                  <input type="input" class="form__field" placeholder="Name" name="nameProject" id='nameProjectId' required />
+                  <label for="name" class="form__label">Name</label>
+                </div>
+
+                <!-- <label for="groupProject">Group</label>
+                <input type="text" id="groupProjectId" name="groupProject"> -->
+
+                <br></br>
+
+                <div class="form__group field">
+                  <input type="input" class="form__field" placeholder="Group" name="groupProject" id='groupProjectId' required />
+                  <label for="name" class="form__label">Group</label>
+                </div>
+
+                <!-- <label for="nameProject">Name</label>
+                <input type="text" id="nameProjectId" name="nameProject">
+
+                <br></br>
+                
+                <label for="versionProject">Version</label>
+                <input type="text" id="versionProjectId" name="versionProject"> -->
+
+                <br></br>
+
+                <div class="form__group field">
+                  <input type="input" class="form__field" placeholder="Version" name="versionProject" id='versionProjectId' required />
+                  <label for="name" class="form__label">Version</label>
+                </div>
+
+                <br></br>
+
+                <!-- <label>Build</label>
+                <select id="buildTypeProjectId" name="buildTypeProject">
+                    <option value="gradle">Gradle</option>
+                    <option value="maven">Maven</option>            
+                </select> -->
+
+                <br></br>
+
+                <label class="buildTypeProject" for="buildTypeProjectId">
+                  <select id="buildTypeProjectId" name="options">
+                    <option value="gradle">Gradle</option>
+                    <option value="maven">Maven</option>                    
+                  </select>
+                </label>
+
+                <br></br>
+
+                <!-- <label>Ktor version</label>
+                <select id="ktorVersionId" name="ktorVersion">
+                    <option value="ktor1">ktor1</option>
+                    <option value="ktor2">ktor2</option>            
+                </select>   -->
+                
+                <label class="buildTypeProject" for="ktorVersionId">
+                  <select id="ktorVersionId" name="options">
+                    <option value="gradle">ktor1</option>
+                    <option value="maven">ktor2</option>                    
+                  </select>
+                </label>
+            </div>
+            <button id="hideLeftMenuId" class="hideLeftMenuButton" type="button" onclick="hideLeftMenu()">Hide</button>
+            <button id="generateProjectButtonId" class="generateProjectButton" type="button" onclick="generate()">              
+              <span class="generateProjectButtonText" id = "generateProjectButtonTextId">Generate</span>
+            </button>
+        </div>
+        <div id="mainBoardId" class="mainBoard">          
+          <div id = "projectTreeId" class = "projectTree">
+            <div id = "projectTreeMenuId" class = "projectTreeMenu">
+              hehe
+            </div> 
+
+            <div id="tree"></div>
+
+            <ul id="menu">
+              <li>1</li>
+              <li>2</li>
+              <ul>
+                <li>2.1</li>
+                <li>2.2</li>
+              </ul>
+              <li>3</li>            
+              <ul>
+                <li>3.1</li>
+                <li>3.2</li>
+              </ul>
+              <li>4</li>
+            </ul>       
+            
+            
+          </div>
+          <div id = "propertyId" class = "property">              
+          </div>
+        </div>
+        <script src="reactTree.js"></script>
+    </body>
+    <script src="script.js"></script>
+    <script src="Tree/Tree.js"></script>
+    <script src="Tree/TreeItem.js"></script>
+    <script src="Tree/TreeItemClick.js"></script>
+</html>
