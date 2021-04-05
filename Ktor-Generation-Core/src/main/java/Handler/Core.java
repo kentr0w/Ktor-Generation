@@ -45,9 +45,6 @@ public class Core {
         }
         Features<? extends FeatureObject> q = Features.getInstance();
         List<? extends FeatureObject> all = q.getFeatures();
-        for(FeatureObject w: all) {
-            System.out.println(w);
-        }
         BuildGeneration buildGeneration = new GradleGeneration(project.getId());
         switch (project.getGlobal().getBuildType()) {
             case Gradle:
