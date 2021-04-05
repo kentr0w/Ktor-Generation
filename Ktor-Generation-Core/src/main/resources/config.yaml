@@ -1,4 +1,4 @@
 id: "user"
 global:
   projectName: "heh"
-  buildType: "Gradle"
+  buildType: 'Gradle'

@@ -3,7 +3,9 @@ package Handler;
 import Feature.Logic.FeatureObject;
 import Feature.Logic.Features;
 import Feature.CoreFeatures.Project;
+import Generation.BuildTool.BuildGeneration;
 import Generation.BuildTool.Gradle.GradleGeneration;
+import Generation.BuildTool.Maven.MavenGeneration;
 import Reader.ConfigReader;
 
 import java.io.IOException;
@@ -46,8 +48,16 @@ public class Core {
         for(FeatureObject w: all) {
             System.out.println(w);
         }
-        GradleGeneration gradleGeneration = new GradleGeneration(project.getId());
-        gradleGeneration.generate();
+        BuildGeneration buildGeneration = new GradleGeneration(project.getId());
+        switch (project.getGlobal().getBuildType()) {
+            case Gradle:
+                buildGeneration = new GradleGeneration(project.getId());
+                break;
+            case Maven:
+                buildGeneration = new MavenGeneration(project.getId());
+                break;
+        }
+        buildGeneration.generate();
     }
     
     private boolean generateProjectDir(String projectId) {
