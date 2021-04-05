@@ -6,7 +6,7 @@ import Feature.Logic.FeatureObject;
 public class Global extends FeatureObject {
     
     private String projectName;
-    private String buildType;
+    private BuildTool buildType;
     
     public Global() {
         super("global");
@@ -19,15 +19,15 @@ public class Global extends FeatureObject {
     public void setProjectName(String projectName) {
         this.projectName = projectName;
     }
-    
-    public String getBuildType() {
+
+    public BuildTool getBuildType() {
         return buildType;
     }
-    
-    public void setBuildType(String buildType) {
+
+    public void setBuildType(BuildTool buildType) {
         this.buildType = buildType;
     }
-    
+
     @Override
     public String toString() {
         return "Global{" +

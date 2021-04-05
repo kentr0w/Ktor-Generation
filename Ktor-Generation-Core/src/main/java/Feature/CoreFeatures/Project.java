@@ -1,4 +1,4 @@
-package Feature;
+package Feature.CoreFeatures;
 
 import Feature.CoreFeatures.Global.Global;
 import Feature.Logic.FeatureObject;

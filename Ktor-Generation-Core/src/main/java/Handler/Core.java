@@ -1,8 +1,8 @@
 package Handler;
 
 import Feature.Logic.FeatureObject;
-import Feature.Features;
-import Feature.Project;
+import Feature.Logic.Features;
+import Feature.CoreFeatures.Project;
 import Generation.BuildTool.Gradle.GradleGeneration;
 import Reader.ConfigReader;
 
@@ -14,6 +14,8 @@ import java.nio.file.attribute.PosixFilePermissions;
 import java.util.List;
 import java.util.Set;
 
+import static Constant.Constant.CONFIG_PATH;
+
 public class Core {
     
     private String configPath;
@@ -21,6 +23,11 @@ public class Core {
     
     public Core(String configPath) {
         this.configPath = configPath;
+        this.configReader = new ConfigReader(this.configPath);
+    }
+
+    public Core() {
+        this.configPath = CONFIG_PATH;
         this.configReader = new ConfigReader(this.configPath);
     }
     

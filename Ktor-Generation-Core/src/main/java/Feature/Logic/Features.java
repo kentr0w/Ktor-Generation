@@ -1,4 +1,4 @@
-package Feature;
+package Feature.Logic;
 
 import java.util.ArrayList;
 import java.util.List;
