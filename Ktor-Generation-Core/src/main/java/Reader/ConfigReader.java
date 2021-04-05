@@ -40,13 +40,13 @@ public class ConfigReader {
         mapper = new ObjectMapper(new YAMLFactory());
     }
     
-    public void read() {
+    public Project read() {
         //mapper.findAndRegisterModules();
         try {
-            Project project = mapper.readValue(new File(configPath), Project.class);
-            //System.out.println(project);
+            return mapper.readValue(new File(configPath), Project.class);
         } catch (IOException exception) {
             exception.printStackTrace();
+            return null;
         }
     }
 }

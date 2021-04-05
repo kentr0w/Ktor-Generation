@@ -5,10 +5,19 @@ import Feature.Logic.FeatureObject;
 
 public class Project extends FeatureObject {
     
+    private String id;
     private Global global;
     
     public Project() {
         super("project");
+    }
+    
+    public String getId() {
+        return id;
+    }
+    
+    public void setId(String id) {
+        this.id = id;
     }
     
     public Global getGlobal() {

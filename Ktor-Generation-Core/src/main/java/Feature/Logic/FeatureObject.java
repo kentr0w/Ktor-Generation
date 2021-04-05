@@ -4,6 +4,7 @@ import Feature.Features;
 
 public abstract class FeatureObject implements IFeature {
     protected String name;
+    protected String path;
     
     public FeatureObject(String name) {
         this.name = name;
