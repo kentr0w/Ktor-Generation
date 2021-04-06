@@ -30,7 +30,7 @@ public class Replication {
                             String q = realPath;
                             q = q.substring(0, q.indexOf(".tmp"));
                             File newFile = new File(projectFolder + File.separator + q);
-                            System.out.println(newFile.getAbsolutePath());
+                            //System.out.println(newFile.getAbsolutePath());
                             try {
                                 Files.copy(file.toPath(), newFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                             } catch (IOException exception) {
@@ -42,6 +42,23 @@ public class Replication {
                 // TODO log
             }
             return notCopiedFiles.isEmpty();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+            return false;
+        }
+    }
+    
+    public static boolean generateSrc(String path, Boolean isDir) {
+        File file = new File(path);
+        try {
+            if (isDir) {
+                System.out.println(path);
+                file.mkdirs();
+            } else {
+                System.out.println(path);
+                file.createNewFile();
+            }
+            return true;
         } catch (IOException exception) {
             exception.printStackTrace();
             return false;
