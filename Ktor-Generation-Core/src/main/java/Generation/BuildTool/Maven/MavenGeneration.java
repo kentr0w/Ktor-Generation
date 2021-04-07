@@ -10,7 +10,7 @@ public class MavenGeneration extends BuildGeneration {
 
 
     @Override
-    protected boolean initInfo() {
+    protected Boolean initInfo() {
         return true;
     }
 }

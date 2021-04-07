@@ -20,7 +20,7 @@ public class GradleGeneration extends BuildGeneration {
     }
 
     @Override
-    protected boolean initInfo() {
+    protected Boolean initInfo() {
         return true;
     }
 }
