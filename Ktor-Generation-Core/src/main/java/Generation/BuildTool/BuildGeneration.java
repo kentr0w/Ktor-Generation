@@ -14,10 +14,10 @@ public abstract class BuildGeneration {
         this.projectFolder = projectPath;
     }
     
-    public boolean generate() {
+    public Boolean generate() {
         return (Replication.copyDirectory(GRADLE_BUILD_PATH, projectFolder) &&
                 Replication.copyDirectory(SRC_BUILD_PATH, projectFolder) &&
                 initInfo());
     }
-    protected abstract boolean initInfo();
+    protected abstract Boolean initInfo();
 }

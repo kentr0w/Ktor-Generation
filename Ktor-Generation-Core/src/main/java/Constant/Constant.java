@@ -1,8 +1,9 @@
 package Constant;
 
 public class Constant {
-    public static final String CONFIG_PATH = "src/main/resources/config.yaml";
-    public static final String FILES_TREE_PATH = "src/main/resources/project.tr";
+    private static ClassLoader resources = Constant.class.getClassLoader();
+    public static final String CONFIG_PATH = resources.getResource("config.yaml").getPath();
+    public static final String FILES_TREE_PATH = resources.getResource("project.tr").getPath();
     public static final String GRADLE_BUILD_PATH = "template/gradle_build";
-    public static final String SRC_BUILD_PATH = "template/src_build";
+    public static final String SRC_BUILD_PATH = "template/resources_build";
 }

@@ -37,7 +37,7 @@ public class Core {
         this.fileReader = new FileReader(CONFIG_PATH, FILES_TREE_PATH);
     }
     
-    public void start() {
+    public Boolean start() {
         Project project = fileReader.readConfig();
         if (project == null) {
             System.out.println("ERROR IN START");
@@ -61,10 +61,11 @@ public class Core {
         buildGeneration.generate();
         
         ProjectGeneration projectGeneration = new ProjectGeneration(fileReader, project.getId());
-        projectGeneration.generate();
+        Boolean result = projectGeneration.generate();
+        return result;
     }
     
-    private boolean generateProjectDir(String projectId) {
+    private Boolean generateProjectDir(String projectId) {
         try {
             Set<PosixFilePermission> perms = PosixFilePermissions.fromString("rwxrwxrwx"); // TODO check on Windows!
             Files.createDirectories(Path.of(projectId), PosixFilePermissions.asFileAttribute(perms));

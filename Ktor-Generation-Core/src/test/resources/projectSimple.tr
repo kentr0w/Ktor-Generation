@@ -1,0 +1,6 @@
+src dir
+    main dir
+        java dir
+            controller dir
+                Hello.kt file
+            Application.kt file

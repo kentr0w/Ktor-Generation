@@ -17,7 +17,9 @@ public class ProjectGeneration {
         this.projectFolder = projectFolder;
     }
     
-    public boolean generate() {
+    public Boolean generate() {
+        if (this.tree == null)
+            return false;
         Node root = this.tree.getRoot();
         root.setName(projectFolder + File.separator + root.getName());
         Queue<Node> queue = new LinkedList<>();
@@ -27,14 +29,14 @@ public class ProjectGeneration {
             Node peek = queue.remove();
             peek.getChildren().forEach(node -> {
                 queue.add(node);
-                createFile(root, node);
-                //result[0] = result[0] ||
+                Boolean isCreated = createFile(root, node);
+                result[0] = result[0] || isCreated;
             });
         }
         return result[0];
     }
     
-    private boolean createFile(Node root, Node node) {
+    private Boolean createFile(Node root, Node node) {
         String realPath = getPath(root, node);
         return Replication.generateSrc(realPath, node.getDir());
     }

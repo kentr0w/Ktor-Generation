@@ -12,7 +12,7 @@ import static Constant.Constant.GRADLE_BUILD_PATH;
 
 public class Replication {
 
-    public static boolean copyDirectory(String templatePath, String projectFolder) {
+    public static Boolean copyDirectory(String templatePath, String projectFolder) {
         List<String> notCopiedFiles = new ArrayList<>();
         List<String> notCopiedDirs = new ArrayList<>();
         try {
@@ -30,7 +30,6 @@ public class Replication {
                             String q = realPath;
                             q = q.substring(0, q.indexOf(".tmp"));
                             File newFile = new File(projectFolder + File.separator + q);
-                            //System.out.println(newFile.getAbsolutePath());
                             try {
                                 Files.copy(file.toPath(), newFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                             } catch (IOException exception) {
@@ -48,14 +47,12 @@ public class Replication {
         }
     }
     
-    public static boolean generateSrc(String path, Boolean isDir) {
+    public static Boolean generateSrc(String path, Boolean isDir) {
         File file = new File(path);
         try {
             if (isDir) {
-                System.out.println(path);
                 file.mkdirs();
             } else {
-                System.out.println(path);
                 file.createNewFile();
             }
             return true;
