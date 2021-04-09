@@ -49,6 +49,8 @@ public class Replication {
     
     public static Boolean generateSrc(String path, Boolean isDir) {
         File file = new File(path);
+        if (file.exists())
+            return true;
         try {
             if (isDir) {
                 file.mkdirs();
