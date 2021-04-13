@@ -5,7 +5,7 @@ import Copy.CustomLogger;
 import Feature.Logic.FeatureObject;
 import Feature.Logic.Features;
 import Feature.CoreFeatures.Project;
-import Generation.BuildTool.BuildGeneration;
+import Generation.BuildTool.BuildToolGeneration;
 import Generation.BuildTool.Gradle.GradleGeneration;
 import Generation.BuildTool.Maven.MavenGeneration;
 import Generation.Project.ProjectGeneration;
@@ -52,7 +52,7 @@ public class Core {
         }
         if (!generateProjectDir(project.getProjectPath()))
             System.exit(0); // TODO what should we do?
-        BuildGeneration buildGeneration = null;
+        BuildToolGeneration buildGeneration = null;
         switch (project.getBuildType()) {
             case Gradle:
                 buildGeneration = new GradleGeneration(project.getProjectPath());
@@ -65,9 +65,7 @@ public class Core {
         
         ProjectGeneration projectGeneration = new ProjectGeneration(fileReader, project.getProjectPath());
         Boolean result = projectGeneration.generate();
-    
         runAllFeatures();
-        
         return result;
     }
     
