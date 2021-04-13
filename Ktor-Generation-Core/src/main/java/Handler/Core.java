@@ -26,32 +26,33 @@ import static Constant.Constant.FILES_TREE_PATH;
 public class Core {
     
     private static final Logger logger = Logger.getLogger(Core.class);
-    private String configPath;
     private FileReader fileReader;
     
     public Core(String configPath, String filesTreePath) {
-        this.configPath = configPath;
         this.fileReader = new FileReader(configPath, filesTreePath);
+        logger.info("Core was created");
+        logger.info("Path to configuration file is: " + configPath);
+        logger.info("Path to files structure description is: " + filesTreePath);
     }
 
     public Core() {
         this.fileReader = new FileReader(CONFIG_PATH, FILES_TREE_PATH);
+        logger.info("Core was created");
+        logger.info("Path to configuration file isn't pass, will be use default: " + CONFIG_PATH);
+        logger.info("Path to files structure description isn't pass, will be use default: " + FILES_TREE_PATH);
     }
     
     public Boolean start() {
+        logger.info("Starting to generate user's project");
         Project project = fileReader.readConfiguration();
         if (project == null) {
-            System.out.println("ERROR IN START");
+            // TODO How to pass information about error in config file to web?
+            System.out.println("Can't read configuration file");
             System.exit(0);
         }
-        Boolean isProjectFolderCreated = generateProjectDir(project.getProjectPath());
-        CustomLogger.initPath(project.getProjectPath());
-        CustomLogger.writeLog(LogType.INFO, "project created");
-        if (!isProjectFolderCreated) {
-            System.out.println("COULDN'T CREATE DIR");
-            System.exit(0);
-        }
-        BuildGeneration buildGeneration = new GradleGeneration(project.getProjectPath());
+        if (!generateProjectDir(project.getProjectPath()))
+            System.exit(0); // TODO what should we do?
+        BuildGeneration buildGeneration = null;
         switch (project.getBuildType()) {
             case Gradle:
                 buildGeneration = new GradleGeneration(project.getProjectPath());
@@ -71,20 +72,22 @@ public class Core {
     }
     
     private void runAllFeatures() {
-        Features<? extends FeatureObject> q = Features.getInstance();
-        List<? extends FeatureObject> all = q.getFeatures();
-        all.forEach(feature -> {
-            feature.start();
-        });
+        CustomLogger.writeLog(LogType.INFO, "Starting to implement all features");
+        List<? extends FeatureObject> allFeatures = Features.getInstance().getFeatures();
+        allFeatures.forEach(feature -> feature.start());
     }
     
     private Boolean generateProjectDir(String projectFolderPath) {
         try {
             Set<PosixFilePermission> perms = PosixFilePermissions.fromString("rwxrwxrwx"); // TODO check on Windows!
-            Files.createDirectories(Path.of(projectFolderPath), PosixFilePermissions.asFileAttribute(perms));
+            Path path = Files.createDirectories(Path.of(projectFolderPath), PosixFilePermissions.asFileAttribute(perms));
+            logger.info("Folder for users project was created: " + path.toString());
+            CustomLogger.initPath(projectFolderPath);
+            CustomLogger.writeLog(LogType.INFO, "Empty folder was created successfully");
+            CustomLogger.writeLog(LogType.INFO, "Log file was created");
             return true;
         } catch (IOException exception) {
-            exception.printStackTrace();
+            logger.error("Error to generate folder for users project");
             return false;
         }
     }

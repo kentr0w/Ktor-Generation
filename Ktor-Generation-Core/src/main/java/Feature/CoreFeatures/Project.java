@@ -1,5 +1,7 @@
 package Feature.CoreFeatures;
 
+import Copy.CustomLogger;
+import Copy.LogType;
 import Feature.CoreFeatures.Global.BuildTool;
 import Feature.CoreFeatures.Global.Global;
 import Feature.Logic.FeatureObject;
@@ -9,6 +11,11 @@ import org.apache.log4j.Logger;
 
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static Constant.Constant.*;
 
 public class Project extends FeatureObject {
     
@@ -30,7 +37,9 @@ public class Project extends FeatureObject {
     }
     
     public String getPort() {
-        return port;
+        if (this.port == null)
+            this.port = PORT;
+        return this.port;
     }
     
     public void setPort(String port) {
@@ -38,7 +47,9 @@ public class Project extends FeatureObject {
     }
     
     public String getKtorVersion() {
-        return ktorVersion;
+        if (this.ktorVersion == null)
+            this.ktorVersion = KTOR_VERSION;
+        return this.ktorVersion;
     }
     
     public void setKtorVersion(String ktorVersion) {
@@ -46,7 +57,9 @@ public class Project extends FeatureObject {
     }
     
     public String getKotlinVersion() {
-        return kotlinVersion;
+        if (this.kotlinVersion == null)
+            this.kotlinVersion = KOTLIN_VERSION;
+        return this.kotlinVersion;
     }
     
     public void setKotlinVersion(String kotlinVersion) {
@@ -58,6 +71,8 @@ public class Project extends FeatureObject {
     }
     
     public String getGroup() {
+        if (this.group == null)
+            this.group = GROUP;
         return group;
     }
     
@@ -66,6 +81,8 @@ public class Project extends FeatureObject {
     }
     
     public String getVersion() {
+        if (this.version == null)
+            this.version = VERSION;
         return version;
     }
     
@@ -74,6 +91,10 @@ public class Project extends FeatureObject {
     }
     
     public BuildTool getBuildType() {
+        if (this.buildType == null) {
+            CustomLogger.writeLog(LogType.INFO, "Build tool isn't present in config file");
+            setBuildType(BUILD_TOOL);
+        }
         return buildType;
     }
     
@@ -111,19 +132,37 @@ public class Project extends FeatureObject {
     
     @Override
     public void start() {
-        logger.info("hehe");
-        logger.error("hehee");
-        if(this.buildType == BuildTool.Gradle) {
-            replaceTextByHash(getRealFilePath("settings.gradle"), DigestUtils.sha256Hex("projectName"), this.projectName);
-            replaceTextByHash(getRealFilePath("build.gradle"), DigestUtils.sha256Hex("group"), this.group);
-            replaceTextByHash(getRealFilePath("build.gradle"), DigestUtils.sha256Hex("version"), this.version);
-            replaceTextByHash(getRealFilePath("gradle.properties"), DigestUtils.sha256Hex("ktor_version"), this.ktorVersion);
-            replaceTextByHash(getRealFilePath("gradle.properties"), DigestUtils.sha256Hex("kotlin_version"), this.kotlinVersion);
+        CustomLogger.writeLog(LogType.INFO, "Starting to add major information");
+        List<String> files = null;
+        List<String> hashText = null;
+        List<String> fields = null;
+        if(getBuildType() == BuildTool.Gradle) {
+            files = new ArrayList<>(Arrays.asList("settings.gradle", "build.gradle", "build.gradle", "gradle.properties", "gradle.properties"));
+            hashText = new ArrayList<>(Arrays.asList("projectName", "group", "version", "ktorVersion", "kotlinVersion"));
+            fields = new ArrayList<>(Arrays.asList(this.projectName, this.group, this.version, this.ktorVersion, this.kotlinVersion));
         } else {
-        
+            // TODO maven files
         }
-        replaceTextByHash(getRealFilePath("resources/application.conf"), DigestUtils.sha256Hex("group"), this.group);
-        replaceTextByHash(getRealFilePath("resources/application.conf"), DigestUtils.sha256Hex("port"), this.port);
+        List<String> resources = Arrays.asList("resources/application.conf", "resources/application.conf");
+        List<String> hashResources = Arrays.asList("group", "port");
+        List<String> fieldsResources = Arrays.asList(this.group, this.port);
+        files.addAll(resources);
+        hashText.addAll(hashResources);
+        fields.addAll(fieldsResources);
+        replaceAllByHash(files, hashText, fields);
+    }
+
+    private void replaceAllByHash(List<String> files, List<String> text, List<String> fields) {
+        for (int i = 0; i < fields.size(); i++) {
+            String gradlePath = getRealFilePath(files.get(i));
+            CustomLogger.writeLog(LogType.INFO, "Add `" + text.get(i) + "` to " + gradlePath);
+            Boolean isTextReplaced = replaceTextByHash(gradlePath, DigestUtils.sha256Hex(text.get(i)), fields.get(i));
+            if (isTextReplaced) {
+                CustomLogger.writeLog(LogType.INFO, "Information was added");
+            } else {
+                CustomLogger.writeLog(LogType.ERROR, "information wasn't added");
+            }
+        }
     }
     
     private String getRealFilePath(String gradleFile) {

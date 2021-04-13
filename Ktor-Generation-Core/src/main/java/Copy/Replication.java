@@ -13,8 +13,7 @@ import static Constant.Constant.GRADLE_BUILD_PATH;
 public class Replication {
 
     public static Boolean copyDirectory(String templatePath, String projectFolder) {
-        List<String> notCopiedFiles = new ArrayList<>();
-        List<String> notCopiedDirs = new ArrayList<>();
+        List<String> notCopied = new ArrayList<>();
         try {
             Files.walk(Path.of(templatePath))
                     .map(Path::toFile)
@@ -24,25 +23,27 @@ public class Replication {
                             try {
                                 Files.createDirectories(Path.of(projectFolder + File.separator + realPath));
                             } catch (IOException exception) {
-                                notCopiedDirs.add(realPath);
+                                notCopied.add(realPath);
                             }
                         } else if (file.isFile()) {
-                            String q = realPath;
-                            q = q.substring(0, q.indexOf(".tmp"));
-                            File newFile = new File(projectFolder + File.separator + q);
+                            String filePathWithoutSuffix = realPath;
+                            filePathWithoutSuffix = filePathWithoutSuffix.substring(0, filePathWithoutSuffix.indexOf(".tmp"));
+                            File newFile = new File(projectFolder + File.separator + filePathWithoutSuffix);
                             try {
                                 Files.copy(file.toPath(), newFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                             } catch (IOException exception) {
-                                notCopiedFiles.add(realPath);
+                                notCopied.add(realPath);
                             }
                         }
                     });
-            if (!notCopiedFiles.isEmpty()) {
-                // TODO log
+            if (!notCopied.isEmpty()) {
+                notCopied.forEach(notCopiedFile -> {
+                    CustomLogger.writeLog(LogType.ERROR, notCopiedFile + " file wasn't copied");
+                });
             }
-            return notCopiedFiles.isEmpty();
+            return notCopied.isEmpty();
         } catch (IOException exception) {
-            exception.printStackTrace();
+            CustomLogger.writeLog(LogType.ERROR, exception.getMessage());
             return false;
         }
     }

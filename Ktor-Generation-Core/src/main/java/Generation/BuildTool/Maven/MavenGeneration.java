@@ -8,9 +8,8 @@ public class MavenGeneration extends BuildGeneration {
         super(projectFolder);
     }
 
-
     @Override
-    protected Boolean initInfo() {
-        return true;
+    public Boolean generate() {
+        return false;
     }
 }

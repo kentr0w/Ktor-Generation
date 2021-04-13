@@ -1,5 +1,7 @@
 package Reader;
 
+import Copy.CustomLogger;
+import Copy.LogType;
 import Copy.Replication;
 import Generation.Project.Node;
 import Generation.Project.Tree;
@@ -25,6 +27,7 @@ public class ProjectReader {
     }
     
     public Tree read() {
+        CustomLogger.writeLog(LogType.INFO, "Starting to read project structure");
         BufferedReader reader;
         try {
             reader = new BufferedReader(new FileReader(this.projectFilePath));
@@ -37,13 +40,17 @@ public class ProjectReader {
             }
             reader.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            CustomLogger.writeLog(LogType.ERROR, e.getMessage());
             return null;
         }
-        if (isFileCorrect())
+        if (isFileCorrect()) {
+            CustomLogger.writeLog(LogType.INFO, "File was read successfully");
             return this.tree;
-        else
+        }
+        else {
+            CustomLogger.writeLog(LogType.ERROR, "File with project file description contains error");
             return null;
+        }
     }
     
     private Boolean isFileCorrect() {
