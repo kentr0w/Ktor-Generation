@@ -12,7 +12,7 @@ public class FileReader {
         this.projectReader = new ProjectReader(projectPath);
     }
     
-    public Project readConfig() {
+    public Project readConfiguration() {
         return  this.configReader.read();
     }
     

@@ -1,4 +1,10 @@
-id: "user"
+projectFolder: "user"
+projectName: "own-ktor-project"
+buildType: 'Gradle'
+group: "com.example"
+version: "0.0.1-SNAPSHOT"
+ktorVersion: "1.5.0"
+kotlinVersion: "1.4.21"
+port: "8080"
 global:
-  projectName: "heh"
-  buildType: 'Gradle'
+  port: "8080"

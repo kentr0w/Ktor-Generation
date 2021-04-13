@@ -1,5 +1,7 @@
 package Handler;
 
+import Copy.LogType;
+import Copy.CustomLogger;
 import Feature.Logic.FeatureObject;
 import Feature.Logic.Features;
 import Feature.CoreFeatures.Project;
@@ -7,11 +9,9 @@ import Generation.BuildTool.BuildGeneration;
 import Generation.BuildTool.Gradle.GradleGeneration;
 import Generation.BuildTool.Maven.MavenGeneration;
 import Generation.Project.ProjectGeneration;
-import Generation.Project.Tree;
-import Reader.ConfigReader;
 import Reader.FileReader;
+import org.apache.log4j.Logger;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,6 +25,7 @@ import static Constant.Constant.FILES_TREE_PATH;
 
 public class Core {
     
+    private static final Logger logger = Logger.getLogger(Core.class);
     private String configPath;
     private FileReader fileReader;
     
@@ -38,37 +39,49 @@ public class Core {
     }
     
     public Boolean start() {
-        Project project = fileReader.readConfig();
+        Project project = fileReader.readConfiguration();
         if (project == null) {
             System.out.println("ERROR IN START");
             System.exit(0);
         }
-        if (!generateProjectDir(project.getId())) {
+        Boolean isProjectFolderCreated = generateProjectDir(project.getProjectPath());
+        CustomLogger.initPath(project.getProjectPath());
+        CustomLogger.writeLog(LogType.INFO, "project created");
+        if (!isProjectFolderCreated) {
             System.out.println("COULDN'T CREATE DIR");
             System.exit(0);
         }
-        Features<? extends FeatureObject> q = Features.getInstance();
-        List<? extends FeatureObject> all = q.getFeatures();
-        BuildGeneration buildGeneration = new GradleGeneration(project.getId());
-        switch (project.getGlobal().getBuildType()) {
+        BuildGeneration buildGeneration = new GradleGeneration(project.getProjectPath());
+        switch (project.getBuildType()) {
             case Gradle:
-                buildGeneration = new GradleGeneration(project.getId());
+                buildGeneration = new GradleGeneration(project.getProjectPath());
                 break;
             case Maven:
-                buildGeneration = new MavenGeneration(project.getId());
+                buildGeneration = new MavenGeneration(project.getProjectPath());
                 break;
         }
         buildGeneration.generate();
         
-        ProjectGeneration projectGeneration = new ProjectGeneration(fileReader, project.getId());
+        ProjectGeneration projectGeneration = new ProjectGeneration(fileReader, project.getProjectPath());
         Boolean result = projectGeneration.generate();
+    
+        runAllFeatures();
+        
         return result;
     }
     
-    private Boolean generateProjectDir(String projectId) {
+    private void runAllFeatures() {
+        Features<? extends FeatureObject> q = Features.getInstance();
+        List<? extends FeatureObject> all = q.getFeatures();
+        all.forEach(feature -> {
+            feature.start();
+        });
+    }
+    
+    private Boolean generateProjectDir(String projectFolderPath) {
         try {
             Set<PosixFilePermission> perms = PosixFilePermissions.fromString("rwxrwxrwx"); // TODO check on Windows!
-            Files.createDirectories(Path.of(projectId), PosixFilePermissions.asFileAttribute(perms));
+            Files.createDirectories(Path.of(projectFolderPath), PosixFilePermissions.asFileAttribute(perms));
             return true;
         } catch (IOException exception) {
             exception.printStackTrace();

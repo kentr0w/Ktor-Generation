@@ -2,37 +2,30 @@ package Feature.CoreFeatures.Global;
 
 
 import Feature.Logic.FeatureObject;
+import org.apache.commons.codec.digest.DigestUtils;
+
+import java.io.File;
 
 public class Global extends FeatureObject {
     
-    private String projectName;
-    private BuildTool buildType;
+    private String port;
     
     public Global() {
         super("global");
     }
     
-    public String getProjectName() {
-        return projectName;
+    public String getPort() {
+        return port;
     }
     
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
+    public void setPort(String port) {
+        this.port = port;
     }
-
-    public BuildTool getBuildType() {
-        return buildType;
-    }
-
-    public void setBuildType(BuildTool buildType) {
-        this.buildType = buildType;
-    }
-
+    
     @Override
     public String toString() {
         return "Global{" +
-                "projectName='" + projectName + '\'' +
-                ", buildType='" + buildType + '\'' +
+                "port='" + port + '\'' +
                 '}';
     }
     
