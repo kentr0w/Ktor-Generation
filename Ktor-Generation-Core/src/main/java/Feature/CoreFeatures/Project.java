@@ -6,6 +6,7 @@ import Feature.CoreFeatures.Global.BuildTool;
 import Feature.CoreFeatures.Global.Global;
 import Feature.Logic.FeatureObject;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -13,6 +14,7 @@ import org.apache.log4j.Logger;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static Constant.Constant.*;
@@ -133,22 +135,14 @@ public class Project extends FeatureObject {
     @Override
     public void start() {
         CustomLogger.writeLog(LogType.INFO, "Starting to add major information");
-        List<String> files = null;
-        List<String> hashText = null;
-        List<String> fields = null;
+        List<String> files = new ArrayList<>(Arrays.asList("resources/application.conf", "resources/application.conf", "src/Application.kt"));
+        List<String> hashText = Arrays.asList("group", "port", "group", "projectName", "group", "version", "ktorVersion", "kotlinVersion");
+        List<String> fields = Arrays.asList(this.group, this.port, this.group, this.projectName, this.group, this.version, this.ktorVersion, this.kotlinVersion);
         if(getBuildType() == BuildTool.Gradle) {
-            files = new ArrayList<>(Arrays.asList("settings.gradle", "build.gradle", "build.gradle", "gradle.properties", "gradle.properties"));
-            hashText = new ArrayList<>(Arrays.asList("projectName", "group", "version", "ktorVersion", "kotlinVersion"));
-            fields = new ArrayList<>(Arrays.asList(this.projectName, this.group, this.version, this.ktorVersion, this.kotlinVersion));
+            files.addAll(Arrays.asList("settings.gradle", "build.gradle", "build.gradle", "gradle.properties", "gradle.properties"));
         } else {
-            // TODO maven files
+            files.addAll(Collections.nCopies(hashText.size(), "pom.xml"));
         }
-        List<String> resources = Arrays.asList("resources/application.conf", "resources/application.conf");
-        List<String> hashResources = Arrays.asList("group", "port");
-        List<String> fieldsResources = Arrays.asList(this.group, this.port);
-        files.addAll(resources);
-        hashText.addAll(hashResources);
-        fields.addAll(fieldsResources);
         replaceAllByHash(files, hashText, fields);
     }
 

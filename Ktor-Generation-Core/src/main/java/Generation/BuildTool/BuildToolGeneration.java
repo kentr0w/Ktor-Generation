@@ -9,10 +9,10 @@ import java.io.IOException;
 import static Constant.Constant.GRADLE_BUILD_PATH;
 import static Constant.Constant.SRC_BUILD_PATH;
 
-public abstract class BuildGeneration {
+public abstract class BuildToolGeneration {
     protected String projectFolder;
     
-    public BuildGeneration(String projectPath) {
+    public BuildToolGeneration(String projectPath) {
         this.projectFolder = projectPath;
     }
     
