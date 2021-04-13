@@ -1,5 +1,7 @@
 package Generation.BuildTool;
 
+import Copy.CustomLogger;
+import Copy.LogType;
 import Copy.Replication;
 
 import java.io.IOException;
@@ -14,10 +16,5 @@ public abstract class BuildGeneration {
         this.projectFolder = projectPath;
     }
     
-    public Boolean generate() {
-        return (Replication.copyDirectory(GRADLE_BUILD_PATH, projectFolder) &&
-                Replication.copyDirectory(SRC_BUILD_PATH, projectFolder) &&
-                initInfo());
-    }
-    protected abstract Boolean initInfo();
+    public abstract Boolean generate();
 }

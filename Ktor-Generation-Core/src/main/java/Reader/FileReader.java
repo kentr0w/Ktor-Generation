@@ -2,8 +2,10 @@ package Reader;
 
 import Feature.CoreFeatures.Project;
 import Generation.Project.Tree;
+import org.apache.log4j.Logger;
 
 public class FileReader {
+    private static final Logger logger = Logger.getLogger(FileReader.class);
     private ConfigReader configReader;
     private ProjectReader projectReader;
     
@@ -13,7 +15,7 @@ public class FileReader {
     }
     
     public Project readConfiguration() {
-        return  this.configReader.read();
+        return this.configReader.read();
     }
     
     public Tree readProject() {
