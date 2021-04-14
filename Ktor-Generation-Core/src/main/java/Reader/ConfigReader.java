@@ -1,5 +1,6 @@
 package Reader;
 
+import Feature.CoreFeatures.Global.Global;
 import Feature.CoreFeatures.Project;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -7,8 +8,6 @@ import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
-
-import static Constant.Constant.CONFIG_PATH;
 
 public class ConfigReader {
 
@@ -40,8 +39,9 @@ public class ConfigReader {
         logger.info("Starting to read configuration file");
         try {
             Project resultProject = mapper.readValue(new File(configPath), Project.class);
+            Global global = resultProject.getGlobal();
             logger.info("Configuration file was read");
-            if (resultProject.getProjectName() != null || resultProject.getProjectFolder() != null) {
+            if (global.getProjectName() != null || global.getFolder() != null) {
                 logger.info("Configuration file was read successfully");
                 return resultProject;
             }

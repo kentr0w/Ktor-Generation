@@ -2,8 +2,9 @@ package Handler;
 
 import Copy.LogType;
 import Copy.CustomLogger;
+import Feature.CoreFeatures.Global.Global;
 import Feature.Logic.FeatureObject;
-import Feature.Logic.Features;
+import Feature.Logic.Feature;
 import Feature.CoreFeatures.Project;
 import Generation.BuildTool.BuildToolGeneration;
 import Generation.BuildTool.Gradle.GradleGeneration;
@@ -45,33 +46,35 @@ public class Core {
     public Boolean start() {
         logger.info("Starting to generate user's project");
         Project project = fileReader.readConfiguration();
+        Global global = project.getGlobal();
         if (project == null) {
             // TODO How to pass information about error in config file to web?
             System.out.println("Can't read configuration file");
             System.exit(0);
         }
-        if (!generateProjectDir(project.getProjectPath()))
+        if (!generateProjectDir(global.getProjectPath()))
             System.exit(0); // TODO what should we do?
         BuildToolGeneration buildGeneration = null;
-        switch (project.getBuildType()) {
+        switch (global.getBuildType()) {
             case Gradle:
-                buildGeneration = new GradleGeneration(project.getProjectPath());
+                buildGeneration = new GradleGeneration(global.getProjectPath());
                 break;
             case Maven:
-                buildGeneration = new MavenGeneration(project.getProjectPath());
+                buildGeneration = new MavenGeneration(global.getProjectPath());
                 break;
         }
         buildGeneration.generate();
         
-        ProjectGeneration projectGeneration = new ProjectGeneration(fileReader, project.getProjectPath());
+        ProjectGeneration projectGeneration = new ProjectGeneration(fileReader, global.getProjectPath());
         Boolean result = projectGeneration.generate();
+        projectGeneration.insertPackageInsKtFiles(global.getGroup());
         runAllFeatures();
         return result;
     }
     
     private void runAllFeatures() {
         CustomLogger.writeLog(LogType.INFO, "Starting to implement all features");
-        List<? extends FeatureObject> allFeatures = Features.getInstance().getFeatures();
+        List<? extends FeatureObject> allFeatures = Feature.getInstance().getFeature();
         allFeatures.forEach(feature -> feature.start());
     }
     
