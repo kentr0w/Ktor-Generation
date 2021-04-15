@@ -1,14 +1,18 @@
 package Feature.CoreFeatures.routing;
 
 import Copy.CustomLogger;
+import Copy.Insertion;
 import Copy.LogType;
 import Feature.Logic.FeatureObject;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+
+import static Constant.Constant.MAIN_FUN;
 
 public class RoutingFeature extends FeatureObject {
     
@@ -81,12 +85,17 @@ public class RoutingFeature extends FeatureObject {
         }
         Boolean isCodeCopy = duplicateCodeFromTemplateToFile(applicationTmp, this.file);
         if (isCodeCopy) {
-            // also should be name
-            Boolean result = replaceTextByHash(this.file, DigestUtils.sha256Hex("routeName"), this.name)
+            Boolean isFeatureImplemented = replaceTextByHash(this.file, DigestUtils.sha256Hex("routeName"), this.name)
                     && replaceTextByHash(this.file, DigestUtils.sha256Hex("route"), allRoutes);
-            if (result) {
-                // TODO Add this routing to Application.module() {}
+            if (isFeatureImplemented) {
                 CustomLogger.writeLog(LogType.INFO, "Routing feature implemented");
+                String pathToApplicationFile = getSrcPath(this.file) + File.separator + "Application.kt"; // may be constant?
+                Boolean isAddedToMain = Insertion.insertCodeInFile(new File(this.file), new File(pathToApplicationFile), MAIN_FUN, this.name + "()");
+                if (isAddedToMain) {
+                    CustomLogger.writeLog(LogType.INFO, "Added route to main");
+                } else {
+                    CustomLogger.writeLog(LogType.ERROR, "Couldn't added to main");
+                }
             } else {
                 // should delete code, but how?
                 CustomLogger.writeLog(LogType.ERROR, "Couldn't replace hash to value in routing code");

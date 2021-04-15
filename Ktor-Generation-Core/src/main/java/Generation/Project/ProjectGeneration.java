@@ -122,7 +122,7 @@ public class ProjectGeneration {
         String realPackage = pathToFile.stream().collect(Collectors.joining(""));
         if (!realPackage.equals(""))
             realPackage = "." + realPackage;
-        realPackage += StringUtils.repeat(System.lineSeparator(), 2);
+        realPackage += StringUtils.repeat(System.lineSeparator(), 2); // two line to correct input import
         return realPackage;
     }
 }

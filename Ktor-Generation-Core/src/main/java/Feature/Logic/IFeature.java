@@ -12,11 +12,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public interface IFeature {
     public void start();
     public String getId();
+    
     public default Boolean replaceTextByHash(String pathToFile, String hash, String text) {
         try {
             String fileText = FileUtils.readFileToString(new File(pathToFile), "UTF-8");
@@ -51,5 +54,13 @@ public interface IFeature {
             exception.printStackTrace();
             return null;
         }
+    }
+    
+    public default String getSrcPath(String path) {
+        return Arrays.asList(path.split(File.separator))
+            .stream()
+            .takeWhile(it -> !it.equals("src"))
+            .collect(Collectors.joining(File.separator))
+            + File.separator + "src";
     }
 }
