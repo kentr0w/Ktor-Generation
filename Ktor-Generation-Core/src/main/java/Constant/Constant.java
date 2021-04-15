@@ -15,4 +15,5 @@ public class Constant {
     public static final String KTOR_VERSION = "1.5.0";
     public static final String KOTLIN_VERSION = "1.4.21.";
     public static final String PORT = "8080";
+    public static final String MAIN_FUN = "fun Application.module(testing: Boolean = false) {";
 }

@@ -1,10 +1,24 @@
-projectFolder: "user"
-projectName: "own-ktor-project"
-buildType: 'Gradle'
-group: "com.example"
-version: "0.0.1-SNAPSHOT"
-ktorVersion: "1.5.0"
-kotlinVersion: "1.4.21"
-port: "8080"
 global:
+  folder: "user"
+  projectName: "own-ktor-project"
+  buildType: 'Gradle'
+  group: "com.example"
+  version: "0.0.1-SNAPSHOT"
+  ktorVersion: "1.5.0"
+  kotlinVersion: "1.4.21"
   port: "8080"
+features:
+  routes:
+    - name: "Car"
+      file: "user/own-ktor-project/src/controllers/Hello.kt"
+      routeDetail:
+        - path: "/car"
+          requests:
+            - type: 'GET'
+              path: "/getCar"
+            - type: 'POST'
+              path: "/saveCar"
+        - path: "/electro"
+          requests:
+            - type: 'GET'
+              path: "getCar"

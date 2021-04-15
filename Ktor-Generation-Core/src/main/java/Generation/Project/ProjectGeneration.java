@@ -4,8 +4,13 @@ import Copy.CustomLogger;
 import Copy.LogType;
 import Copy.Replication;
 import Reader.FileReader;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -69,5 +74,55 @@ public class ProjectGeneration {
         }
         Collections.reverse(pathPart);
         return pathPart.stream().collect(Collectors.joining(File.separator));
+    }
+    
+    public Boolean insertPackageInsKtFiles(String group) {
+        String startPath = this.tree.getRoot().getName();
+        try{
+            Files
+                .walk(Path.of(startPath))
+                .forEach(path -> {
+                    File file = path.toFile();
+                    if (isPossibleInsertPackage(file)) {
+                        insertPackage(file, group);
+                    }
+                });
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+        return true;
+    }
+    
+    private Boolean isPossibleInsertPackage(File file) {
+        return file.exists() && file.isFile() && !file.getName().equals("Application.kt");
+    }
+    
+    private Boolean insertPackage(File file, String group) {
+        String realPackage = "package " + group + calculatePackage(file);
+        try {
+            FileUtils.write(file, realPackage, "UTF-8");
+            CustomLogger.writeLog(LogType.INFO, "Wrote package in " + file.getPath() + " file");
+            return true;
+        } catch (IOException exception) {
+            CustomLogger.writeLog(LogType.INFO, "Couldn't write package in " + file.getPath() + " file");
+            return false;
+        }
+        
+    }
+    
+    private String calculatePackage(File file) {
+        List<String> pathToFile = Arrays.asList(file.getPath().split(File.separator));
+        pathToFile = pathToFile
+                .stream()
+                .dropWhile(it -> !it.equals("src"))
+                .collect(Collectors.toList());
+        pathToFile.remove(0);
+        if (pathToFile.size() > 0)
+            pathToFile.remove(pathToFile.size() - 1);
+        String realPackage = pathToFile.stream().collect(Collectors.joining(""));
+        if (!realPackage.equals(""))
+            realPackage = "." + realPackage;
+        realPackage += StringUtils.repeat(System.lineSeparator(), 2); // two line to correct input import
+        return realPackage;
     }
 }

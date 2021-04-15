@@ -56,8 +56,10 @@ public class ProjectReader {
     private Boolean isFileCorrect() {
         Boolean result = true;
         for (int i = 1; i < this.levels.size(); i++) {
-            result = (levels.get(i) - 1 == levels.get(i-1) || levels.get(i) < levels.get(i-1)) && result;
+            result = (levels.get(i) - 1 == levels.get(i-1) || levels.get(i) <= levels.get(i-1)) && result;
         }
+        result = this.levels.stream().filter(it -> it.equals(0)).count() == 1L && result;
+        result = this.tree.getRoot().getName().equals("src") && result;
         return result;
     }
 }

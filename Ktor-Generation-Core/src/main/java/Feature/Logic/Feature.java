@@ -3,11 +3,11 @@ package Feature.Logic;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Features<T> {
+public class Feature<T> {
     
-    private static Features INSTANCE = null;
+    private static Feature INSTANCE = null;
     
-    public List<T> getFeatures() {
+    public List<T> getFeature() {
         return features;
     }
     
@@ -17,15 +17,15 @@ public class Features<T> {
         features.add(feature);
     }
     
-    private Features() {
+    private Feature() {
         this.features = new ArrayList<>();
     }
     
-    public static Features getInstance() {
+    public static Feature getInstance() {
         if (INSTANCE == null) {
-            synchronized (Features.class) {
+            synchronized (Feature.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new Features();
+                    INSTANCE = new Feature();
                 }
             }
         }
