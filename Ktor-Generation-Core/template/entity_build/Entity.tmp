@@ -1,3 +1,4 @@
 object 82ecb75a90d71d936e6eb2f6197300f7f009495c531cdda4ac67b1f029e776f7 : Table("97e9c1c1029bd597ecc94cca494d62e04b26059875747d67c0d1a7a2b9d30390") {
     a80174ad9e840c40fab922722f0094bcbe799244cf7ae0fdbdb1b216c05a327a
+    override val primaryKey = PrimaryKey("b9bd6ef38fffba74783badfeb8dc0d068fd96a5e5e2a1fbec5ab69c7108fd7e4")
 }

@@ -3,6 +3,8 @@ package Feature.CoreFeatures.entity;
 public enum FieldDetail {
     AUTOINCREMENT (".autoIncrement()"),
     NULLABLE (".nullable()"),
+    UNIQUE_INDEX(".uniqueIndex()"),
+    AUTO_INCREMENT(".autoIncrement()"),
     ;
     
     private final String detailCode;

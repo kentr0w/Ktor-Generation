@@ -1,5 +1,7 @@
 package Feature.CoreFeatures.entity;
 
+import Copy.CustomLogger;
+import Copy.LogType;
 import Feature.Logic.FeatureObject;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -12,6 +14,7 @@ public class EntityFeature extends FeatureObject {
     
     private String name;
     private String file;
+    private String primaryKey;
     private String tableName;
     private List<EntityField> entityFields;
     
@@ -46,6 +49,14 @@ public class EntityFeature extends FeatureObject {
         this.entityFields = entityFields;
     }
     
+    public String getPrimaryKey() {
+        return primaryKey;
+    }
+    
+    public void setPrimaryKey(String primaryKey) {
+        this.primaryKey = primaryKey;
+    }
+    
     public String getName() {
         return name;
     }
@@ -60,8 +71,10 @@ public class EntityFeature extends FeatureObject {
         for (EntityField field: entityFields) {
             List<String> text = new ArrayList<>(Arrays.asList(field.getVariableName(), field.getType().getTypeCode(), field.getColumnName()));
             if (field.getType().equals(EntityType.VARCHAR)) {
-                if (field.getLength() == null)
-                    return; // TODO add log
+                if (field.getLength() == null) {
+                    CustomLogger.writeLog(LogType.ERROR, this.name + " doesn't contain length for " + field.getColumnName());
+                    return;
+                }
                 else
                     text.add("," + field.getLength());
         
@@ -72,14 +85,25 @@ public class EntityFeature extends FeatureObject {
                 text.add("");
             else
                 text.add(field.getAllDetails());
-            variable += getCodeAfterReplace(fieldTmp, field.getHash(), text) + System.lineSeparator();
+            String codeWithOneOfField = getCodeAfterReplace(fieldTmp, field.getHash(), text) + System.lineSeparator();
+            if (codeWithOneOfField != null) {
+                variable += codeWithOneOfField;
+                CustomLogger.writeLog(LogType.INFO, field.getColumnName() + " was added to " + this.name);
+            } else {
+                CustomLogger.writeLog(LogType.ERROR, field.getColumnName() + " wasn't added to " + this.name);
+            }
         }
-        System.out.println(variable);
-        duplicateCodeFromTemplateToFile(entityTmp, this.file);
-        List<String> hash = Arrays.asList("entityName", "tableName", "entityFields").stream().map(it -> DigestUtils.sha256Hex(it)).collect(Collectors.toList());
-        List<String> text = Arrays.asList(this.name, this.tableName, variable);
+        if (duplicateCodeFromTemplateToFile(entityTmp, this.file))
+            CustomLogger.writeLog(LogType.INFO, "Entity code was duplicated");
+        else
+            CustomLogger.writeLog(LogType.ERROR, "Entity code wasn't duplicated");
+        List<String> hash = Arrays.asList("entityName", "tableName", "entityFields", "primaryKey").stream().map(it -> DigestUtils.sha256Hex(it)).collect(Collectors.toList());
+        List<String> text = Arrays.asList(this.name, this.tableName, variable, this.primaryKey);
         for (int i = 0; i < hash.size(); i++) {
-            replaceTextByHash(this.file, hash.get(i), text.get(i));
+            if (replaceTextByHash(this.file, hash.get(i), text.get(i)))
+                CustomLogger.writeLog(LogType.INFO, "Hash of " + text.get(i) + " was replaced");
+            else
+                CustomLogger.writeLog(LogType.ERROR, "Hash of " + text.get(i) + " wasn't replaced");
         }
     }
     
