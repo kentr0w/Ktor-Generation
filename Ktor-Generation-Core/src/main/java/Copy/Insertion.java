@@ -10,7 +10,11 @@ import java.util.stream.Collectors;
 
 public class Insertion {
     
-    public static Boolean insertCodeInFile(File fileFromInsert, File fileToInsert, String lineAfterToInsert, String codeToInsert) {
+    public static Boolean insertDependency() {
+        return true;
+    }
+    
+    public static Boolean insertCodeWithImportInFile(File fileFromInsert, File fileToInsert, String lineAfterToInsert, String codeToInsert) {
         String importFileFrom = calculateImport(fileFromInsert, fileToInsert);
         if (importFileFrom != null) {
             if (insertCodeInNecessaryPlace(fileToInsert, "import ", importFileFrom))

@@ -44,7 +44,7 @@ public interface IFeature {
     }
     
     public default String getCodeAfterReplace(String pathToTemplate, List<String> hash, List<String> text) {
-        try{
+        try {
             String fileText = FileUtils.readFileToString(new File(pathToTemplate), "UTF-8");
             for (int i = 0; i < hash.size(); i++) {
                 fileText = fileText.replace(hash.get(i), text.get(i));

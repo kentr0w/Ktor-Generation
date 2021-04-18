@@ -5,7 +5,6 @@ import Copy.Insertion;
 import Copy.LogType;
 import Feature.Logic.FeatureObject;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.yaml.snakeyaml.constructor.SafeConstructor;
 
 import java.io.File;
 import java.util.Arrays;
@@ -90,7 +89,7 @@ public class RoutingFeature extends FeatureObject {
             if (isFeatureImplemented) {
                 CustomLogger.writeLog(LogType.INFO, "Routing feature implemented");
                 String pathToApplicationFile = getSrcPath(this.file) + File.separator + "Application.kt"; // may be constant?
-                Boolean isAddedToMain = Insertion.insertCodeInFile(new File(this.file), new File(pathToApplicationFile), MAIN_FUN, this.name + "()");
+                Boolean isAddedToMain = Insertion.insertCodeWithImportInFile(new File(this.file), new File(pathToApplicationFile), MAIN_FUN, this.name + "()");
                 if (isAddedToMain) {
                     CustomLogger.writeLog(LogType.INFO, "Added route to main");
                 } else {

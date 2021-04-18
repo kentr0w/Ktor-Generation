@@ -22,3 +22,15 @@ features:
           requests:
             - type: 'GET'
               path: "getCar"
+  entities:
+    - name: "User"
+      file: "user/own-ktor-project/src/controllers/Hello.kt"
+      tableName: "User"
+      primaryKey: "id"
+      entityFields:
+        - variableName: "id"
+          columnName: "id"
+          type: 'VARCHAR'
+          length: "10"
+          fieldDetail:
+            - 'AUTOINCREMENT'
