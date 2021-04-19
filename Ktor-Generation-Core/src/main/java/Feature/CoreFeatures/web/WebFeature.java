@@ -25,6 +25,7 @@ public class WebFeature extends FeatureObject {
 
     private final String webTmpCode = "template/web_build/static.tmp";
     private final String webTmpRes = "template/web_build/res.tmp";
+    private final String webImports = "template/web_build/import.tmp";
     private String name;
     private String template;
     private String file;
@@ -75,17 +76,22 @@ public class WebFeature extends FeatureObject {
         }
         StringBuilder code = new StringBuilder();
         for(WebResource resource: this.resources) {
+            resource.setResource("template" + File.separator + resource.getResource());
             List<String> text = Arrays.asList(resource.getRemotePath(), resource.getResource());
             code.append(getCodeAfterReplace(webTmpRes, resource.getHash(), text));
         }
         if (duplicateCodeFromTemplateToFile(webTmpCode, this.file)) {
             CustomLogger.writeLog(LogType.INFO, "Web feature's code was duplicated");
-            List<String> hash = Stream.of("webName", "static").map(DigestUtils::sha256Hex).collect(Collectors.toList());
+            List<String> hash = Stream.of("webName", "webStatic").map(DigestUtils::sha256Hex).collect(Collectors.toList());
             List<String> text = Arrays.asList(this.name, code.toString());
             if (replaceListTextByHash(this.file, hash, text))
                 CustomLogger.writeLog(LogType.INFO, "Hash was replaced in web-feature");
             else
                 CustomLogger.writeLog(LogType.ERROR, "Hash wasn't correct replaces in web-feature");
+            if(Insertion.addImports(new File(this.file), new File(webImports)))
+                CustomLogger.writeLog(LogType.INFO, "Import was added");
+            else
+                CustomLogger.writeLog(LogType.ERROR, "Import wasn't added");
             String pathToApplicationFile = getSrcPath(this.file) + File.separator + "Application.kt";
             if (Insertion.insertCodeWithImportInFile(new File(this.file), new File(pathToApplicationFile), MAIN_FUN, this.name + "()")) {
                 CustomLogger.writeLog(LogType.INFO, "Added web-feature to main");

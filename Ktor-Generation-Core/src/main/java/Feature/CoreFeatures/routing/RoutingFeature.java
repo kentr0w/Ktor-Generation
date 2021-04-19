@@ -55,12 +55,6 @@ public class RoutingFeature extends FeatureObject {
     @Override
     public void start() {
         CustomLogger.writeLog(LogType.INFO, "Starting implement " + this.name + " route");
-        Boolean isImportDuplicated = duplicateCodeFromTemplateToFile(importTmp, this.file);
-
-        if (isImportDuplicated)
-            CustomLogger.writeLog(LogType.INFO, "Imports were added");
-        else
-            CustomLogger.writeLog(LogType.ERROR, "Imports weren't added");
         StringBuilder allRoutes = new StringBuilder();
         for (RouteDetail route: routeDetail) {
             StringBuilder allRequestsForOneRoute = new StringBuilder();
@@ -83,6 +77,10 @@ public class RoutingFeature extends FeatureObject {
                 allRoutes.append(codeAfterReplace);
             }
         }
+        if(Insertion.addImports(new File(this.file), new File(importTmp)))
+            CustomLogger.writeLog(LogType.INFO, "Import was added");
+        else
+            CustomLogger.writeLog(LogType.ERROR, "Import wasn't added");
         Boolean isCodeCopy = duplicateCodeFromTemplateToFile(applicationTmp, this.file);
         if (isCodeCopy) {
             Boolean isFeatureImplemented = replaceTextByHash(this.file, DigestUtils.sha256Hex("routeName"), this.name)
