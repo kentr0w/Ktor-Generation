@@ -56,13 +56,14 @@ public class RoutingFeature extends FeatureObject {
     public void start() {
         CustomLogger.writeLog(LogType.INFO, "Starting implement " + this.name + " route");
         Boolean isImportDuplicated = duplicateCodeFromTemplateToFile(importTmp, this.file);
+
         if (isImportDuplicated)
             CustomLogger.writeLog(LogType.INFO, "Imports were added");
         else
             CustomLogger.writeLog(LogType.ERROR, "Imports weren't added");
-        String allRoutes = "";
+        StringBuilder allRoutes = new StringBuilder();
         for (RouteDetail route: routeDetail) {
-            String allRequestsForOneRoute = "";
+            StringBuilder allRequestsForOneRoute = new StringBuilder();
             for(Request request: route.getRequests()) {
                 List<String> text = Arrays.asList(request.getPath(), request.getType().name().toLowerCase(Locale.ROOT));
                 String codeAfterReplace = getCodeAfterReplace(requestTmp, request.getHashList(), text);
@@ -70,27 +71,26 @@ public class RoutingFeature extends FeatureObject {
                     CustomLogger.writeLog(LogType.ERROR, "Couldn't create request " + request.getPath());
                 } else {
                     CustomLogger.writeLog(LogType.INFO, "Created request " + request.getPath());
-                    allRequestsForOneRoute += codeAfterReplace;
+                    allRequestsForOneRoute.append(codeAfterReplace);
                 }
             }
-            List<String> text = Arrays.asList(route.getPath(), allRequestsForOneRoute);
+            List<String> text = Arrays.asList(route.getPath(), allRequestsForOneRoute.toString());
             String codeAfterReplace = getCodeAfterReplace(routeTmp, route.getHash() , text);
             if (codeAfterReplace == null) {
                 CustomLogger.writeLog(LogType.ERROR, "Couldn't create route " + route.getPath());
             } else {
                 CustomLogger.writeLog(LogType.INFO, "Create route " + route.getPath());
-                allRoutes += codeAfterReplace;
+                allRoutes.append(codeAfterReplace);
             }
         }
         Boolean isCodeCopy = duplicateCodeFromTemplateToFile(applicationTmp, this.file);
         if (isCodeCopy) {
             Boolean isFeatureImplemented = replaceTextByHash(this.file, DigestUtils.sha256Hex("routeName"), this.name)
-                    && replaceTextByHash(this.file, DigestUtils.sha256Hex("route"), allRoutes);
+                    && replaceTextByHash(this.file, DigestUtils.sha256Hex("route"), allRoutes.toString());
             if (isFeatureImplemented) {
                 CustomLogger.writeLog(LogType.INFO, "Routing feature implemented");
                 String pathToApplicationFile = getSrcPath(this.file) + File.separator + "Application.kt"; // may be constant?
-                Boolean isAddedToMain = Insertion.insertCodeWithImportInFile(new File(this.file), new File(pathToApplicationFile), MAIN_FUN, this.name + "()");
-                if (isAddedToMain) {
+                if (Insertion.insertCodeWithImportInFile(new File(this.file), new File(pathToApplicationFile), MAIN_FUN, this.name + "()")) {
                     CustomLogger.writeLog(LogType.INFO, "Added route to main");
                 } else {
                     CustomLogger.writeLog(LogType.ERROR, "Couldn't added to main");

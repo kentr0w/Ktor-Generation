@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class EntityFeature extends FeatureObject {
     
@@ -67,7 +68,7 @@ public class EntityFeature extends FeatureObject {
     
     @Override
     public void start() {
-        String variable = "";
+        StringBuilder variable = new StringBuilder();
         for (EntityField field: entityFields) {
             List<String> text = new ArrayList<>(Arrays.asList(field.getVariableName(), field.getType().getTypeCode(), field.getColumnName()));
             if (field.getType().equals(EntityType.VARCHAR)) {
@@ -86,19 +87,15 @@ public class EntityFeature extends FeatureObject {
             else
                 text.add(field.getAllDetails());
             String codeWithOneOfField = getCodeAfterReplace(fieldTmp, field.getHash(), text) + System.lineSeparator();
-            if (codeWithOneOfField != null) {
-                variable += codeWithOneOfField;
-                CustomLogger.writeLog(LogType.INFO, field.getColumnName() + " was added to " + this.name);
-            } else {
-                CustomLogger.writeLog(LogType.ERROR, field.getColumnName() + " wasn't added to " + this.name);
-            }
+            variable.append(codeWithOneOfField);
+            CustomLogger.writeLog(LogType.INFO, field.getColumnName() + " was added to " + this.name);
         }
         if (duplicateCodeFromTemplateToFile(entityTmp, this.file))
             CustomLogger.writeLog(LogType.INFO, "Entity code was duplicated");
         else
             CustomLogger.writeLog(LogType.ERROR, "Entity code wasn't duplicated");
-        List<String> hash = Arrays.asList("entityName", "tableName", "entityFields", "primaryKey").stream().map(it -> DigestUtils.sha256Hex(it)).collect(Collectors.toList());
-        List<String> text = Arrays.asList(this.name, this.tableName, variable, this.primaryKey);
+        List<String> hash = Stream.of("entityName", "tableName", "entityFields", "primaryKey").map(DigestUtils::sha256Hex).collect(Collectors.toList());
+        List<String> text = Arrays.asList(this.name, this.tableName, variable.toString(), this.primaryKey);
         for (int i = 0; i < hash.size(); i++) {
             if (replaceTextByHash(this.file, hash.get(i), text.get(i)))
                 CustomLogger.writeLog(LogType.INFO, "Hash of " + text.get(i) + " was replaced");

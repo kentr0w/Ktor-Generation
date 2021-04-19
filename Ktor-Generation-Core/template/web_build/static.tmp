@@ -1,0 +1,8 @@
+
+fun Application.Static() {
+    routing {
+        static {
+            resource("/hello", "templates/index.html")
+        }
+    }
+}

@@ -1,13 +1,8 @@
 package Feature.Logic;
 
-import Feature.CoreFeatures.Project;
-import Generation.Project.Node;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -30,6 +25,14 @@ public interface IFeature {
             exception.printStackTrace();
             return false;
         }
+    }
+
+    public default Boolean replaceListTextByHash(String pathToFile, List<String> hash, List<String> text) {
+        Boolean answer = true;
+        for (int i = 0; i < hash.size(); i++) {
+            answer = replaceTextByHash(pathToFile, hash.get(i), text.get(i));
+        }
+        return answer;
     }
     
     public default Boolean duplicateCodeFromTemplateToFile(String pathToCodeTmp, String resultFile) {
