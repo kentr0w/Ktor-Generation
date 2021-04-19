@@ -1,14 +1,17 @@
 package Feature.CoreFeatures.entity;
 
 import Copy.CustomLogger;
+import Copy.Insertion;
 import Copy.LogType;
 import Feature.Logic.FeatureObject;
 import org.apache.commons.codec.digest.DigestUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class EntityFeature extends FeatureObject {
     
@@ -20,6 +23,7 @@ public class EntityFeature extends FeatureObject {
     
     private static final String fieldTmp = "template/entity_build/EntityField.tmp";
     private static final String entityTmp = "template/entity_build/Entity.tmp";
+    private static final String importTmp = "template/entity_build/import.tmp";
     
     public EntityFeature() {
         super("entity");
@@ -67,7 +71,11 @@ public class EntityFeature extends FeatureObject {
     
     @Override
     public void start() {
-        String variable = "";
+        if (!this.entityFields.stream().map(EntityField::getVariableName).collect(Collectors.toList()).contains(this.primaryKey)) {
+            CustomLogger.writeLog(LogType.ERROR, "Primary key contains non-existent variable");
+            return;
+        }
+        StringBuilder variable = new StringBuilder();
         for (EntityField field: entityFields) {
             List<String> text = new ArrayList<>(Arrays.asList(field.getVariableName(), field.getType().getTypeCode(), field.getColumnName()));
             if (field.getType().equals(EntityType.VARCHAR)) {
@@ -86,19 +94,19 @@ public class EntityFeature extends FeatureObject {
             else
                 text.add(field.getAllDetails());
             String codeWithOneOfField = getCodeAfterReplace(fieldTmp, field.getHash(), text) + System.lineSeparator();
-            if (codeWithOneOfField != null) {
-                variable += codeWithOneOfField;
-                CustomLogger.writeLog(LogType.INFO, field.getColumnName() + " was added to " + this.name);
-            } else {
-                CustomLogger.writeLog(LogType.ERROR, field.getColumnName() + " wasn't added to " + this.name);
-            }
+            variable.append(codeWithOneOfField);
+            CustomLogger.writeLog(LogType.INFO, field.getColumnName() + " was added to " + this.name);
         }
         if (duplicateCodeFromTemplateToFile(entityTmp, this.file))
             CustomLogger.writeLog(LogType.INFO, "Entity code was duplicated");
         else
             CustomLogger.writeLog(LogType.ERROR, "Entity code wasn't duplicated");
-        List<String> hash = Arrays.asList("entityName", "tableName", "entityFields", "primaryKey").stream().map(it -> DigestUtils.sha256Hex(it)).collect(Collectors.toList());
-        List<String> text = Arrays.asList(this.name, this.tableName, variable, this.primaryKey);
+        if(Insertion.addImports(new File(this.file), new File(importTmp)))
+            CustomLogger.writeLog(LogType.INFO, "Import was added");
+        else
+            CustomLogger.writeLog(LogType.ERROR, "Import wasn't added");
+        List<String> hash = Stream.of("entityName", "tableName", "entityFields", "primaryKey").map(DigestUtils::sha256Hex).collect(Collectors.toList());
+        List<String> text = Arrays.asList(this.name, this.tableName, variable.toString(), this.primaryKey);
         for (int i = 0; i < hash.size(); i++) {
             if (replaceTextByHash(this.file, hash.get(i), text.get(i)))
                 CustomLogger.writeLog(LogType.INFO, "Hash of " + text.get(i) + " was replaced");

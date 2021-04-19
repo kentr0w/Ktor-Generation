@@ -6,6 +6,7 @@ import Feature.CoreFeatures.Global.Global;
 import Feature.Logic.FeatureObject;
 import Feature.Logic.Feature;
 import Feature.CoreFeatures.Project;
+import Feature.Logic.IFeature;
 import Generation.BuildTool.BuildToolGeneration;
 import Generation.BuildTool.Gradle.GradleGeneration;
 import Generation.BuildTool.Maven.MavenGeneration;
@@ -46,12 +47,12 @@ public class Core {
     public Boolean start() {
         logger.info("Starting to generate user's project");
         Project project = fileReader.readConfiguration();
-        Global global = project.getGlobal();
         if (project == null) {
             // TODO How to pass information about error in config file to web?
             System.out.println("Can't read configuration file");
             System.exit(0);
         }
+        Global global = project.getGlobal();
         if (!generateProjectDir(global.getProjectPath()))
             System.exit(0); // TODO what should we do?
         BuildToolGeneration buildGeneration = null;
@@ -75,7 +76,7 @@ public class Core {
     private void runAllFeatures() {
         CustomLogger.writeLog(LogType.INFO, "Starting to implement all features");
         List<? extends FeatureObject> allFeatures = Feature.getInstance().getFeature();
-        allFeatures.forEach(feature -> feature.start());
+        allFeatures.forEach(IFeature::start);
     }
     
     private Boolean generateProjectDir(String projectFolderPath) {

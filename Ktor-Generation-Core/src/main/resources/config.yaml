@@ -34,3 +34,10 @@ features:
           length: "10"
           fieldDetail:
             - 'AUTOINCREMENT'
+  web:
+    name: "Static"
+    file: "user/own-ktor-project/src/controllers/Hello.kt"
+    template: "user/template"
+    resources:
+      - remotePath: "/hello"
+        resource: "index.html"

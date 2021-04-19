@@ -5,6 +5,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +23,16 @@ public class Insertion {
                 CustomLogger.writeLog(LogType.INFO, "Import was added" + importFileFrom);
         }
         return insertCodeInNecessaryPlace(fileToInsert, lineAfterToInsert, codeToInsert);
+    }
+    
+    public static Boolean addImports(File fileWithCode, File importFile) {
+        try{
+            String imports = Files.readString(Path.of(importFile.getPath()));
+            return insertCodeInNecessaryPlace(fileWithCode, "import ", imports);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+            return false;
+        }
     }
     
     private static Boolean insertCodeInNecessaryPlace(File file, String lineAfterToInsert, String codeToInsert) {
