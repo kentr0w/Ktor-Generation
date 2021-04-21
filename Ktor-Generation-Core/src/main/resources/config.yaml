@@ -73,3 +73,10 @@ features:
             type: 'INTEGER'
             fieldDetail:
               - 'NULLABLE'
+  socket:
+    file: "user/own-ktor-project/src/hehe.kt"
+    name: "websocket"
+    path: "web"
+    answer: "You said: $text"
+    closeWord: "bye"
+    closeMessage: "Bye"

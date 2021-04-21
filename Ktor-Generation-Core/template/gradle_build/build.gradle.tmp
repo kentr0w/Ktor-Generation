@@ -33,10 +33,15 @@ dependencies {
     implementation "ch.qos.logback:logback-classic:$logback_version"
     testImplementation "io.ktor:ktor-server-tests:$ktor_version"
 
+    implementation("org.postgresql:postgresql:42.2.19")
+    implementation("mysql:mysql-connector-java:8.0.23")
+    implementation("com.h2database:h2:1.4.200")
+
     implementation "io.ktor:ktor-gson:$ktor_version"
 
+    implementation("io.ktor:ktor-websockets:$ktor_version")
+
     implementation("org.jetbrains.exposed:exposed-java-time:0.30.1")
-    implementation("mysql:mysql-connector-java:8.0.23")
     implementation("org.jetbrains.exposed:exposed-core:0.30.1")
     implementation("org.jetbrains.exposed:exposed-dao:0.30.1")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.30.1")
