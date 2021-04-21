@@ -1,0 +1,10 @@
+fun dataBaseConnection() {
+    val dataBaseUrl = "e6254cee240e111e19b1b059ba1a8124af03c819ac3d0ae35972babb02aa22e27b51e92f42f19e39d649f223147fda3f7d9c1487910c90750e15688c8f413fbf:c9bd0af700392422505014c74276d7d021868fb8c9afecedeeebea13e521322d/a660127a6675d5b9bf204865ce319c3a516b61eb618b18e41ccc285aaa6aaff3?serverTimezone=UTC"
+    val dataBaseDrive = "29d49d22cab9e317c7f758232756d9164301815c990d484ae550b36e0fb6ee8e"
+    val dataBaseUser = "0e5a397c0eeb4cde39c5bcf7dfbc7de137e39889538c224c03f19be01970e8c1"
+    val dataBasePassword = "3b579d29aa3a64ffc5cabcabe383ea6022ffa57a0c375fa633671b5ae9464a83" // TODO should be secret
+    Database.connect(dataBaseUrl, dataBaseDrive, dataBaseUser, dataBasePassword)
+    transaction {
+        SchemaUtils.create(d0b1cd4520fe2d3aef6ed9a3a5f66a9c7c88d081c96c4f983a54bab86a79727e)
+    }
+}

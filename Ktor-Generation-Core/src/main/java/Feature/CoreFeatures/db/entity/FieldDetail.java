@@ -1,10 +1,10 @@
-package Feature.CoreFeatures.entity;
+package Feature.CoreFeatures.db.entity;
 
 public enum FieldDetail {
     AUTOINCREMENT (".autoIncrement()"),
     NULLABLE (".nullable()"),
     UNIQUE_INDEX(".uniqueIndex()"),
-    AUTO_INCREMENT(".autoIncrement()"),
+    ENTITY_ID(".entityId()"),
     ;
     
     private final String detailCode;

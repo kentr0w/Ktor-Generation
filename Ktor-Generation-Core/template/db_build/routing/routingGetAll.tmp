@@ -1,0 +1,7 @@
+
+get("/get2ca93ee5df91bd141b6feb24f3622236312f9d346b2003900e1c16a756fb27bc") {
+    call.respond(
+        transaction {
+            2ca93ee5df91bd141b6feb24f3622236312f9d346b2003900e1c16a756fb27bcEntity.all().map { it.to2ca93ee5df91bd141b6feb24f3622236312f9d346b2003900e1c16a756fb27bcDataClass() }
+    })
+}
