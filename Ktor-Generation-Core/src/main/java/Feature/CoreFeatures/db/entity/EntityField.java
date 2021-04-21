@@ -1,4 +1,4 @@
-package Feature.CoreFeatures.entity;
+package Feature.CoreFeatures.db.entity;
 
 import org.apache.commons.codec.digest.DigestUtils;
 

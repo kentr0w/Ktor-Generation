@@ -22,18 +22,6 @@ features:
           requests:
             - type: 'GET'
               path: "getCar"
-  entities:
-    - name: "User"
-      file: "user/own-ktor-project/src/controllers/Hello.kt"
-      tableName: "User"
-      primaryKey: "id"
-      entityFields:
-        - variableName: "id"
-          columnName: "id"
-          type: 'VARCHAR'
-          length: "10"
-          fieldDetail:
-            - 'AUTOINCREMENT'
   web:
     name: "Static"
     file: "user/own-ktor-project/src/controllers/Hello.kt"
@@ -41,3 +29,47 @@ features:
     resources:
       - remotePath: "/hello"
         resource: "index.html"
+  database:
+    type: 'MYSQL'
+    file: "user/own-ktor-project/src/hehe.kt"
+    port: "3306"
+    host: "localhost"
+    dbName: "test"
+    username: "root"
+    password: ""
+    entities:
+      - name: "User"
+        file: "user/own-ktor-project/src/controllers/Hello.kt"
+        tableName: "User"
+        route:
+          standardRoutes:
+            - 'GETAll'
+            - 'SAVE'
+            - 'UPDATE'
+            - 'DELETE'
+          routeDetail:
+            - path: "/car"
+              requests:
+                - type: 'GET'
+                  path: "/getCar"
+                - type: 'POST'
+                  path: "/saveCar"
+            - path: "/electro"
+              requests:
+                - type: 'GET'
+                  path: "getCar"
+        primaryKey:
+          idName: "id"
+          type: 'LONG'
+        entityFields:
+          - variableName: "name"
+            columnName: "name"
+            type: 'VARCHAR'
+            length: "10"
+            fieldDetail:
+              - 'NULLABLE'
+          - variableName: "age"
+            columnName: "age"
+            type: 'INTEGER'
+            fieldDetail:
+              - 'NULLABLE'

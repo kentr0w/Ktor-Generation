@@ -12,17 +12,25 @@ import java.util.stream.Collectors;
 
 public class Insertion {
     
-    public static Boolean insertDependency() {
+    public static Boolean insertDependency(File fileFromInsert, File fileToInsert) {
+        String importFileFrom = calculateImport(fileFromInsert, fileToInsert);
+        if (importFileFrom != null) {
+            if (insertCodeInNecessaryPlace(fileToInsert, "import ", importFileFrom)) {
+                CustomLogger.writeLog(LogType.INFO, "Import was added" + importFileFrom);
+                return true;
+            } else {
+                return false;
+            }
+        }
         return true;
     }
     
     public static Boolean insertCodeWithImportInFile(File fileFromInsert, File fileToInsert, String lineAfterToInsert, String codeToInsert) {
-        String importFileFrom = calculateImport(fileFromInsert, fileToInsert);
-        if (importFileFrom != null) {
-            if (insertCodeInNecessaryPlace(fileToInsert, "import ", importFileFrom))
-                CustomLogger.writeLog(LogType.INFO, "Import was added" + importFileFrom);
+        if (insertDependency(fileFromInsert, fileToInsert)) {
+            return insertCodeInNecessaryPlace(fileToInsert, lineAfterToInsert, codeToInsert);
+        } else {
+            return false;
         }
-        return insertCodeInNecessaryPlace(fileToInsert, lineAfterToInsert, codeToInsert);
     }
     
     public static Boolean addImports(File fileWithCode, File importFile) {

@@ -1,32 +1,46 @@
-package Feature.CoreFeatures.entity;
+package Feature.CoreFeatures.db.entity;
 
 import Copy.CustomLogger;
-import Copy.Insertion;
 import Copy.LogType;
-import Feature.Logic.FeatureObject;
-import org.apache.commons.codec.digest.DigestUtils;
+import Feature.CoreFeatures.db.entity.routes.Route;
+import Feature.CoreFeatures.routing.RouteDetail;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class EntityFeature extends FeatureObject {
+public class DBEntity {
     
     private String name;
     private String file;
-    private String primaryKey;
+    private PrimaryKey primaryKey;
     private String tableName;
     private List<EntityField> entityFields;
+    private Route route;
     
-    private static final String fieldTmp = "template/entity_build/EntityField.tmp";
-    private static final String entityTmp = "template/entity_build/Entity.tmp";
-    private static final String importTmp = "template/entity_build/import.tmp";
+    private final String fieldTmp = "template/entity_build/EntityField.tmp";
+    private final String entityTmp = "template/entity_build/Entity.tmp";
+    private final String importTmp = "template/entity_build/import.tmp";
     
-    public EntityFeature() {
-        super("entity");
+    public Route getRoute() {
+        return route;
+    }
+    
+    public void setRoute(Route route) {
+        this.route = route;
+    }
+    
+    public String getFieldTmp() {
+        return fieldTmp;
+    }
+    
+    public String getEntityTmp() {
+        return entityTmp;
+    }
+    
+    public String getImportTmp() {
+        return importTmp;
     }
     
     public String getFile() {
@@ -53,11 +67,11 @@ public class EntityFeature extends FeatureObject {
         this.entityFields = entityFields;
     }
     
-    public String getPrimaryKey() {
+    public PrimaryKey getPrimaryKey() {
         return primaryKey;
     }
     
-    public void setPrimaryKey(String primaryKey) {
+    public void setPrimaryKey(PrimaryKey primaryKey) {
         this.primaryKey = primaryKey;
     }
     
@@ -69,9 +83,36 @@ public class EntityFeature extends FeatureObject {
         this.name = name;
     }
     
-    @Override
+    public List<List<String>> getEntitiesText() {
+        if (this.entityFields.stream().map(EntityField::getVariableName).collect(Collectors.toList()).contains(this.primaryKey.getIdName())) {
+            CustomLogger.writeLog(LogType.ERROR, "Primary key contains non-existent variable");
+            return null;
+        }
+        StringBuilder variable = new StringBuilder();
+        List<List<String>> result = new ArrayList<>();
+        for (EntityField field: entityFields) {
+            List<String> text = new ArrayList(Arrays.asList(field.getVariableName(), field.getType().getTypeCode(), field.getColumnName()));
+            if (field.getType().equals(EntityType.VARCHAR)) {
+                if (field.getLength() == null) {
+                    CustomLogger.writeLog(LogType.ERROR, this.name + " doesn't contain length for " + field.getColumnName());
+                    return null;
+                } else
+                    text.add("," + field.getLength());
+    
+            } else {
+                text.add("");
+            }
+            if (field.getFieldDetail() == null)
+                text.add("");
+            else
+                text.add(field.getAllDetails());
+            result.add(text);
+        }
+        return result;
+    }
+    
     public void start() {
-        if (!this.entityFields.stream().map(EntityField::getVariableName).collect(Collectors.toList()).contains(this.primaryKey)) {
+        /*if (!this.entityFields.stream().map(EntityField::getVariableName).collect(Collectors.toList()).contains(this.primaryKey)) {
             CustomLogger.writeLog(LogType.ERROR, "Primary key contains non-existent variable");
             return;
         }
@@ -112,11 +153,6 @@ public class EntityFeature extends FeatureObject {
                 CustomLogger.writeLog(LogType.INFO, "Hash of " + text.get(i) + " was replaced");
             else
                 CustomLogger.writeLog(LogType.ERROR, "Hash of " + text.get(i) + " wasn't replaced");
-        }
-    }
-    
-    @Override
-    public String getId() {
-        return null;
+        }*/
     }
 }
