@@ -46,9 +46,11 @@ public class PrimaryKey {
     
     public List<FieldDetail> getFieldDetail() {
         if (fieldDetail == null)
-            return Arrays.asList(FieldDetail.ENTITY_ID);
+            return Arrays.asList(FieldDetail.ENTITY_ID, FieldDetail.AUTOINCREMENT);
         if (!fieldDetail.contains(FieldDetail.ENTITY_ID))
             fieldDetail.add(FieldDetail.ENTITY_ID);
+        if (!fieldDetail.contains(FieldDetail.AUTOINCREMENT))
+            fieldDetail.add(FieldDetail.AUTOINCREMENT);
         return fieldDetail;
     }
     
