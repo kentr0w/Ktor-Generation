@@ -3,13 +3,14 @@ package Feature.CoreFeatures.routing;
 import Copy.CustomLogger;
 import Copy.Insertion;
 import Copy.LogType;
+import Feature.CoreFeatures.Global.Global;
+import Feature.Logic.Feature;
 import Feature.Logic.FeatureObject;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static Constant.Constant.MAIN_FUN;
 
@@ -20,20 +21,23 @@ public class RoutingFeature extends FeatureObject {
     private static final String applicationTmp = "template/routing_build/application.tmp";
     private static final String importTmp = "template/routing_build/import.tmp";
     
+    private String path;
     private String name;
-    private String file;
     private List<RouteDetail> routeDetail;
     
     public RoutingFeature() {
         super("routing");
     }
     
-    public String getFile() {
-        return file;
+    public String getPath() {
+        String missPartOfPath = super.calculatePath(this.path);
+        if (!missPartOfPath.equals(""))
+            this.setPath(missPartOfPath + File.separator + this.path);
+        return this.path;
     }
     
-    public void setFile(String file) {
-        this.file = file;
+    public void setPath(String path) {
+        this.path = path;
     }
     
     public String getName() {
@@ -59,36 +63,36 @@ public class RoutingFeature extends FeatureObject {
         for (RouteDetail route: routeDetail) {
             StringBuilder allRequestsForOneRoute = new StringBuilder();
             for(Request request: route.getRequests()) {
-                List<String> text = Arrays.asList(request.getPath(), request.getType().name().toLowerCase(Locale.ROOT));
+                List<String> text = Arrays.asList(request.getRequestUrl(), request.getType().name().toLowerCase(Locale.ROOT));
                 String codeAfterReplace = getCodeAfterReplace(requestTmp, request.getHashList(), text);
                 if (codeAfterReplace == null) {
-                    CustomLogger.writeLog(LogType.ERROR, "Couldn't create request " + request.getPath());
+                    CustomLogger.writeLog(LogType.ERROR, "Couldn't create request " + request.getRequestUrl());
                 } else {
-                    CustomLogger.writeLog(LogType.INFO, "Created request " + request.getPath());
+                    CustomLogger.writeLog(LogType.INFO, "Created request " + request.getRequestUrl());
                     allRequestsForOneRoute.append(codeAfterReplace);
                 }
             }
-            List<String> text = Arrays.asList(route.getPath(), allRequestsForOneRoute.toString());
+            List<String> text = Arrays.asList(route.getUrl(), allRequestsForOneRoute.toString());
             String codeAfterReplace = getCodeAfterReplace(routeTmp, route.getHash() , text);
             if (codeAfterReplace == null) {
-                CustomLogger.writeLog(LogType.ERROR, "Couldn't create route " + route.getPath());
+                CustomLogger.writeLog(LogType.ERROR, "Couldn't create route " + route.getUrl());
             } else {
-                CustomLogger.writeLog(LogType.INFO, "Create route " + route.getPath());
+                CustomLogger.writeLog(LogType.INFO, "Create route " + route.getUrl());
                 allRoutes.append(codeAfterReplace);
             }
         }
-        if(Insertion.addImports(new File(this.file), new File(importTmp)))
+        if(Insertion.addImports(new File(this.getPath()), new File(importTmp)))
             CustomLogger.writeLog(LogType.INFO, "Import was added");
         else
             CustomLogger.writeLog(LogType.ERROR, "Import wasn't added");
-        Boolean isCodeCopy = duplicateCodeFromTemplateToFile(applicationTmp, this.file);
+        Boolean isCodeCopy = duplicateCodeFromTemplateToFile(applicationTmp, this.getPath());
         if (isCodeCopy) {
-            Boolean isFeatureImplemented = replaceTextByHash(this.file, DigestUtils.sha256Hex("routeName"), this.name)
-                    && replaceTextByHash(this.file, DigestUtils.sha256Hex("route"), allRoutes.toString());
+            Boolean isFeatureImplemented = replaceTextByHash(this.getPath(), DigestUtils.sha256Hex("routeName"), this.name)
+                    && replaceTextByHash(this.getPath(), DigestUtils.sha256Hex("route"), allRoutes.toString());
             if (isFeatureImplemented) {
                 CustomLogger.writeLog(LogType.INFO, "Routing feature implemented");
-                String pathToApplicationFile = getSrcPath(this.file) + File.separator + "Application.kt"; // may be constant?
-                if (Insertion.insertCodeWithImportInFile(new File(this.file), new File(pathToApplicationFile), MAIN_FUN, this.name + "()")) {
+                String pathToApplicationFile = getSrcPath(this.getPath()) + File.separator + "Application.kt"; // may be constant?
+                if (Insertion.insertCodeWithImportInFile(new File(this.getPath()), new File(pathToApplicationFile), MAIN_FUN, this.name + "()")) {
                     CustomLogger.writeLog(LogType.INFO, "Added route to main");
                 } else {
                     CustomLogger.writeLog(LogType.ERROR, "Couldn't added to main");

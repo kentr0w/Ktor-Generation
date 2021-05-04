@@ -3,6 +3,7 @@ package Feature.CoreFeatures.web;
 import Copy.CustomLogger;
 import Copy.Insertion;
 import Copy.LogType;
+import Feature.Logic.Feature;
 import Feature.Logic.FeatureObject;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
@@ -13,9 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -26,29 +25,34 @@ public class WebFeature extends FeatureObject {
     private final String webTmpCode = "template/web_build/static.tmp";
     private final String webTmpRes = "template/web_build/res.tmp";
     private final String webImports = "template/web_build/import.tmp";
+    
+    
+    private String path;
     private String name;
     private String template;
-    private String file;
     private List<WebResource> resources;
 
     public WebFeature() {
         super("web");
     }
-
+    
+    public String getPath() {
+        String missPartOfPath = super.calculatePath(this.path);
+        if (!missPartOfPath.equals(""))
+            this.setPath(missPartOfPath + File.separator + this.path);
+        return this.path;
+    }
+    
+    public void setPath(String path) {
+        this.path = path;
+    }
+    
     public String getTemplate() {
         return template;
     }
 
     public void setTemplate(String template) {
         this.template = template;
-    }
-
-    public String getFile() {
-        return file;
-    }
-
-    public void setFile(String file) {
-        this.file = file;
     }
 
     public String getName() {
@@ -80,20 +84,20 @@ public class WebFeature extends FeatureObject {
             List<String> text = Arrays.asList(resource.getRemotePath(), resource.getResource());
             code.append(getCodeAfterReplace(webTmpRes, resource.getHash(), text));
         }
-        if (duplicateCodeFromTemplateToFile(webTmpCode, this.file)) {
+        if (duplicateCodeFromTemplateToFile(webTmpCode, this.getPath())) {
             CustomLogger.writeLog(LogType.INFO, "Web feature's code was duplicated");
             List<String> hash = Stream.of("webName", "webStatic").map(DigestUtils::sha256Hex).collect(Collectors.toList());
             List<String> text = Arrays.asList(this.name, code.toString());
-            if (replaceListTextByHash(this.file, hash, text))
+            if (replaceListTextByHash(this.getPath(), hash, text))
                 CustomLogger.writeLog(LogType.INFO, "Hash was replaced in web-feature");
             else
                 CustomLogger.writeLog(LogType.ERROR, "Hash wasn't correct replaces in web-feature");
-            if(Insertion.addImports(new File(this.file), new File(webImports)))
+            if(Insertion.addImports(new File(this.getPath()), new File(webImports)))
                 CustomLogger.writeLog(LogType.INFO, "Import was added");
             else
                 CustomLogger.writeLog(LogType.ERROR, "Import wasn't added");
-            String pathToApplicationFile = getSrcPath(this.file) + File.separator + "Application.kt";
-            if (Insertion.insertCodeWithImportInFile(new File(this.file), new File(pathToApplicationFile), MAIN_FUN, this.name + "()")) {
+            String pathToApplicationFile = getSrcPath(this.getPath()) + File.separator + "Application.kt";
+            if (Insertion.insertCodeWithImportInFile(new File(this.getPath()), new File(pathToApplicationFile), MAIN_FUN, this.name + "()")) {
                 CustomLogger.writeLog(LogType.INFO, "Added web-feature to main");
             } else {
                 CustomLogger.writeLog(LogType.ERROR, "Couldn't added web-feature to main");
@@ -119,7 +123,7 @@ public class WebFeature extends FeatureObject {
     }
 
     private Boolean copyTemplatesToConfig() {
-        String pathToResources = (new File(getSrcPath(this.file))).getParent() + File.separator + "resources";
+        String pathToResources = (new File(getSrcPath(this.getPath()))).getParent() + File.separator + "resources";
         try{
             Set<PosixFilePermission> perms = PosixFilePermissions.fromString("rwxrwxrwx"); // TODO check on Windows!
             Path path = Files.createDirectories(Path.of(pathToResources + File.separator + "template"), PosixFilePermissions.asFileAttribute(perms));

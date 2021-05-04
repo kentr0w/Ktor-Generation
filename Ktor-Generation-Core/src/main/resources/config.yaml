@@ -10,28 +10,28 @@ global:
 features:
   routes:
     - name: "Car"
-      file: "user/own-ktor-project/src/controllers/Hello.kt"
+      path: "controllers/Hello.kt"
       routeDetail:
-        - path: "/car"
+        - url: "/car"
           requests:
             - type: 'GET'
-              path: "/getCar"
+              requestUrl: "/getCar"
             - type: 'POST'
-              path: "/saveCar"
-        - path: "/electro"
+              requestUrl: "/saveCar"
+        - url: "/electro"
           requests:
             - type: 'GET'
-              path: "getCar"
+              requestUrl: "getCar"
   web:
     name: "Static"
-    file: "user/own-ktor-project/src/controllers/Hello.kt"
+    path: "src/controllers/Hello.kt"
     template: "user/template"
     resources:
       - remotePath: "/index"
         resource: "index.html"
   database:
     type: 'MYSQL'
-    file: "user/own-ktor-project/src/hehe.kt"
+    path: "own-ktor-project/src/hehe.kt"
     port: "3306"
     host: "localhost"
     dbName: "test"
@@ -39,7 +39,7 @@ features:
     password: ""
     entities:
       - name: "User"
-        file: "user/own-ktor-project/src/controllers/Hello.kt"
+        path: "controllers/Hello.kt"
         tableName: "User"
         route:
           standardRoutes:
@@ -63,9 +63,9 @@ features:
             fieldDetail:
               - 'NULLABLE'
   socket:
-    file: "user/own-ktor-project/src/hehe.kt"
+    path: "own-ktor-project/src/hehe.kt"
     name: "websocket"
-    path: "web"
+    webPath: "web"
     answer: "You said: $text"
     closeWord: "End"
     closeMessage: "End"

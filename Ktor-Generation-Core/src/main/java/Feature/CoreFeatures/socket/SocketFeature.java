@@ -1,11 +1,14 @@
 package Feature.CoreFeatures.socket;
 
 import Copy.Insertion;
+import Feature.Logic.Feature;
 import Feature.Logic.FeatureObject;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -14,9 +17,9 @@ import static Constant.Constant.MAIN_FUN;
 
 public class SocketFeature extends FeatureObject {
     
-    private String file;
-    private String name;
     private String path;
+    private String name;
+    private String webPath;
     private String answer;
     private String closeWord;
     private String closeMessage;
@@ -24,12 +27,15 @@ public class SocketFeature extends FeatureObject {
     private final String socketTmp = "template/socket_build/socket.tmp";
     private final String importTmp = "template/socket_build/import.tmp";
     
-    public String getFile() {
-        return file;
+    public String getPath() {
+        String missPartOfPath = super.calculatePath(this.path);
+        if (!missPartOfPath.equals(""))
+            this.setPath(missPartOfPath + File.separator + this.path);
+        return this.path;
     }
     
-    public void setFile(String file) {
-        this.file = file;
+    public void setPath(String path) {
+        this.path = path;
     }
     
     public String getName() {
@@ -40,12 +46,12 @@ public class SocketFeature extends FeatureObject {
         this.name = name;
     }
     
-    public String getPath() {
-        return path;
+    public String getWebPath() {
+        return webPath;
     }
     
-    public void setPath(String path) {
-        this.path = path;
+    public void setWebPath(String webPath) {
+        this.webPath = webPath;
     }
     
     public String getAnswer() {
@@ -83,12 +89,12 @@ public class SocketFeature extends FeatureObject {
     @Override
     public void start() {
         List<String> hash = Stream.of("socketName", "socketPath", "socketAnswer", "socketCloseWord", "socketCloseMessage").map(DigestUtils::sha256Hex).collect(Collectors.toList());
-        List<String> text = Arrays.asList(this.name, this.path, this.answer, this.closeWord, this.closeMessage);
-        duplicateCodeFromTemplateToFile(socketTmp, this.file);
-        replaceListTextByHash(this.file, hash, text);
-        Insertion.addImports(new File(this.file), new File(importTmp));
-        String pathToApplicationFile = getSrcPath(this.file) + File.separator + "Application.kt";
-        Insertion.insertCodeWithImportInFile(new File(this.file), new File(pathToApplicationFile), MAIN_FUN, this.name + "()");
+        List<String> text = Arrays.asList(this.name, this.webPath, this.answer, this.closeWord, this.closeMessage);
+        duplicateCodeFromTemplateToFile(socketTmp, this.getPath());
+        replaceListTextByHash(this.getPath(), hash, text);
+        Insertion.addImports(new File(this.getPath()), new File(importTmp));
+        String pathToApplicationFile = getSrcPath(this.getPath()) + File.separator + "Application.kt";
+        Insertion.insertCodeWithImportInFile(new File(this.getPath()), new File(pathToApplicationFile), MAIN_FUN, this.name + "()");
     }
     
     @Override
