@@ -4,14 +4,12 @@ import Copy.Insertion;
 import Feature.CoreFeatures.db.entity.DBEntity;
 import Feature.CoreFeatures.db.entity.EntityField;
 import Feature.CoreFeatures.db.entity.routes.StandardRoute;
+import Feature.Logic.Feature;
 import Feature.Logic.FeatureObject;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -37,12 +35,12 @@ public class DataBaseFeature extends FeatureObject {
     private final String routingSaveTmp = "template/db_build/routing/routingSave.tmp";
     private final String routingGetAllTmp = "template/db_build/routing/routingGetAll.tmp";
     private final String routeTmp = "template/db_build/routing/route.tmp";
-    private final String routeImprotTmp = "template/db_build/routing/routeImport.tmp";
+    private final String routeImportTmp = "template/db_build/routing/routeImport.tmp";
     
     private final String ContentNegotiation = "install(ContentNegotiation) { gson { } }";
     
+    private String path;
     private DataBaseType type;
-    private String file;
     private String port;
     private String host;
     private String dbName;
@@ -54,20 +52,23 @@ public class DataBaseFeature extends FeatureObject {
         super("db");
     }
     
+    public String getPath() {
+        String missPartOfPath = super.calculatePath(this.path);
+        if (!missPartOfPath.equals(""))
+            this.setPath(missPartOfPath + File.separator + this.path);
+        return this.path;
+    }
+    
+    public void setPath(String path) {
+        this.path = path;
+    }
+    
     public DataBaseType getType() {
         return type;
     }
     
     public void setType(DataBaseType type) {
         this.type = type;
-    }
-    
-    public String getFile() {
-        return file;
-    }
-    
-    public void setFile(String file) {
-        this.file = file;
     }
     
     public String getPort() {
@@ -124,11 +125,11 @@ public class DataBaseFeature extends FeatureObject {
             generateEntities(entity);
             generateRoutes(entity);
         }
-        duplicateCodeFromTemplateToFile(connectionTmp, this.file);
+        duplicateCodeFromTemplateToFile(connectionTmp, this.getPath());
         Boolean result = getConnectionCode();
-        Insertion.addImports(new File(this.file), new File(connectionImportTmp));
-        String pathToApplicationFile = getSrcPath(this.file) + File.separator + "Application.kt";
-        Insertion.insertCodeWithImportInFile(new File(this.file), new File(pathToApplicationFile), MAIN_FUN, "dataBaseConnection()");
+        Insertion.addImports(new File(this.getPath()), new File(connectionImportTmp));
+        String pathToApplicationFile = getSrcPath(this.getPath()) + File.separator + "Application.kt";
+        Insertion.insertCodeWithImportInFile(new File(this.getPath()), new File(pathToApplicationFile), MAIN_FUN, "dataBaseConnection()");
     }
     
     private Boolean generateRoutes(DBEntity entity) {
@@ -137,13 +138,13 @@ public class DataBaseFeature extends FeatureObject {
             for (StandardRoute standardRoute: entity.getRoute().getStandardRoutes()){
                 standardCode.append(generateStandardRouteCode(entity, standardRoute));
             }
-            duplicateCodeFromTemplateToFile(routeTmp, entity.getFile());
+            duplicateCodeFromTemplateToFile(routeTmp, entity.getPath());
             List<String> text = Arrays.asList(entity.getName(), entity.getName(), standardCode.toString());
             List<String> hash = Stream.of("dbRoutingApplicationName", "dbRoutingEntityNamePath", "dbStandardRoutingCode").map(DigestUtils::sha256Hex).collect(Collectors.toList());
-            replaceListTextByHash(entity.getFile(), hash, text);
-            Insertion.addImports(new File(entity.getFile()), new File(routeImprotTmp));
-            String pathToApplicationFile = getSrcPath(entity.getFile()) + File.separator + "Application.kt";
-            Insertion.insertCodeWithImportInFile(new File(entity.getFile()), new File(pathToApplicationFile), MAIN_FUN, entity.getName() + "Route()");
+            replaceListTextByHash(entity.getPath(), hash, text);
+            Insertion.addImports(new File(entity.getPath()), new File(routeImportTmp));
+            String pathToApplicationFile = getSrcPath(entity.getPath()) + File.separator + "Application.kt";
+            Insertion.insertCodeWithImportInFile(new File(entity.getPath()), new File(pathToApplicationFile), MAIN_FUN, entity.getName() + "Route()");
             Insertion.insertCodeWithImportInFile(new File(pathToApplicationFile), new File(pathToApplicationFile), MAIN_FUN, ContentNegotiation);
             
         }
@@ -193,9 +194,9 @@ public class DataBaseFeature extends FeatureObject {
     private Boolean generateEntities(DBEntity entity) {
         String entityCode = Arrays.asList(generateObject(entity), generateEntityClass(entity),
                 generateDataClass(entity)).stream().collect(Collectors.joining(System.lineSeparator()));
-        duplicateCodeFromTemplateToFile(entityAllCodeTmp, entity.getFile());
-        replaceTextByHash(entity.getFile(), DigestUtils.sha256Hex("entityAllCode"), entityCode);
-        Insertion.addImports(new File(entity.getFile()), new File(entityImportTmp));
+        duplicateCodeFromTemplateToFile(entityAllCodeTmp, entity.getPath());
+        replaceTextByHash(entity.getPath(), DigestUtils.sha256Hex("entityAllCode"), entityCode);
+        Insertion.addImports(new File(entity.getPath()), new File(entityImportTmp));
         return true;
     }
     
@@ -276,13 +277,13 @@ public class DataBaseFeature extends FeatureObject {
                 "db-feature-dbName", "db-feature-dbDriver", "db-feature-username", "db-feature-password", "db-feature-entitiesName");
         hash = hash.stream().map(DigestUtils::sha256Hex).collect(Collectors.toList());
         this.entities.stream()
-            .map(DBEntity::getFile)
+            .map(DBEntity::getPath)
             .collect(Collectors.toSet())
             .stream()
-            .forEach(it -> Insertion.insertDependency(new File(it), new File(this.file)));
+            .forEach(it -> Insertion.insertDependency(new File(it), new File(this.getPath())));
         List<String> text = Arrays.asList(this.type.getHost(), this.host, this.port, this.dbName, this.type.getDbDriver(), this.username,
                 this.password, this.getEntities().stream().map(it -> it.getName() + "Object").collect(Collectors.joining(", ")));
-        return replaceListTextByHash(this.file, hash, text);
+        return replaceListTextByHash(this.getPath(), hash, text);
     }
     
     @Override

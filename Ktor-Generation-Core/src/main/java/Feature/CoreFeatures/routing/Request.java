@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class Request {
     
     private  RequestType type;
-    private String path;
+    private String requestUrl;
     
     private List<String> hashList = Arrays.asList("requestPath", "requestType");
     
@@ -32,11 +32,11 @@ public class Request {
         this.type = type;
     }
     
-    public String getPath() {
-        return path;
+    public String getRequestUrl() {
+        return requestUrl;
     }
     
-    public void setPath(String path) {
-        this.path = path;
+    public void setRequestUrl(String requestUrl) {
+        this.requestUrl = requestUrl;
     }
 }

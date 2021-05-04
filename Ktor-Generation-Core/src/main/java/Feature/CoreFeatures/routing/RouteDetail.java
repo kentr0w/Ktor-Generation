@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RouteDetail {
-    private String path;
+    private String url;
     private List<Request> requests;
     private final List<String> hash = Arrays.asList("routePath", "requests");
     
@@ -25,11 +25,11 @@ public class RouteDetail {
         this.requests = requests;
     }
     
-    public String getPath() {
-        return path;
+    public String getUrl() {
+        return url;
     }
     
-    public void setPath(String path) {
-        this.path = path;
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

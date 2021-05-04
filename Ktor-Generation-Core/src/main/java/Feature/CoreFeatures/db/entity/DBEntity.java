@@ -3,17 +3,20 @@ package Feature.CoreFeatures.db.entity;
 import Copy.CustomLogger;
 import Copy.LogType;
 import Feature.CoreFeatures.db.entity.routes.Route;
-import Feature.CoreFeatures.routing.RouteDetail;
+import Feature.Logic.Feature;
+import Feature.Logic.FeatureObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class DBEntity {
     
     private String name;
-    private String file;
+    private String path;
     private PrimaryKey primaryKey;
     private String tableName;
     private List<EntityField> entityFields;
@@ -43,12 +46,23 @@ public class DBEntity {
         return importTmp;
     }
     
-    public String getFile() {
-        return file;
+    public String getPath() {
+        List<String> pathToFile = Feature.getInstance().getProjectPathFromGlobal();
+        List<String> missPartOfPath = new ArrayList<>();
+        if (!path.startsWith(pathToFile.stream().collect(Collectors.joining(File.separator)))) {
+            int count = 0;
+            while (count < pathToFile.size() && !path.startsWith(pathToFile.get(count))) {
+                missPartOfPath.add(pathToFile.get(count));
+                count++;
+            }
+        }
+        if (!missPartOfPath.isEmpty())
+            this.setPath(missPartOfPath.stream().collect(Collectors.joining(File.separator)) + File.separator + this.path);
+        return this.path;
     }
     
-    public void setFile(String file) {
-        this.file = file;
+    public void setPath(String path) {
+        this.path = path;
     }
     
     public String getTableName() {
@@ -111,48 +125,4 @@ public class DBEntity {
         return result;
     }
     
-    public void start() {
-        /*if (!this.entityFields.stream().map(EntityField::getVariableName).collect(Collectors.toList()).contains(this.primaryKey)) {
-            CustomLogger.writeLog(LogType.ERROR, "Primary key contains non-existent variable");
-            return;
-        }
-        StringBuilder variable = new StringBuilder();
-        for (EntityField field: entityFields) {
-            List<String> text = new ArrayList<>(Arrays.asList(field.getVariableName(), field.getType().getTypeCode(), field.getColumnName()));
-            if (field.getType().equals(EntityType.VARCHAR)) {
-                if (field.getLength() == null) {
-                    CustomLogger.writeLog(LogType.ERROR, this.name + " doesn't contain length for " + field.getColumnName());
-                    return;
-                }
-                else
-                    text.add("," + field.getLength());
-        
-            } else {
-                text.add("");
-            }
-            if(field.getFieldDetail() == null)
-                text.add("");
-            else
-                text.add(field.getAllDetails());
-            String codeWithOneOfField = getCodeAfterReplace(fieldTmp, field.getHash(), text) + System.lineSeparator();
-            variable.append(codeWithOneOfField);
-            CustomLogger.writeLog(LogType.INFO, field.getColumnName() + " was added to " + this.name);
-        }
-        if (duplicateCodeFromTemplateToFile(entityTmp, this.file))
-            CustomLogger.writeLog(LogType.INFO, "Entity code was duplicated");
-        else
-            CustomLogger.writeLog(LogType.ERROR, "Entity code wasn't duplicated");
-        if(Insertion.addImports(new File(this.file), new File(importTmp)))
-            CustomLogger.writeLog(LogType.INFO, "Import was added");
-        else
-            CustomLogger.writeLog(LogType.ERROR, "Import wasn't added");
-        List<String> hash = Stream.of("entityName", "tableName", "entityFields", "primaryKey").map(DigestUtils::sha256Hex).collect(Collectors.toList());
-        List<String> text = Arrays.asList(this.name, this.tableName, variable.toString(), this.primaryKey);
-        for (int i = 0; i < hash.size(); i++) {
-            if (replaceTextByHash(this.file, hash.get(i), text.get(i)))
-                CustomLogger.writeLog(LogType.INFO, "Hash of " + text.get(i) + " was replaced");
-            else
-                CustomLogger.writeLog(LogType.ERROR, "Hash of " + text.get(i) + " wasn't replaced");
-        }*/
-    }
 }
