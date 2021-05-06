@@ -125,6 +125,10 @@ public class DataBaseFeature extends FeatureObject {
     
     @Override
     public void start() {
+        if (!(new File(this.getPath()).exists())) {
+            CustomLogger.writeLog(LogType.ERROR, "Non-existent path to file");
+            return;
+        }
         for(DBEntity entity: this.entities) {
             generateEntities(entity);
             generateRoutes(entity);

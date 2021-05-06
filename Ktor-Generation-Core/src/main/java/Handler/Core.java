@@ -27,17 +27,13 @@ import static Constant.Constant.CONFIG_PATH;
 import static Constant.Constant.FILES_TREE_PATH;
 
 public class Core {
-    
-    private static final Logger logger = Logger.getLogger(Core.class);
+
     private FileReader fileReader;
 
     public Core() {
         InputStream featureConfigStream = findConfigFile("config.yaml", CONFIG_PATH);
         InputStream fileTreeConfigStream = findConfigFile("project.tr", FILES_TREE_PATH);
         this.fileReader = new FileReader(featureConfigStream, fileTreeConfigStream);
-        logger.info("Core was created");
-        logger.info("Path to configuration file isn't pass, will be use default: " + CONFIG_PATH);
-        logger.info("Path to files structure description isn't pass, will be use default: " + FILES_TREE_PATH);
     }
 
     private InputStream findConfigFile(String fileName, InputStream defaultValue) {
@@ -54,7 +50,6 @@ public class Core {
     }
     
     public Boolean start() {
-        logger.info("Starting to generate user's project");
         Project project = fileReader.readConfiguration();
         if (project == null) {
             // TODO How to pass information about error in config file to web?
@@ -68,7 +63,6 @@ public class Core {
         BuildToolGeneration buildGeneration = null;
         switch (global.getBuildType()) {
             case Gradle:
-                logger.info("Starting gradle");
                 buildGeneration = new GradleGeneration(newPath.toString());
                 break;
             case Maven:
@@ -93,13 +87,11 @@ public class Core {
         try {
             Set<PosixFilePermission> perms = PosixFilePermissions.fromString("rwxrwxrwx"); // TODO check on Windows!
             Path path = Files.createDirectories(Path.of(projectFolderPath), PosixFilePermissions.asFileAttribute(perms));
-            logger.info("Folder for users project was created: " + path.toString());
             CustomLogger.initPath(projectFolderPath);
             CustomLogger.writeLog(LogType.INFO, "Empty folder was created successfully");
             CustomLogger.writeLog(LogType.INFO, "Log file was created");
             return path;
         } catch (IOException exception) {
-            logger.error("Error to generate folder for users project");
             return null;
         }
     }

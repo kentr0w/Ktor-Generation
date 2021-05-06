@@ -7,11 +7,11 @@ import java.io.InputStream;
 
 public class FileReader {
     private ConfigReader configReader;
-    private ProjectReader projectReader;
+    private FileTreeReader fileTreeReader;
     
     public FileReader(InputStream configFeatureStream, InputStream configProjectStream) {
         this.configReader = new ConfigReader(configFeatureStream);
-        this.projectReader = new ProjectReader(configProjectStream);
+        this.fileTreeReader = new FileTreeReader(configProjectStream);
     }
     
     public Project readConfiguration() {
@@ -19,6 +19,6 @@ public class FileReader {
     }
     
     public Tree readProject() {
-        return this.projectReader.read();
+        return this.fileTreeReader.read();
     }
 }

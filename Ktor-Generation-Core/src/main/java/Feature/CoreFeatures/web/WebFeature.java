@@ -74,6 +74,10 @@ public class WebFeature extends FeatureObject {
 
     @Override
     public void start() {
+        if (!(new File(this.getPath()).exists())) {
+            CustomLogger.writeLog(LogType.ERROR, "Non-existent path to file");
+            return;
+        }
         CustomLogger.writeLog(LogType.INFO, "Starting to implement web-feature");
         if (!checkTemplateFiles()) {
             CustomLogger.writeLog(LogType.ERROR, "Web-feature won't be implemented");

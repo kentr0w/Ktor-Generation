@@ -92,6 +92,10 @@ public class SocketFeature extends FeatureObject {
     
     @Override
     public void start() {
+        if (!(new File(this.getPath()).exists())) {
+            CustomLogger.writeLog(LogType.ERROR, "Non-existent path to file");
+            return;
+        }
         List<String> hash = Stream.of("socketName", "socketPath", "socketAnswer", "socketCloseWord", "socketCloseMessage").map(DigestUtils::sha256Hex).collect(Collectors.toList());
         List<String> text = Arrays.asList(this.name, this.webPath, this.answer, this.closeWord, this.closeMessage);
         InputStream socketStream = SocketFeature.class.getClassLoader().getResourceAsStream(socketTmp);

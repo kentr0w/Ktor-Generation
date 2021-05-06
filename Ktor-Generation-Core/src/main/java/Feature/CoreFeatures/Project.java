@@ -13,15 +13,11 @@ import java.util.List;
 
 public class Project {
     
-    private static final Logger logger = Logger.getLogger(Project.class);
-    
     private Global global;
     private Features features;
     
-    public Project() {
-    
-    }
-    
+    public Project() {}
+
     public Features getFeatures() {
         return features;
     }
@@ -36,12 +32,6 @@ public class Project {
     
     public void setGlobal(Global global) {
         this.global = global;
-    }
-    
-    @Override
-    public String toString() {
-        return "Project{" +
-                '}';
     }
 
     public Boolean isFolderExist() {
