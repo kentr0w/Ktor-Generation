@@ -9,6 +9,8 @@ import Feature.Logic.FeatureObject;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -63,8 +65,13 @@ public class RoutingFeature extends FeatureObject {
         for (RouteDetail route: routeDetail) {
             StringBuilder allRequestsForOneRoute = new StringBuilder();
             for(Request request: route.getRequests()) {
-                List<String> text = Arrays.asList(request.getRequestUrl(), request.getType().name().toLowerCase(Locale.ROOT));
-                String codeAfterReplace = getCodeAfterReplace(requestTmp, request.getHashList(), text);
+                InputStream requestStream = RoutingFeature.class.getClassLoader().getResourceAsStream(requestTmp);
+                String codeAfterReplace = getCodeAfterReplace(requestStream, request.getHashList(), request.getTestList());
+                try {
+                    requestStream.close();
+                } catch (IOException exception) {
+                    CustomLogger.writeLog(LogType.ERROR, exception.getMessage());
+                }
                 if (codeAfterReplace == null) {
                     CustomLogger.writeLog(LogType.ERROR, "Couldn't create request " + request.getRequestUrl());
                 } else {
@@ -73,7 +80,13 @@ public class RoutingFeature extends FeatureObject {
                 }
             }
             List<String> text = Arrays.asList(route.getUrl(), allRequestsForOneRoute.toString());
-            String codeAfterReplace = getCodeAfterReplace(routeTmp, route.getHash() , text);
+            InputStream routeStream = RoutingFeature.class.getClassLoader().getResourceAsStream(routeTmp);
+            String codeAfterReplace = getCodeAfterReplace(routeStream, route.getHash() , text);
+            try {
+                routeStream.close();
+            } catch (IOException exception) {
+                CustomLogger.writeLog(LogType.ERROR, exception.getMessage());
+            }
             if (codeAfterReplace == null) {
                 CustomLogger.writeLog(LogType.ERROR, "Couldn't create route " + route.getUrl());
             } else {
@@ -81,11 +94,24 @@ public class RoutingFeature extends FeatureObject {
                 allRoutes.append(codeAfterReplace);
             }
         }
-        if(Insertion.addImports(new File(this.getPath()), new File(importTmp)))
+        InputStream importsStream = RoutingFeature.class.getClassLoader().getResourceAsStream(importTmp);
+        if(Insertion.addImports(new File(this.getPath()), importsStream)) {
             CustomLogger.writeLog(LogType.INFO, "Import was added");
-        else
+        } else {
             CustomLogger.writeLog(LogType.ERROR, "Import wasn't added");
-        Boolean isCodeCopy = duplicateCodeFromTemplateToFile(applicationTmp, this.getPath());
+        }
+        try{
+            importsStream.close();
+        } catch (IOException exception) {
+            CustomLogger.writeLog(LogType.ERROR, exception.getMessage());
+        }
+        InputStream applicationStream = RoutingFeature.class.getClassLoader().getResourceAsStream(applicationTmp);
+        Boolean isCodeCopy = duplicateCodeFromTemplateToFile(applicationStream, this.getPath());
+        try{
+            applicationStream.close();
+        } catch (Exception exception) {
+            CustomLogger.writeLog(LogType.ERROR, exception.getMessage());
+        }
         if (isCodeCopy) {
             Boolean isFeatureImplemented = replaceTextByHash(this.getPath(), DigestUtils.sha256Hex("routeName"), this.name)
                     && replaceTextByHash(this.getPath(), DigestUtils.sha256Hex("route"), allRoutes.toString());

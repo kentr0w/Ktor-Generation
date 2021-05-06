@@ -3,8 +3,8 @@ package Copy;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -33,14 +33,10 @@ public class Insertion {
         }
     }
     
-    public static Boolean addImports(File fileWithCode, File importFile) {
-        try{
-            String imports = Files.readString(Path.of(importFile.getPath()));
-            return insertCodeInNecessaryPlace(fileWithCode, "import ", imports);
-        } catch (IOException exception) {
-            exception.printStackTrace();
-            return false;
-        }
+    public static Boolean addImports(File fileWithCode, InputStream inputStream) {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+        String imports = bufferedReader.lines().collect(Collectors.joining(System.lineSeparator()));
+        return insertCodeInNecessaryPlace(fileWithCode, "import ", imports);
     }
     
     private static Boolean insertCodeInNecessaryPlace(File file, String lineAfterToInsert, String codeToInsert) {

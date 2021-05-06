@@ -3,13 +3,15 @@ package Reader;
 import Feature.CoreFeatures.Project;
 import Generation.Project.Tree;
 
+import java.io.InputStream;
+
 public class FileReader {
     private ConfigReader configReader;
     private ProjectReader projectReader;
     
-    public FileReader(String configPath, String projectPath) {
-        this.configReader = new ConfigReader(configPath);
-        this.projectReader = new ProjectReader(projectPath);
+    public FileReader(InputStream configFeatureStream, InputStream configProjectStream) {
+        this.configReader = new ConfigReader(configFeatureStream);
+        this.projectReader = new ProjectReader(configProjectStream);
     }
     
     public Project readConfiguration() {

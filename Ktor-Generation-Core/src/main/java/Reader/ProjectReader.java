@@ -2,26 +2,21 @@ package Reader;
 
 import Copy.CustomLogger;
 import Copy.LogType;
-import Copy.Replication;
 import Generation.Project.Node;
 import Generation.Project.Tree;
 
-import java.io.BufferedReader;
-import java.io.File;
+import java.io.*;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class ProjectReader {
     
     private Tree tree;
     private List<Integer> levels;
-    private String projectFilePath;
+    private InputStream configProjectStream;
     
-    public ProjectReader(String projectFilePath) {
-        this.projectFilePath = projectFilePath;
+    public ProjectReader(InputStream configProjectStream) {
+        this.configProjectStream = configProjectStream;
         this.tree = new Tree();
         this.levels = new ArrayList<>();
     }
@@ -30,7 +25,7 @@ public class ProjectReader {
         CustomLogger.writeLog(LogType.INFO, "Starting to read project structure");
         BufferedReader reader;
         try {
-            reader = new BufferedReader(new FileReader(this.projectFilePath));
+            reader = new BufferedReader(new InputStreamReader(this.configProjectStream));
             String line = reader.readLine();
             while (line != null) {
                 Node node = new Node(line);

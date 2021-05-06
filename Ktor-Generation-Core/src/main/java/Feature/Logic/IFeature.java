@@ -2,8 +2,8 @@ package Feature.Logic;
 
 import org.apache.commons.io.FileUtils;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -35,10 +35,11 @@ public interface IFeature {
         return answer;
     }
     
-    public default Boolean duplicateCodeFromTemplateToFile(String pathToCodeTmp, String resultFile) {
+    public default Boolean duplicateCodeFromTemplateToFile(InputStream inputStream, String resultFile) {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+        String fileText = bufferedReader.lines().collect(Collectors.joining(System.lineSeparator()));
         try{
-            byte[] code = Files.readAllBytes(Path.of(pathToCodeTmp));
-            Files.write(Path.of(resultFile), code, StandardOpenOption.APPEND);
+            Files.write(Path.of(resultFile), fileText.getBytes(), StandardOpenOption.APPEND);
             return true;
         } catch (IOException exception) {
             exception.printStackTrace();
@@ -46,17 +47,13 @@ public interface IFeature {
         }
     }
     
-    public default String getCodeAfterReplace(String pathToTemplate, List<String> hash, List<String> text) {
-        try {
-            String fileText = FileUtils.readFileToString(new File(pathToTemplate), "UTF-8");
-            for (int i = 0; i < hash.size(); i++) {
-                fileText = fileText.replace(hash.get(i), text.get(i));
-            }
-            return fileText;
-        } catch (IOException exception) {
-            exception.printStackTrace();
-            return null;
+    public default String getCodeAfterReplace(InputStream inputStream, List<String> hash, List<String> text) {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+        String fileText = bufferedReader.lines().collect(Collectors.joining(System.lineSeparator()));
+        for (int i = 0; i < hash.size(); i++) {
+            fileText = fileText.replace(hash.get(i), text.get(i));
         }
+        return fileText;
     }
     
     public default String getSrcPath(String path) {

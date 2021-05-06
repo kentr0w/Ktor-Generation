@@ -1,0 +1,4 @@
+logback_version=1.2.1
+ktor_version=12f45d4fc38fbb769c002ea7a4a862b178af8737fbb913b71964536f18f348a1
+kotlin.code.style=official
+kotlin_version=76df2fb2185aa38a7e81929c6f8a5f8d5f8ae64138069ec69905851aa2d34e79

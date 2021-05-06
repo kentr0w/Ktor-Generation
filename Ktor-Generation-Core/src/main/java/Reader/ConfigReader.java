@@ -5,21 +5,22 @@ import Feature.CoreFeatures.Project;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.apache.log4j.Logger;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 public class ConfigReader {
 
     private static final Logger logger = Logger.getLogger(ConfigReader.class);
-    private String configPath;
+    private InputStream configFeatureStream;
     private ObjectMapper mapper;
 
-    public String getConfigPath() {
-        return configPath;
+    public InputStream getConfigFeatureStream() {
+        return configFeatureStream;
     }
     
-    public void setConfigPath(String configPath) { this.configPath = configPath; }
+    public void setConfigFeatureStream(InputStream configFeatureStream) { this.configFeatureStream = configFeatureStream; }
     
     public ObjectMapper getMapper() {
         return mapper;
@@ -29,16 +30,16 @@ public class ConfigReader {
         this.mapper = mapper;
     }
     
-    public ConfigReader(String configPath) {
-        this.configPath = configPath;
+    public ConfigReader(InputStream configFeatureStream) {
+        this.configFeatureStream = configFeatureStream;
         mapper = new ObjectMapper(new YAMLFactory());
     }
     
     public Project read() {
-        //mapper.findAndRegisterModules();
         logger.info("Starting to read configuration file");
         try {
-            Project resultProject = mapper.readValue(new File(configPath), Project.class);
+            Yaml yaml = new Yaml(new Constructor(Project.class));
+            Project resultProject = yaml.load(this.configFeatureStream);
             Global global = resultProject.getGlobal();
             logger.info("Configuration file was read");
             if (global.getProjectName() != null || global.getFolder() != null) {
@@ -49,7 +50,7 @@ public class ConfigReader {
                 logger.info("The project name or project folder isn't specified in the file");
                 return null;
             }
-        } catch (IOException exception) {
+        } catch (Exception exception) {
             exception.printStackTrace();
             logger.error("Error with configuration file");
             return null;

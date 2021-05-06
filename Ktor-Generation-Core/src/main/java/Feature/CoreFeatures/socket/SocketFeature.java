@@ -1,11 +1,15 @@
 package Feature.CoreFeatures.socket;
 
+import Copy.CustomLogger;
 import Copy.Insertion;
+import Copy.LogType;
 import Feature.Logic.Feature;
 import Feature.Logic.FeatureObject;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -90,9 +94,21 @@ public class SocketFeature extends FeatureObject {
     public void start() {
         List<String> hash = Stream.of("socketName", "socketPath", "socketAnswer", "socketCloseWord", "socketCloseMessage").map(DigestUtils::sha256Hex).collect(Collectors.toList());
         List<String> text = Arrays.asList(this.name, this.webPath, this.answer, this.closeWord, this.closeMessage);
-        duplicateCodeFromTemplateToFile(socketTmp, this.getPath());
+        InputStream socketStream = SocketFeature.class.getClassLoader().getResourceAsStream(socketTmp);
+        duplicateCodeFromTemplateToFile(socketStream, this.getPath());
+        try {
+            socketStream.close();
+        } catch (IOException exception) {
+            CustomLogger.writeLog(LogType.ERROR, exception.getMessage());
+        }
         replaceListTextByHash(this.getPath(), hash, text);
-        Insertion.addImports(new File(this.getPath()), new File(importTmp));
+        InputStream socketImportsStream = SocketFeature.class.getClassLoader().getResourceAsStream(importTmp);
+        Insertion.addImports(new File(this.getPath()), socketImportsStream);
+        try {
+            socketImportsStream.close();
+        } catch (IOException exception) {
+            CustomLogger.writeLog(LogType.ERROR, exception.getMessage());
+        }
         String pathToApplicationFile = getSrcPath(this.getPath()) + File.separator + "Application.kt";
         Insertion.insertCodeWithImportInFile(new File(this.getPath()), new File(pathToApplicationFile), MAIN_FUN, this.name + "()");
     }
