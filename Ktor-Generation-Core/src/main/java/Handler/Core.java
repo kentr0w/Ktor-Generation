@@ -12,9 +12,10 @@ import Generation.BuildTool.Gradle.GradleGeneration;
 import Generation.BuildTool.Maven.MavenGeneration;
 import Generation.Project.FileTreeGeneration;
 import Reader.FileReader;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.log4j.Logger;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.PosixFilePermission;
@@ -29,19 +30,27 @@ public class Core {
     
     private static final Logger logger = Logger.getLogger(Core.class);
     private FileReader fileReader;
-    
-    /*public Core(String configPath, String filesTreePath) {
-        this.fileReader = new FileReader(configPath, filesTreePath);
-        logger.info("Core was created");
-        logger.info("Path to configuration file is: " + configPath);
-        logger.info("Path to files structure description is: " + filesTreePath);
-    }*/
 
     public Core() {
-        this.fileReader = new FileReader(CONFIG_PATH, FILES_TREE_PATH);
+        InputStream featureConfigStream = findConfigFile("config.yaml", CONFIG_PATH);
+        InputStream fileTreeConfigStream = findConfigFile("project.tr", FILES_TREE_PATH);
+        this.fileReader = new FileReader(featureConfigStream, fileTreeConfigStream);
         logger.info("Core was created");
         logger.info("Path to configuration file isn't pass, will be use default: " + CONFIG_PATH);
         logger.info("Path to files structure description isn't pass, will be use default: " + FILES_TREE_PATH);
+    }
+
+    private InputStream findConfigFile(String fileName, InputStream defaultValue) {
+        InputStream configFileStream = defaultValue;
+        File configFile = new File(fileName);
+        if (configFile.exists()) {
+            try {
+                configFileStream = new FileInputStream(configFile);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return configFileStream;
     }
     
     public Boolean start() {
