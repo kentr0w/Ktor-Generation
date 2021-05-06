@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'application'
+    id 'idea'
 }
 
 group 'org.example'
@@ -9,15 +11,37 @@ repositories {
     mavenCentral()
 }
 
+sourceSets {
+    main {
+        resources {
+            srcDirs "src/main/resources", "src/main/java"
+        }
+    }
+}
+
 dependencies {
-    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.12.2'
-    implementation 'org.apache.commons:commons-lang3:3.0'
-    implementation 'commons-io:commons-io:2.6'
-    implementation 'commons-codec:commons-codec:1.15'
-    implementation 'log4j:log4j:1.2.17'
+    compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.12.2'
+    compile 'org.apache.commons:commons-lang3:3.0'
+    compile 'commons-io:commons-io:2.6'
+    compile 'commons-codec:commons-codec:1.15'
+    compile 'log4j:log4j:1.2.17'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+jar {
+    manifest {
+        attributes (
+                'Main-Class': 'Main',
+                'Class-Path': configurations.runtime.files.collect { "lib/$it.name" }.join(' '),
+                'Implementation-Version': project.version
+        )
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
 
 test {

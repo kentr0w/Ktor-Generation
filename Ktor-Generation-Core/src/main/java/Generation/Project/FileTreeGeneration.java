@@ -3,25 +3,30 @@ package Generation.Project;
 import Copy.CustomLogger;
 import Copy.LogType;
 import Copy.Replication;
+import Generation.BuildTool.Gradle.GradleGeneration;
 import Reader.FileReader;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class ProjectGeneration {
+import static Constant.Constant.*;
+
+public class FileTreeGeneration {
     
     private Tree tree;
     private String projectFolder;
     
-    public ProjectGeneration(FileReader fileReader, String projectFolder) {
+    public FileTreeGeneration(Tree tree, String projectFolder) {
         CustomLogger.writeLog(LogType.INFO, "Starting to generate project structure");
-        this.tree = fileReader.readProject();
+        this.tree = tree;
         this.projectFolder = projectFolder;
     }
     
@@ -30,6 +35,7 @@ public class ProjectGeneration {
             CustomLogger.writeLog(LogType.INFO, "Project structure wasn't presented");
             return false;
         }
+        Boolean isSourcesGenerated = generateResources() & generateSRC();
         Node root = this.tree.getRoot();
         root.setName(projectFolder + File.separator + root.getName());
         Queue<Node> queue = new LinkedList<>();
@@ -53,7 +59,7 @@ public class ProjectGeneration {
                 }
             });
         }
-        return result[0];
+        return result[0] && isSourcesGenerated;
     }
     
     private Boolean createFile(Node root, Node node) {
@@ -76,7 +82,7 @@ public class ProjectGeneration {
         return pathPart.stream().collect(Collectors.joining(File.separator));
     }
     
-    public Boolean insertPackageInsKtFiles(String group) {
+    public Boolean insertPackageInKtFiles(String group) {
         String startPath = this.tree.getRoot().getName();
         try{
             Files
@@ -124,5 +130,38 @@ public class ProjectGeneration {
             realPackage = "." + realPackage;
         realPackage += StringUtils.repeat(System.lineSeparator(), 2); // two line to correct input import
         return realPackage;
+    }
+    
+    private Boolean generateResources() {
+        CustomLogger.writeLog(LogType.INFO, "Starting copied resources folder");
+        return generateSourceFiles("resources", Stream.of("application.conf.tmp", "logback.xml.tmp"), RESOURCES_BUILD);
+    }
+    
+    
+    private Boolean generateSRC() {
+        CustomLogger.writeLog(LogType.INFO, "Starting copied src folder");
+        return generateSourceFiles("src", Stream.of("Application.kt.tmp"), SRC_BUILD);
+    }
+    
+    private Boolean generateSourceFiles(String folder, Stream<String> stream, String templates) {
+        File file = new File(projectFolder + File.separator + folder);
+        if (!file.exists())
+            file.mkdirs();
+        final Boolean[] isCopySuccessful = {true};
+        stream.forEach(it -> {
+            InputStream resourceAsStream = FileTreeGeneration.class.getClassLoader().getResourceAsStream(templates + it);
+            isCopySuccessful[0] = Replication.copyInputStream(resourceAsStream, file.getPath(), it) && isCopySuccessful[0];
+            try {
+                resourceAsStream.close();
+            } catch (IOException exception) {
+                CustomLogger.writeLog(LogType.ERROR, exception.getMessage());
+            }
+        });
+        if (isCopySuccessful[0]) {
+            CustomLogger.writeLog(LogType.INFO, folder + " files was created successfully ");
+        } else {
+            CustomLogger.writeLog(LogType.ERROR, "Error with " + folder + " files creation");
+        }
+        return isCopySuccessful[0];
     }
 }

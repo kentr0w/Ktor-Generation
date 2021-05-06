@@ -1,7 +1,8 @@
 package Copy;
 
-import java.io.File;
-import java.io.IOException;
+import org.apache.commons.io.FileUtils;
+
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -48,6 +49,21 @@ public class Replication {
             CustomLogger.writeLog(LogType.ERROR, exception.getMessage());
             return false;
         }
+    }
+    
+    public static Boolean copyInputStream(InputStream inputStream, String pathToFolderToCopy, String fileNameToCopy){
+        try {
+            String filePathWithoutSuffix = fileNameToCopy;
+            filePathWithoutSuffix = filePathWithoutSuffix.substring(0, filePathWithoutSuffix.indexOf(".tmp"));
+            File newFile = new File(pathToFolderToCopy + File.separator + filePathWithoutSuffix);
+            if (!newFile.exists())
+                newFile.createNewFile();
+            FileUtils.copyInputStreamToFile(inputStream, newFile);
+            CustomLogger.writeLog(LogType.INFO, "Copied " + filePathWithoutSuffix + " to folder");
+        } catch (IOException exception) {
+            CustomLogger.writeLog(LogType.ERROR, "Error with copied file to folder" + exception.getMessage());
+        }
+        return true;
     }
     
     public static Boolean generateSrc(String path, Boolean isDir) {

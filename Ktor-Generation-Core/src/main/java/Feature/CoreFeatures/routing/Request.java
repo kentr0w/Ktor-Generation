@@ -5,6 +5,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class Request {
@@ -14,10 +15,15 @@ public class Request {
     
     private List<String> hashList = Arrays.asList("requestPath", "requestType");
     
+    
     public Request() {}
     
     public List<String> getHashList() {
         return hashList.stream().map(hash -> DigestUtils.sha256Hex(hash)).collect(Collectors.toList());
+    }
+    
+    public List<String> getTestList() {
+        return Arrays.asList(this.requestUrl, this.getType().name().toLowerCase(Locale.ROOT));
     }
     
     public void setHashList(List<String> hashList) {

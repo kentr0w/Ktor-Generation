@@ -1,0 +1,9 @@
+
+post("/save390f99909134bb64ac61667dd8ab18d41c1591dbcf84e9ecfc8da4e4439dca28") {
+    val 3989d62bfafc94b91c7b6140f27e8c92963f932efb2516a321b5ba4f1e5c192bdataclass = call.receive<390f99909134bb64ac61667dd8ab18d41c1591dbcf84e9ecfc8da4e4439dca28DataClass>()
+    transaction {
+        390f99909134bb64ac61667dd8ab18d41c1591dbcf84e9ecfc8da4e4439dca28Entity.new {
+            f01838afd0ba9f7c8c85412c29a21bc045e1a46f5bdf1006901e44ebd2d9314c
+        }
+    }
+}

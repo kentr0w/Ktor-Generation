@@ -1,0 +1,8 @@
+
+fun Application.37f1703821c2f5edbf0b0e5d1653148a65c9ba15bbc96701ec5f117670da9f98Route() {
+    routing {
+        route("/6781e3991ba47720cc2a0ca4035a0ff0c1e899c59492fa751dd1d58665f413ed") {
+            c3ce72d83edb1577a51b607ec3ee014e3af674d939e0f08ecede9d46c4ec9ed7
+        }
+    }
+}

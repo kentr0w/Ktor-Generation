@@ -10,6 +10,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.PosixFilePermission;
@@ -82,20 +83,44 @@ public class WebFeature extends FeatureObject {
         for(WebResource resource: this.resources) {
             resource.setResource("template" + File.separator + resource.getResource());
             List<String> text = Arrays.asList(resource.getRemotePath(), resource.getResource());
-            code.append(getCodeAfterReplace(webTmpRes, resource.getHash(), text));
+            InputStream webResourceStream = WebFeature.class.getClassLoader().getResourceAsStream(webTmpRes);
+            code.append(getCodeAfterReplace(webResourceStream, resource.getHash(), text));
+            try {
+                webResourceStream.close();
+            } catch (IOException exception) {
+                CustomLogger.writeLog(LogType.ERROR, exception.getMessage());
+            }
         }
-        if (duplicateCodeFromTemplateToFile(webTmpCode, this.getPath())) {
+        InputStream webCodeStream = WebFeature.class.getClassLoader().getResourceAsStream(webTmpCode);
+        Boolean isDuplicated = duplicateCodeFromTemplateToFile(webCodeStream, this.getPath());
+        try {
+            webCodeStream.close();
+        } catch (IOException exception) {
+            CustomLogger.writeLog(LogType.ERROR, exception.getMessage());
+        }
+        if (isDuplicated) {
             CustomLogger.writeLog(LogType.INFO, "Web feature's code was duplicated");
             List<String> hash = Stream.of("webName", "webStatic").map(DigestUtils::sha256Hex).collect(Collectors.toList());
             List<String> text = Arrays.asList(this.name, code.toString());
-            if (replaceListTextByHash(this.getPath(), hash, text))
+            
+            if (replaceListTextByHash(this.getPath(), hash, text)) {
                 CustomLogger.writeLog(LogType.INFO, "Hash was replaced in web-feature");
-            else
+            } else {
                 CustomLogger.writeLog(LogType.ERROR, "Hash wasn't correct replaces in web-feature");
-            if(Insertion.addImports(new File(this.getPath()), new File(webImports)))
+            }
+            
+            InputStream webImportsStream = WebFeature.class.getClassLoader().getResourceAsStream(webImports);
+            if(Insertion.addImports(new File(this.getPath()), webImportsStream)) {
                 CustomLogger.writeLog(LogType.INFO, "Import was added");
-            else
+            } else {
                 CustomLogger.writeLog(LogType.ERROR, "Import wasn't added");
+            }
+            try {
+                webImportsStream.close();
+            } catch (IOException exception) {
+                CustomLogger.writeLog(LogType.ERROR, exception.getMessage());
+            }
+            
             String pathToApplicationFile = getSrcPath(this.getPath()) + File.separator + "Application.kt";
             if (Insertion.insertCodeWithImportInFile(new File(this.getPath()), new File(pathToApplicationFile), MAIN_FUN, this.name + "()")) {
                 CustomLogger.writeLog(LogType.INFO, "Added web-feature to main");
