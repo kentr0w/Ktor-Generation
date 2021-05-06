@@ -6,17 +6,17 @@ import Generation.Project.Node;
 import Generation.Project.Tree;
 
 import java.io.*;
-import java.io.FileReader;
 import java.util.*;
+import java.util.stream.Collectors;
 
-public class ProjectReader {
+public class FileTreeReader {
     
     private Tree tree;
     private List<Integer> levels;
-    private InputStream configProjectStream;
+    private InputStream fileTreeConfigStream;
     
-    public ProjectReader(InputStream configProjectStream) {
-        this.configProjectStream = configProjectStream;
+    public FileTreeReader(InputStream fileTreeConfigStream) {
+        this.fileTreeConfigStream = fileTreeConfigStream;
         this.tree = new Tree();
         this.levels = new ArrayList<>();
     }
@@ -25,7 +25,7 @@ public class ProjectReader {
         CustomLogger.writeLog(LogType.INFO, "Starting to read project structure");
         BufferedReader reader;
         try {
-            reader = new BufferedReader(new InputStreamReader(this.configProjectStream));
+            reader = new BufferedReader(new InputStreamReader(this.fileTreeConfigStream));
             String line = reader.readLine();
             while (line != null) {
                 Node node = new Node(line);
@@ -41,8 +41,7 @@ public class ProjectReader {
         if (isFileCorrect()) {
             CustomLogger.writeLog(LogType.INFO, "File was read successfully");
             return this.tree;
-        }
-        else {
+        } else {
             CustomLogger.writeLog(LogType.ERROR, "File with project file description contains error");
             return null;
         }
@@ -54,7 +53,14 @@ public class ProjectReader {
             result = (levels.get(i) - 1 == levels.get(i-1) || levels.get(i) <= levels.get(i-1)) && result;
         }
         result = this.levels.stream().filter(it -> it.equals(0)).count() == 1L && result;
-        result = this.tree.getRoot().getName().equals("src") && result;
+        Boolean isApplicationFile = this.tree.getRoot()
+                .getChildren()
+                .stream()
+                .filter(it -> !it.getDir())
+                .map(Node::getName)
+                .collect(Collectors.toList())
+                .contains("Application,kt");
+        result = this.tree.getRoot().getName().equals("src") && result && isApplicationFile;
         return result;
     }
 }

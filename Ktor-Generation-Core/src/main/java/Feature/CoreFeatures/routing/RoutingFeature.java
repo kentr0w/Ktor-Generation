@@ -60,6 +60,10 @@ public class RoutingFeature extends FeatureObject {
     
     @Override
     public void start() {
+        if (!(new File(this.getPath()).exists())) {
+            CustomLogger.writeLog(LogType.ERROR, "Non-existent path to file");
+            return;
+        }
         CustomLogger.writeLog(LogType.INFO, "Starting implement " + this.name + " route");
         StringBuilder allRoutes = new StringBuilder();
         for (RouteDetail route: routeDetail) {
