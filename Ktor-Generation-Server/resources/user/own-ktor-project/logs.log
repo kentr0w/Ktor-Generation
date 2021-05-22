@@ -1,0 +1,413 @@
+2021/05/22 13:43:46: INFO: Empty folder was created successfully
+2021/05/22 13:43:46: INFO: Log file was created
+2021/05/22 13:43:46: INFO: Starting to generate gradle's files
+2021/05/22 13:43:46: INFO: Copied build.gradle to folder
+2021/05/22 13:43:46: INFO: Copied gradle.properties to folder
+2021/05/22 13:43:46: INFO: Copied settings.gradle to folder
+2021/05/22 13:43:46: INFO: Gradle's files was created successfully
+2021/05/22 13:43:46: INFO: Starting to read project structure
+2021/05/22 13:43:46: INFO: File was read successfully
+2021/05/22 13:43:46: INFO: Starting to generate project structure
+2021/05/22 13:43:46: INFO: Starting copied resources folder
+2021/05/22 13:43:46: INFO: Copied application.conf to folder
+2021/05/22 13:43:46: INFO: Copied logback.xml to folder
+2021/05/22 13:43:46: INFO: resources files was created successfully 
+2021/05/22 13:43:46: INFO: Starting copied src folder
+2021/05/22 13:43:46: INFO: Copied Application.kt to folder
+2021/05/22 13:43:46: INFO: src files was created successfully 
+2021/05/22 13:43:46: INFO: user/own-ktor-project/src file was created
+2021/05/22 13:43:46: INFO: controllers file was created
+2021/05/22 13:43:46: INFO: hehe.kt file was created
+2021/05/22 13:43:46: INFO: Application.kt file was created
+2021/05/22 13:43:46: INFO: Hello.kt file was created
+2021/05/22 13:43:46: INFO: Wrote package in user/own-ktor-project/src/controllers/Hello.kt file
+2021/05/22 13:43:46: INFO: Wrote package in user/own-ktor-project/src/hehe.kt file
+2021/05/22 13:43:46: INFO: Starting to implement all features
+2021/05/22 13:43:46: INFO: Starting to add major information
+2021/05/22 13:43:46: INFO: Add `group` to user/own-ktor-project/resources/application.conf
+2021/05/22 13:43:46: INFO: Information was added
+2021/05/22 13:43:46: INFO: Add `port` to user/own-ktor-project/resources/application.conf
+2021/05/22 13:43:46: INFO: Information was added
+2021/05/22 13:43:46: INFO: Add `group` to user/own-ktor-project/src/Application.kt
+2021/05/22 13:43:46: INFO: Information was added
+2021/05/22 13:43:46: INFO: Add `projectName` to user/own-ktor-project/settings.gradle
+2021/05/22 13:43:46: INFO: Information was added
+2021/05/22 13:43:46: INFO: Add `group` to user/own-ktor-project/build.gradle
+2021/05/22 13:43:46: INFO: Information was added
+2021/05/22 13:43:46: INFO: Add `version` to user/own-ktor-project/build.gradle
+2021/05/22 13:43:46: INFO: Information was added
+2021/05/22 13:43:46: INFO: Add `ktorVersion` to user/own-ktor-project/gradle.properties
+2021/05/22 13:43:46: INFO: Information was added
+2021/05/22 13:43:46: INFO: Add `kotlinVersion` to user/own-ktor-project/gradle.properties
+2021/05/22 13:43:46: INFO: Information was added
+2021/05/22 13:43:46: INFO: Starting implement Car route
+2021/05/22 13:43:46: INFO: Created request /getCar
+2021/05/22 13:43:46: INFO: Created request /saveCar
+2021/05/22 13:43:46: INFO: Create route /car
+2021/05/22 13:43:46: INFO: Created request getCar
+2021/05/22 13:43:46: INFO: Create route /electro
+2021/05/22 13:43:46: INFO: Import was added
+2021/05/22 13:43:46: INFO: Routing feature implemented
+2021/05/22 13:43:46: INFO: Import was addedimport com.example.controllers.*
+2021/05/22 13:43:46: INFO: Added route to main
+2021/05/22 13:43:46: INFO: Starting to implement web-feature
+2021/05/22 13:43:46: ERROR: 
+2021/05/22 13:43:46: ERROR: Web-feature won't be implemented
+2021/05/22 13:43:46: INFO: Import was addedimport com.example.controllers.*
+2021/05/22 13:43:46: INFO: Import was addedimport com.example.controllers.*
+2021/05/22 13:43:46: INFO: Import was addedimport com.example.*
+2021/05/22 13:43:46: INFO: Import was addedimport com.example.*
+2021/05/22 13:45:09: INFO: Empty folder was created successfully
+2021/05/22 13:45:09: INFO: Log file was created
+2021/05/22 13:45:09: INFO: Starting to generate gradle's files
+2021/05/22 13:45:09: INFO: Copied build.gradle to folder
+2021/05/22 13:45:09: INFO: Copied gradle.properties to folder
+2021/05/22 13:45:09: INFO: Copied settings.gradle to folder
+2021/05/22 13:45:09: INFO: Gradle's files was created successfully
+2021/05/22 13:45:09: INFO: Starting to read project structure
+2021/05/22 13:45:09: INFO: File was read successfully
+2021/05/22 13:45:09: INFO: Starting to generate project structure
+2021/05/22 13:45:09: INFO: Starting copied resources folder
+2021/05/22 13:45:09: INFO: Copied application.conf to folder
+2021/05/22 13:45:09: INFO: Copied logback.xml to folder
+2021/05/22 13:45:09: INFO: resources files was created successfully 
+2021/05/22 13:45:09: INFO: Starting copied src folder
+2021/05/22 13:45:09: INFO: Copied Application.kt to folder
+2021/05/22 13:45:09: INFO: src files was created successfully 
+2021/05/22 13:45:09: INFO: user/own-ktor-project/src file was created
+2021/05/22 13:45:09: INFO: controllers file was created
+2021/05/22 13:45:09: INFO: hehe.kt file was created
+2021/05/22 13:45:09: INFO: Application.kt file was created
+2021/05/22 13:45:09: INFO: Hello.kt file was created
+2021/05/22 13:45:09: INFO: Wrote package in user/own-ktor-project/src/controllers/Hello.kt file
+2021/05/22 13:45:09: INFO: Wrote package in user/own-ktor-project/src/hehe.kt file
+2021/05/22 13:45:09: INFO: Starting to implement all features
+2021/05/22 13:45:09: INFO: Starting to add major information
+2021/05/22 13:45:09: INFO: Add `group` to user/own-ktor-project/resources/application.conf
+2021/05/22 13:45:09: INFO: Information was added
+2021/05/22 13:45:09: INFO: Add `port` to user/own-ktor-project/resources/application.conf
+2021/05/22 13:45:09: INFO: Information was added
+2021/05/22 13:45:09: INFO: Add `group` to user/own-ktor-project/src/Application.kt
+2021/05/22 13:45:09: INFO: Information was added
+2021/05/22 13:45:09: INFO: Add `projectName` to user/own-ktor-project/settings.gradle
+2021/05/22 13:45:09: INFO: Information was added
+2021/05/22 13:45:09: INFO: Add `group` to user/own-ktor-project/build.gradle
+2021/05/22 13:45:09: INFO: Information was added
+2021/05/22 13:45:09: INFO: Add `version` to user/own-ktor-project/build.gradle
+2021/05/22 13:45:09: INFO: Information was added
+2021/05/22 13:45:09: INFO: Add `ktorVersion` to user/own-ktor-project/gradle.properties
+2021/05/22 13:45:09: INFO: Information was added
+2021/05/22 13:45:09: INFO: Add `kotlinVersion` to user/own-ktor-project/gradle.properties
+2021/05/22 13:45:09: INFO: Information was added
+2021/05/22 13:45:09: INFO: Starting implement Car route
+2021/05/22 13:45:09: INFO: Created request /getCar
+2021/05/22 13:45:09: INFO: Created request /saveCar
+2021/05/22 13:45:09: INFO: Create route /car
+2021/05/22 13:45:09: INFO: Created request getCar
+2021/05/22 13:45:09: INFO: Create route /electro
+2021/05/22 13:45:09: INFO: Import was added
+2021/05/22 13:45:09: INFO: Routing feature implemented
+2021/05/22 13:45:09: INFO: Import was addedimport com.example.controllers.*
+2021/05/22 13:45:09: INFO: Added route to main
+2021/05/22 13:45:09: INFO: Starting to implement web-feature
+2021/05/22 13:45:09: ERROR: 
+2021/05/22 13:45:09: ERROR: Web-feature won't be implemented
+2021/05/22 13:45:09: INFO: Import was addedimport com.example.controllers.*
+2021/05/22 13:45:09: INFO: Import was addedimport com.example.controllers.*
+2021/05/22 13:45:09: INFO: Import was addedimport com.example.*
+2021/05/22 13:45:09: INFO: Import was addedimport com.example.*
+2021/05/22 13:45:11: INFO: Empty folder was created successfully
+2021/05/22 13:45:11: INFO: Log file was created
+2021/05/22 13:45:11: INFO: Starting to generate gradle's files
+2021/05/22 13:45:11: INFO: Copied build.gradle to folder
+2021/05/22 13:45:11: INFO: Copied gradle.properties to folder
+2021/05/22 13:45:11: INFO: Copied settings.gradle to folder
+2021/05/22 13:45:11: INFO: Gradle's files was created successfully
+2021/05/22 13:45:11: INFO: Starting to read project structure
+2021/05/22 13:45:11: INFO: File was read successfully
+2021/05/22 13:45:11: INFO: Starting to generate project structure
+2021/05/22 13:45:11: INFO: Starting copied resources folder
+2021/05/22 13:45:11: INFO: Copied application.conf to folder
+2021/05/22 13:45:11: INFO: Copied logback.xml to folder
+2021/05/22 13:45:11: INFO: resources files was created successfully 
+2021/05/22 13:45:11: INFO: Starting copied src folder
+2021/05/22 13:45:11: INFO: Copied Application.kt to folder
+2021/05/22 13:45:11: INFO: src files was created successfully 
+2021/05/22 13:45:11: INFO: user/own-ktor-project/src file was created
+2021/05/22 13:45:11: INFO: controllers file was created
+2021/05/22 13:45:11: INFO: hehe.kt file was created
+2021/05/22 13:45:11: INFO: Application.kt file was created
+2021/05/22 13:45:11: INFO: Hello.kt file was created
+2021/05/22 13:45:11: INFO: Wrote package in user/own-ktor-project/src/controllers/Hello.kt file
+2021/05/22 13:45:11: INFO: Wrote package in user/own-ktor-project/src/hehe.kt file
+2021/05/22 13:45:11: INFO: Starting to implement all features
+2021/05/22 13:45:11: INFO: Starting to add major information
+2021/05/22 13:45:11: INFO: Add `group` to user/own-ktor-project/resources/application.conf
+2021/05/22 13:45:11: INFO: Information was added
+2021/05/22 13:45:11: INFO: Add `port` to user/own-ktor-project/resources/application.conf
+2021/05/22 13:45:11: INFO: Information was added
+2021/05/22 13:45:11: INFO: Add `group` to user/own-ktor-project/src/Application.kt
+2021/05/22 13:45:11: INFO: Information was added
+2021/05/22 13:45:11: INFO: Add `projectName` to user/own-ktor-project/settings.gradle
+2021/05/22 13:45:11: INFO: Information was added
+2021/05/22 13:45:11: INFO: Add `group` to user/own-ktor-project/build.gradle
+2021/05/22 13:45:11: INFO: Information was added
+2021/05/22 13:45:11: INFO: Add `version` to user/own-ktor-project/build.gradle
+2021/05/22 13:45:11: INFO: Information was added
+2021/05/22 13:45:11: INFO: Add `ktorVersion` to user/own-ktor-project/gradle.properties
+2021/05/22 13:45:11: INFO: Information was added
+2021/05/22 13:45:11: INFO: Add `kotlinVersion` to user/own-ktor-project/gradle.properties
+2021/05/22 13:45:11: INFO: Information was added
+2021/05/22 13:45:11: INFO: Starting implement Car route
+2021/05/22 13:45:11: INFO: Created request /getCar
+2021/05/22 13:45:11: INFO: Created request /saveCar
+2021/05/22 13:45:11: INFO: Create route /car
+2021/05/22 13:45:11: INFO: Created request getCar
+2021/05/22 13:45:11: INFO: Create route /electro
+2021/05/22 13:45:11: INFO: Import was added
+2021/05/22 13:45:11: INFO: Routing feature implemented
+2021/05/22 13:45:11: INFO: Import was addedimport com.example.controllers.*
+2021/05/22 13:45:11: INFO: Added route to main
+2021/05/22 13:45:11: INFO: Starting to implement web-feature
+2021/05/22 13:45:11: ERROR: 
+2021/05/22 13:45:11: ERROR: Web-feature won't be implemented
+2021/05/22 13:45:11: INFO: Import was addedimport com.example.controllers.*
+2021/05/22 13:45:11: INFO: Import was addedimport com.example.controllers.*
+2021/05/22 13:45:11: INFO: Import was addedimport com.example.*
+2021/05/22 13:45:11: INFO: Import was addedimport com.example.*
+2021/05/22 13:45:14: INFO: Empty folder was created successfully
+2021/05/22 13:45:14: INFO: Log file was created
+2021/05/22 13:45:14: INFO: Starting to generate gradle's files
+2021/05/22 13:45:14: INFO: Copied build.gradle to folder
+2021/05/22 13:45:14: INFO: Copied gradle.properties to folder
+2021/05/22 13:45:14: INFO: Copied settings.gradle to folder
+2021/05/22 13:45:14: INFO: Gradle's files was created successfully
+2021/05/22 13:45:14: INFO: Starting to read project structure
+2021/05/22 13:45:14: INFO: File was read successfully
+2021/05/22 13:45:14: INFO: Starting to generate project structure
+2021/05/22 13:45:14: INFO: Starting copied resources folder
+2021/05/22 13:45:14: INFO: Copied application.conf to folder
+2021/05/22 13:45:14: INFO: Copied logback.xml to folder
+2021/05/22 13:45:14: INFO: resources files was created successfully 
+2021/05/22 13:45:14: INFO: Starting copied src folder
+2021/05/22 13:45:14: INFO: Copied Application.kt to folder
+2021/05/22 13:45:14: INFO: src files was created successfully 
+2021/05/22 13:45:14: INFO: user/own-ktor-project/src file was created
+2021/05/22 13:45:14: INFO: controllers file was created
+2021/05/22 13:45:14: INFO: hehe.kt file was created
+2021/05/22 13:45:14: INFO: Application.kt file was created
+2021/05/22 13:45:14: INFO: Hello.kt file was created
+2021/05/22 13:45:14: INFO: Wrote package in user/own-ktor-project/src/controllers/Hello.kt file
+2021/05/22 13:45:14: INFO: Wrote package in user/own-ktor-project/src/hehe.kt file
+2021/05/22 13:45:14: INFO: Starting to implement all features
+2021/05/22 13:45:14: INFO: Starting to add major information
+2021/05/22 13:45:14: INFO: Add `group` to user/own-ktor-project/resources/application.conf
+2021/05/22 13:45:14: INFO: Information was added
+2021/05/22 13:45:14: INFO: Add `port` to user/own-ktor-project/resources/application.conf
+2021/05/22 13:45:14: INFO: Information was added
+2021/05/22 13:45:14: INFO: Add `group` to user/own-ktor-project/src/Application.kt
+2021/05/22 13:45:14: INFO: Information was added
+2021/05/22 13:45:14: INFO: Add `projectName` to user/own-ktor-project/settings.gradle
+2021/05/22 13:45:14: INFO: Information was added
+2021/05/22 13:45:14: INFO: Add `group` to user/own-ktor-project/build.gradle
+2021/05/22 13:45:14: INFO: Information was added
+2021/05/22 13:45:14: INFO: Add `version` to user/own-ktor-project/build.gradle
+2021/05/22 13:45:14: INFO: Information was added
+2021/05/22 13:45:14: INFO: Add `ktorVersion` to user/own-ktor-project/gradle.properties
+2021/05/22 13:45:14: INFO: Information was added
+2021/05/22 13:45:14: INFO: Add `kotlinVersion` to user/own-ktor-project/gradle.properties
+2021/05/22 13:45:14: INFO: Information was added
+2021/05/22 13:45:14: INFO: Starting implement Car route
+2021/05/22 13:45:14: INFO: Created request /getCar
+2021/05/22 13:45:14: INFO: Created request /saveCar
+2021/05/22 13:45:14: INFO: Create route /car
+2021/05/22 13:45:14: INFO: Created request getCar
+2021/05/22 13:45:14: INFO: Create route /electro
+2021/05/22 13:45:14: INFO: Import was added
+2021/05/22 13:45:14: INFO: Routing feature implemented
+2021/05/22 13:45:14: INFO: Import was addedimport com.example.controllers.*
+2021/05/22 13:45:14: INFO: Added route to main
+2021/05/22 13:45:14: INFO: Starting to implement web-feature
+2021/05/22 13:45:14: ERROR: 
+2021/05/22 13:45:14: ERROR: Web-feature won't be implemented
+2021/05/22 13:45:14: INFO: Import was addedimport com.example.controllers.*
+2021/05/22 13:45:14: INFO: Import was addedimport com.example.controllers.*
+2021/05/22 13:45:14: INFO: Import was addedimport com.example.*
+2021/05/22 13:45:14: INFO: Import was addedimport com.example.*
+2021/05/22 13:45:15: INFO: Empty folder was created successfully
+2021/05/22 13:45:15: INFO: Log file was created
+2021/05/22 13:45:15: INFO: Starting to generate gradle's files
+2021/05/22 13:45:15: INFO: Copied build.gradle to folder
+2021/05/22 13:45:15: INFO: Copied gradle.properties to folder
+2021/05/22 13:45:15: INFO: Copied settings.gradle to folder
+2021/05/22 13:45:15: INFO: Gradle's files was created successfully
+2021/05/22 13:45:15: INFO: Starting to read project structure
+2021/05/22 13:45:15: INFO: File was read successfully
+2021/05/22 13:45:15: INFO: Starting to generate project structure
+2021/05/22 13:45:15: INFO: Starting copied resources folder
+2021/05/22 13:45:15: INFO: Copied application.conf to folder
+2021/05/22 13:45:15: INFO: Copied logback.xml to folder
+2021/05/22 13:45:15: INFO: resources files was created successfully 
+2021/05/22 13:45:15: INFO: Starting copied src folder
+2021/05/22 13:45:15: INFO: Copied Application.kt to folder
+2021/05/22 13:45:15: INFO: src files was created successfully 
+2021/05/22 13:45:15: INFO: user/own-ktor-project/src file was created
+2021/05/22 13:45:15: INFO: controllers file was created
+2021/05/22 13:45:15: INFO: hehe.kt file was created
+2021/05/22 13:45:15: INFO: Application.kt file was created
+2021/05/22 13:45:15: INFO: Hello.kt file was created
+2021/05/22 13:45:16: INFO: Wrote package in user/own-ktor-project/src/controllers/Hello.kt file
+2021/05/22 13:45:16: INFO: Wrote package in user/own-ktor-project/src/hehe.kt file
+2021/05/22 13:45:16: INFO: Starting to implement all features
+2021/05/22 13:45:16: INFO: Starting to add major information
+2021/05/22 13:45:16: INFO: Add `group` to user/own-ktor-project/resources/application.conf
+2021/05/22 13:45:16: INFO: Information was added
+2021/05/22 13:45:16: INFO: Add `port` to user/own-ktor-project/resources/application.conf
+2021/05/22 13:45:16: INFO: Information was added
+2021/05/22 13:45:16: INFO: Add `group` to user/own-ktor-project/src/Application.kt
+2021/05/22 13:45:16: INFO: Information was added
+2021/05/22 13:45:16: INFO: Add `projectName` to user/own-ktor-project/settings.gradle
+2021/05/22 13:45:16: INFO: Information was added
+2021/05/22 13:45:16: INFO: Add `group` to user/own-ktor-project/build.gradle
+2021/05/22 13:45:16: INFO: Information was added
+2021/05/22 13:45:16: INFO: Add `version` to user/own-ktor-project/build.gradle
+2021/05/22 13:45:16: INFO: Information was added
+2021/05/22 13:45:16: INFO: Add `ktorVersion` to user/own-ktor-project/gradle.properties
+2021/05/22 13:45:16: INFO: Information was added
+2021/05/22 13:45:16: INFO: Add `kotlinVersion` to user/own-ktor-project/gradle.properties
+2021/05/22 13:45:16: INFO: Information was added
+2021/05/22 13:45:16: INFO: Starting implement Car route
+2021/05/22 13:45:16: INFO: Created request /getCar
+2021/05/22 13:45:16: INFO: Created request /saveCar
+2021/05/22 13:45:16: INFO: Create route /car
+2021/05/22 13:45:16: INFO: Created request getCar
+2021/05/22 13:45:16: INFO: Create route /electro
+2021/05/22 13:45:16: INFO: Import was added
+2021/05/22 13:45:16: INFO: Routing feature implemented
+2021/05/22 13:45:16: INFO: Import was addedimport com.example.controllers.*
+2021/05/22 13:45:16: INFO: Added route to main
+2021/05/22 13:45:16: INFO: Starting to implement web-feature
+2021/05/22 13:45:16: ERROR: 
+2021/05/22 13:45:16: ERROR: Web-feature won't be implemented
+2021/05/22 13:45:16: INFO: Import was addedimport com.example.controllers.*
+2021/05/22 13:45:16: INFO: Import was addedimport com.example.controllers.*
+2021/05/22 13:45:16: INFO: Import was addedimport com.example.*
+2021/05/22 13:45:16: INFO: Import was addedimport com.example.*
+2021/05/22 13:45:16: INFO: Empty folder was created successfully
+2021/05/22 13:45:17: INFO: Log file was created
+2021/05/22 13:45:17: INFO: Starting to generate gradle's files
+2021/05/22 13:45:17: INFO: Copied build.gradle to folder
+2021/05/22 13:45:17: INFO: Copied gradle.properties to folder
+2021/05/22 13:45:17: INFO: Copied settings.gradle to folder
+2021/05/22 13:45:17: INFO: Gradle's files was created successfully
+2021/05/22 13:45:17: INFO: Starting to read project structure
+2021/05/22 13:45:17: INFO: File was read successfully
+2021/05/22 13:45:17: INFO: Starting to generate project structure
+2021/05/22 13:45:17: INFO: Starting copied resources folder
+2021/05/22 13:45:17: INFO: Copied application.conf to folder
+2021/05/22 13:45:17: INFO: Copied logback.xml to folder
+2021/05/22 13:45:17: INFO: resources files was created successfully 
+2021/05/22 13:45:17: INFO: Starting copied src folder
+2021/05/22 13:45:17: INFO: Copied Application.kt to folder
+2021/05/22 13:45:17: INFO: src files was created successfully 
+2021/05/22 13:45:17: INFO: user/own-ktor-project/src file was created
+2021/05/22 13:45:17: INFO: controllers file was created
+2021/05/22 13:45:17: INFO: hehe.kt file was created
+2021/05/22 13:45:17: INFO: Application.kt file was created
+2021/05/22 13:45:17: INFO: Hello.kt file was created
+2021/05/22 13:45:17: INFO: Wrote package in user/own-ktor-project/src/controllers/Hello.kt file
+2021/05/22 13:45:17: INFO: Wrote package in user/own-ktor-project/src/hehe.kt file
+2021/05/22 13:45:17: INFO: Starting to implement all features
+2021/05/22 13:45:17: INFO: Starting to add major information
+2021/05/22 13:45:17: INFO: Add `group` to user/own-ktor-project/resources/application.conf
+2021/05/22 13:45:17: INFO: Information was added
+2021/05/22 13:45:17: INFO: Add `port` to user/own-ktor-project/resources/application.conf
+2021/05/22 13:45:17: INFO: Information was added
+2021/05/22 13:45:17: INFO: Add `group` to user/own-ktor-project/src/Application.kt
+2021/05/22 13:45:17: INFO: Information was added
+2021/05/22 13:45:17: INFO: Add `projectName` to user/own-ktor-project/settings.gradle
+2021/05/22 13:45:17: INFO: Information was added
+2021/05/22 13:45:17: INFO: Add `group` to user/own-ktor-project/build.gradle
+2021/05/22 13:45:17: INFO: Information was added
+2021/05/22 13:45:17: INFO: Add `version` to user/own-ktor-project/build.gradle
+2021/05/22 13:45:17: INFO: Information was added
+2021/05/22 13:45:17: INFO: Add `ktorVersion` to user/own-ktor-project/gradle.properties
+2021/05/22 13:45:17: INFO: Information was added
+2021/05/22 13:45:17: INFO: Add `kotlinVersion` to user/own-ktor-project/gradle.properties
+2021/05/22 13:45:17: INFO: Information was added
+2021/05/22 13:45:17: INFO: Starting implement Car route
+2021/05/22 13:45:17: INFO: Created request /getCar
+2021/05/22 13:45:17: INFO: Created request /saveCar
+2021/05/22 13:45:17: INFO: Create route /car
+2021/05/22 13:45:17: INFO: Created request getCar
+2021/05/22 13:45:17: INFO: Create route /electro
+2021/05/22 13:45:17: INFO: Import was added
+2021/05/22 13:45:17: INFO: Routing feature implemented
+2021/05/22 13:45:17: INFO: Import was addedimport com.example.controllers.*
+2021/05/22 13:45:17: INFO: Added route to main
+2021/05/22 13:45:17: INFO: Starting to implement web-feature
+2021/05/22 13:45:17: ERROR: 
+2021/05/22 13:45:17: ERROR: Web-feature won't be implemented
+2021/05/22 13:45:17: INFO: Import was addedimport com.example.controllers.*
+2021/05/22 13:45:17: INFO: Import was addedimport com.example.controllers.*
+2021/05/22 13:45:17: INFO: Import was addedimport com.example.*
+2021/05/22 13:45:17: INFO: Import was addedimport com.example.*
+2021/05/22 13:45:18: INFO: Empty folder was created successfully
+2021/05/22 13:45:18: INFO: Log file was created
+2021/05/22 13:45:18: INFO: Starting to generate gradle's files
+2021/05/22 13:45:18: INFO: Copied build.gradle to folder
+2021/05/22 13:45:18: INFO: Copied gradle.properties to folder
+2021/05/22 13:45:18: INFO: Copied settings.gradle to folder
+2021/05/22 13:45:18: INFO: Gradle's files was created successfully
+2021/05/22 13:45:18: INFO: Starting to read project structure
+2021/05/22 13:45:18: INFO: File was read successfully
+2021/05/22 13:45:18: INFO: Starting to generate project structure
+2021/05/22 13:45:18: INFO: Starting copied resources folder
+2021/05/22 13:45:18: INFO: Copied application.conf to folder
+2021/05/22 13:45:18: INFO: Copied logback.xml to folder
+2021/05/22 13:45:18: INFO: resources files was created successfully 
+2021/05/22 13:45:18: INFO: Starting copied src folder
+2021/05/22 13:45:18: INFO: Copied Application.kt to folder
+2021/05/22 13:45:18: INFO: src files was created successfully 
+2021/05/22 13:45:18: INFO: user/own-ktor-project/src file was created
+2021/05/22 13:45:18: INFO: controllers file was created
+2021/05/22 13:45:18: INFO: hehe.kt file was created
+2021/05/22 13:45:18: INFO: Application.kt file was created
+2021/05/22 13:45:18: INFO: Hello.kt file was created
+2021/05/22 13:45:18: INFO: Wrote package in user/own-ktor-project/src/controllers/Hello.kt file
+2021/05/22 13:45:18: INFO: Wrote package in user/own-ktor-project/src/hehe.kt file
+2021/05/22 13:45:18: INFO: Starting to implement all features
+2021/05/22 13:45:18: INFO: Starting to add major information
+2021/05/22 13:45:18: INFO: Add `group` to user/own-ktor-project/resources/application.conf
+2021/05/22 13:45:18: INFO: Information was added
+2021/05/22 13:45:18: INFO: Add `port` to user/own-ktor-project/resources/application.conf
+2021/05/22 13:45:18: INFO: Information was added
+2021/05/22 13:45:18: INFO: Add `group` to user/own-ktor-project/src/Application.kt
+2021/05/22 13:45:18: INFO: Information was added
+2021/05/22 13:45:18: INFO: Add `projectName` to user/own-ktor-project/settings.gradle
+2021/05/22 13:45:18: INFO: Information was added
+2021/05/22 13:45:18: INFO: Add `group` to user/own-ktor-project/build.gradle
+2021/05/22 13:45:18: INFO: Information was added
+2021/05/22 13:45:18: INFO: Add `version` to user/own-ktor-project/build.gradle
+2021/05/22 13:45:18: INFO: Information was added
+2021/05/22 13:45:18: INFO: Add `ktorVersion` to user/own-ktor-project/gradle.properties
+2021/05/22 13:45:18: INFO: Information was added
+2021/05/22 13:45:18: INFO: Add `kotlinVersion` to user/own-ktor-project/gradle.properties
+2021/05/22 13:45:18: INFO: Information was added
+2021/05/22 13:45:18: INFO: Starting implement Car route
+2021/05/22 13:45:18: INFO: Created request /getCar
+2021/05/22 13:45:18: INFO: Created request /saveCar
+2021/05/22 13:45:18: INFO: Create route /car
+2021/05/22 13:45:18: INFO: Created request getCar
+2021/05/22 13:45:18: INFO: Create route /electro
+2021/05/22 13:45:18: INFO: Import was added
+2021/05/22 13:45:18: INFO: Routing feature implemented
+2021/05/22 13:45:18: INFO: Import was addedimport com.example.controllers.*
+2021/05/22 13:45:18: INFO: Added route to main
+2021/05/22 13:45:18: INFO: Starting to implement web-feature
+2021/05/22 13:45:18: ERROR: 
+2021/05/22 13:45:18: ERROR: Web-feature won't be implemented
+2021/05/22 13:45:18: INFO: Import was addedimport com.example.controllers.*
+2021/05/22 13:45:18: INFO: Import was addedimport com.example.controllers.*
+2021/05/22 13:45:18: INFO: Import was addedimport com.example.*
+2021/05/22 13:45:18: INFO: Import was addedimport com.example.*
