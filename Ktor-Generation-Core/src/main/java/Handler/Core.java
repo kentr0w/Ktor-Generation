@@ -11,6 +11,7 @@ import Generation.BuildTool.BuildToolGeneration;
 import Generation.BuildTool.Gradle.GradleGeneration;
 import Generation.BuildTool.Maven.MavenGeneration;
 import Generation.Project.FileTreeGeneration;
+import Generation.Project.Tree;
 import Reader.FileReader;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.log4j.Logger;
@@ -69,11 +70,13 @@ public class Core {
                 buildGeneration = new MavenGeneration(newPath.toString());
                 break;
         }
-        buildGeneration.generate();
+        System.out.println(buildGeneration.generate());
         FileTreeGeneration fileTreeGeneration = new FileTreeGeneration(fileReader.readProject(), global.getProjectPath());
         Boolean result = fileTreeGeneration.generate();
-        fileTreeGeneration.insertPackageInKtFiles(global.getGroup());
-        runAllFeatures();
+        if (result) {
+            fileTreeGeneration.insertPackageInKtFiles(global.getGroup());
+            runAllFeatures();
+        }
         return result;
     }
     

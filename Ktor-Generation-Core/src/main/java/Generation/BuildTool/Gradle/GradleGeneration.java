@@ -27,7 +27,7 @@ public class GradleGeneration extends BuildToolGeneration {
     @Override
     public Boolean generate() {
         CustomLogger.writeLog(LogType.INFO, "Starting to generate gradle's files");
-        final Boolean[] isCopySuccessful = {false};
+        final Boolean[] isCopySuccessful = {true};
         Stream.of("build.gradle.tmp", "gradle.properties.tmp", "settings.gradle.tmp").forEach(it -> {
             InputStream gradleStream = GradleGeneration.class.getClassLoader().getResourceAsStream(GRADLE_BUILD_PATH + it);
             isCopySuccessful[0] = Replication.copyInputStream(gradleStream, projectFolder, it) && isCopySuccessful[0];

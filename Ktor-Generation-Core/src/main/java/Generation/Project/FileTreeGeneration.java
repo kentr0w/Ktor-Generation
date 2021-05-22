@@ -83,6 +83,7 @@ public class FileTreeGeneration {
     }
     
     public Boolean insertPackageInKtFiles(String group) {
+        System.out.println(this.tree.getRoot());
         String startPath = this.tree.getRoot().getName();
         try{
             Files

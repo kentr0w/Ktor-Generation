@@ -59,7 +59,7 @@ public class FileTreeReader {
                 .filter(it -> !it.getDir())
                 .map(Node::getName)
                 .collect(Collectors.toList())
-                .contains("Application,kt");
+                .contains("Application.kt");
         result = this.tree.getRoot().getName().equals("src") && result && isApplicationFile;
         return result;
     }
