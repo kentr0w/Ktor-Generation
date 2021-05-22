@@ -1,0 +1,112 @@
+.global-route-main-div {  
+    margin: 10px;  
+    height: 400px;
+    border-style: solid;
+}
+
+.route-feature-route-blocks {    
+    margin-top: 20px;
+    margin-left: 100px;
+    margin-right: 100px;
+    border-style: solid; 
+}
+
+.global-route-main-div-scrollable {
+    height: 400px;
+    overflow-x: auto;    
+    white-space: nowrap;  
+}
+
+.test {
+    display: inline;
+}
+
+.test-3 {
+    border-style: dotted;
+    margin-left: 20px;
+    display: inline-table;
+}
+
+.test-2 {
+    margin: 5px;
+    display: block;
+}
+
+.qwe-counter {
+    margin-top: 5px;
+    border-style: dotted;
+}
+.qwe {    
+    margin-left: auto;
+    margin-right: auto;
+    margin: 5px;
+    
+}
+.route-local-main-div {           
+    display: inline-table;
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 100%;
+    width: 300px;         
+}
+
+.macro-route-main-div {  
+    margin-top: 10px; 
+    border-style: double;
+    text-align: center;
+}
+
+.macro-route-center-content {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.div-local-route-create-micro {
+    margin-top: 10px;
+    border-style: dotted;    
+}
+
+.ee-all {
+    margin: 10px;
+}
+
+.pp {
+    display: inline-block;
+}
+
+.p-local-route-name {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: bold;
+}
+
+.micro-route-close-span {
+    font-size:20px;
+}
+
+.local-route-div-remove-but {  
+    width: 50%;  
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.route-feature-main-div {
+    height: 700px;    
+    overflow: scroll;
+}
+
+.route-feature-create-route {
+    border-style: dotted;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;    
+}
+
+.global-feature-info {
+    margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
+}

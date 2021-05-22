@@ -1,0 +1,56 @@
+2021/04/26 13:18:46: INFO: Empty folder was created successfully
+2021/04/26 13:18:46: INFO: Log file was created
+2021/04/26 13:18:46: INFO: Starting to generate gradle's files
+2021/04/26 13:18:46: INFO: Gradle's files was created successfully
+2021/04/26 13:18:46: INFO: Sources files was created successfully
+2021/04/26 13:18:46: INFO: Starting to generate project structure
+2021/04/26 13:18:46: INFO: Starting to read project structure
+2021/04/26 13:18:46: INFO: File was read successfully
+2021/04/26 13:18:46: INFO: user/own-ktor-project/src file was created
+2021/04/26 13:18:46: INFO: controllers file was created
+2021/04/26 13:18:46: INFO: hehe.kt file was created
+2021/04/26 13:18:46: INFO: Application.kt file was created
+2021/04/26 13:18:46: INFO: Hello.kt file was created
+2021/04/26 13:18:46: INFO: Wrote package in user/own-ktor-project/src/controllers/Hello.kt file
+2021/04/26 13:18:46: INFO: Wrote package in user/own-ktor-project/src/hehe.kt file
+2021/04/26 13:18:46: INFO: Starting to implement all features
+2021/04/26 13:18:46: INFO: Starting to add major information
+2021/04/26 13:18:46: INFO: Add `group` to user/own-ktor-project/resources/application.conf
+2021/04/26 13:18:46: INFO: Information was added
+2021/04/26 13:18:46: INFO: Add `port` to user/own-ktor-project/resources/application.conf
+2021/04/26 13:18:46: INFO: Information was added
+2021/04/26 13:18:46: INFO: Add `group` to user/own-ktor-project/src/Application.kt
+2021/04/26 13:18:46: INFO: Information was added
+2021/04/26 13:18:46: INFO: Add `projectName` to user/own-ktor-project/settings.gradle
+2021/04/26 13:18:46: INFO: Information was added
+2021/04/26 13:18:46: INFO: Add `group` to user/own-ktor-project/build.gradle
+2021/04/26 13:18:46: INFO: Information was added
+2021/04/26 13:18:46: INFO: Add `version` to user/own-ktor-project/build.gradle
+2021/04/26 13:18:46: INFO: Information was added
+2021/04/26 13:18:46: INFO: Add `ktorVersion` to user/own-ktor-project/gradle.properties
+2021/04/26 13:18:46: INFO: Information was added
+2021/04/26 13:18:46: INFO: Add `kotlinVersion` to user/own-ktor-project/gradle.properties
+2021/04/26 13:18:46: INFO: Information was added
+2021/04/26 13:18:46: INFO: Starting implement Car route
+2021/04/26 13:18:46: INFO: Created request /getCar
+2021/04/26 13:18:46: INFO: Created request /saveCar
+2021/04/26 13:18:46: INFO: Create route /car
+2021/04/26 13:18:46: INFO: Created request getCar
+2021/04/26 13:18:46: INFO: Create route /electro
+2021/04/26 13:18:46: INFO: Import was added
+2021/04/26 13:18:46: INFO: Routing feature implemented
+2021/04/26 13:18:46: INFO: Import was addedimport com.example.controllers.*
+2021/04/26 13:18:46: INFO: Added route to main
+2021/04/26 13:18:46: INFO: Starting to implement web-feature
+2021/04/26 13:18:46: INFO: Template files is correct
+2021/04/26 13:18:46: INFO: Templates folder was created
+2021/04/26 13:18:46: INFO: Template folder was copied
+2021/04/26 13:18:46: INFO: Web feature's code was duplicated
+2021/04/26 13:18:46: INFO: Hash was replaced in web-feature
+2021/04/26 13:18:46: INFO: Import was added
+2021/04/26 13:18:46: INFO: Import was addedimport com.example.controllers.*
+2021/04/26 13:18:46: INFO: Added web-feature to main
+2021/04/26 13:18:46: INFO: Import was addedimport com.example.controllers.*
+2021/04/26 13:18:46: INFO: Import was addedimport com.example.controllers.*
+2021/04/26 13:18:46: INFO: Import was addedimport com.example.*
+2021/04/26 13:18:46: INFO: Import was addedimport com.example.*

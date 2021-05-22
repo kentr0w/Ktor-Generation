@@ -1,0 +1,31 @@
+.first-card {
+    margin-left: 300px;
+    margin-right: 300px;
+    background-color: #eafbff8c;
+}
+
+.first-card-name {  
+    margin: 0 auto;
+    width: 30%;
+    text-align: center;    
+    font-size: 250%;
+}
+
+.list-variable {
+    text-align: center;
+}
+
+.first-card-ul {
+    list-style-type: none;
+    margin-left: auto; 
+	margin-right: auto; 
+}
+
+.first-card-li {
+    padding: 25px;
+    color: #4b5b6e;
+}
+
+.text-variable-placeholder {    
+    padding-inline-start: 3px;
+}

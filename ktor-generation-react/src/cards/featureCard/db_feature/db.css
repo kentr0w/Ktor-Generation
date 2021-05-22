@@ -1,0 +1,77 @@
+.db-feature {
+    text-align: center;    
+    margin-left: auto;
+    margin-right: auto;    
+}
+
+.db-general-name {
+    margin: 10px;
+}
+
+.db-features-all-entities {  
+    margin: 10px;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 450px;        
+    overflow-x: auto;    
+    white-space: nowrap;     
+}
+
+.db-feature-entity-with-remove {
+    display: inline-table;
+}
+
+.db-entity-main-div {    
+    display: inline-table;
+}
+
+.db-entity-border {
+    height: 400px;
+    width: 400px;
+    border-style: double;
+    display: inline-table;
+    margin: 10px;
+}
+
+.db-entity-create-new {
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    border-style: dotted;
+    margin-top: 20px;
+}
+
+.db-feature-create-new-entity {    
+    display: inline-table;
+    border-style: dotted;
+}
+
+.db-feature-create-new-entity-fields {    
+    margin-bottom: 10px;
+}
+
+.db-entity-title {
+    font-weight: bold;
+}
+
+.db-field-co {
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    border-style: double;
+    margin-top: 20px;
+}
+
+.db-entity-back-line {
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    height: 1px;
+    background-color: black;
+    margin-bottom: 10px;
+}
+
+.nb {
+    margin-right: 95%;        
+}

@@ -1,0 +1,15 @@
+.feature {
+    margin-left: 300px;
+    margin-right: 300px;
+    margin-bottom: 10px;
+    height: 800px;    
+    background-color: #eafbff8c;
+}
+
+.small-feature {
+    margin-left: 300px;
+    margin-right: 300px;
+    margin-bottom: 10px;
+    height: 400px;    
+    background-color: #eafbff8c;
+}
