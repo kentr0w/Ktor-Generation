@@ -6,8 +6,8 @@ import './../../../App.css'
 export default class DBGeneralInfo extends Component {
 
     setNewItem = (name, it) => {               
-        const item = {feature: 'database', title: name, value: it.target.value}
-        this.props.addNewItemByTitle(item)
+        const item = {title: name, value: it.target.value}
+        this.props.addNewItemByTitle('database',item)
     }
 
     render() {

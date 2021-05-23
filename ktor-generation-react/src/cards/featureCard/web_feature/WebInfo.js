@@ -7,8 +7,8 @@ export default class WebInfo extends Component {
     }
     
     setNewItem = (it) => {           
-        const item = {feature: 'web', title: 'webFeatureName', value: it.target.value}
-        this.props.addNewItemByTitle(item)
+        const item = {title: 'webFeatureName', value: it.target.value}
+        this.props.addNewItemByTitle('web', item)
     }
 
     render(){

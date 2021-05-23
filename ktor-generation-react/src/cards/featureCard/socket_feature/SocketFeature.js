@@ -8,8 +8,8 @@ export default class SocketFeature extends Component {
     }
 
     setNewItem = (name, it) => {               
-        const item = {feature: 'socket', title: name, value: it.target.value}
-        this.props.addNewItemByTitle(item)
+        const item = {title: name, value: it.target.value}
+        this.props.addNewItemByTitle('socket', item)
     }
 
     render(){

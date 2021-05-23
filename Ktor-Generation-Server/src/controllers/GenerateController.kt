@@ -1,10 +1,15 @@
 package org.dk.controllers
 
+import com.fasterxml.jackson.core.JsonProcessingException
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper
+import com.google.gson.Gson
 import io.ktor.application.*
 import io.ktor.request.*
 import io.ktor.routing.*
-import org.dk.model.GlobalConfig
-import org.dk.model.Titles
+import org.dk.model.ConfigFromWeb
+import org.dk.parser.Parser
 import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -26,8 +31,19 @@ fun Application.generateRoute() {
             }
 
             post("/submit") {
-                val q = call.receive<GlobalConfig>()
-                println(q)
+                val q = call.receive<ConfigFromWeb>()
+                val yaml = asYaml(Gson().toJson(q))
+                val file = File("test.yaml")
+                file.createNewFile()
+                yaml?.let { file.writeText(it) }
+                val w = Parser(q).parse()
+
+
+
+                val yaml2 = asYaml(Gson().toJson(w))
+                val file2 = File("test2.yaml")
+                file2.createNewFile()
+                yaml2?.let { file.writeText(it) }
             }
         }
     }
@@ -47,4 +63,10 @@ fun String.runCommand(workingDir: File): String? {
         e.printStackTrace()
         null
     }
+}
+
+@Throws(JsonProcessingException::class, IOException::class)
+fun asYaml(jsonString: String?): String? {
+    val jsonNodeTree: JsonNode = ObjectMapper().readTree(jsonString)
+    return YAMLMapper().writeValueAsString(jsonNodeTree)
 }

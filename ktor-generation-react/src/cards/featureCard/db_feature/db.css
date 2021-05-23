@@ -75,3 +75,11 @@
 .nb {
     margin-right: 95%;        
 }
+
+.check-box-inline {    
+    display: inline-block;    
+}
+.htr {
+    margin: 10px;
+    display: inline-block;
+}

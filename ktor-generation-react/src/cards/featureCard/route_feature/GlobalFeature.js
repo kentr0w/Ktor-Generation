@@ -8,41 +8,45 @@ export default class GlobalFeature extends Component {
 
     constructor(props) {
         super(props)
+        this.localRouteId = 0
         this.state = {            
-            routes: routes_local,
+            routes: [],
             localRouteNewPath: '',
         }
     }
 
     findCorrectRoutes () {        
-        var q = new Array()
+        var result = new Array()
         this.state.routes.map((it) => {
             if (it.parentGlobalRouteId === this.props.globalFeature.id) {
-                q.push(it)
+                result.push(it)
             }
-        })
-        console.log(q.length)
-        return q
+        })        
+        return result
     }
 
     createNewLocalRoute = () => {
+        const item = {id: this.localRouteId, parentGlobalRouteId: this.props.globalFeature.id, path: this.state.localRouteNewPath }
+        this.props.create('localRoutes', item)
         this.setState({
-            routes: [...this.state.routes, {id: this.state.routes.length + 1, parentGlobalRouteId: this.props.globalFeature.id, path: this.state.localRouteNewPath }]
+            routes: [...this.state.routes, item]
         })
+        this.localRouteId += 1
     }
 
-    findCo = (fi) => {
-        var q
+    findCorrect = (fi) => {
+        var result
         this.state.routes.map((it) => {
             if (it === fi)
-                q = it
+            result = it
         })        
-        return this.state.routes.indexOf(q)
+        return this.state.routes.indexOf(result)
     }
 
     remove = (it) => {
+        this.props.remove('localRoutes', it)
         const newRoutes = [...this.state.routes]
-        const index = this.findCo(it) 
+        const index = this.findCorrect(it) 
         if (index != -1) {
             newRoutes.splice(index,1)        
         }
@@ -71,7 +75,7 @@ export default class GlobalFeature extends Component {
                         {this.findCorrectRoutes().map((it) => {
                             return(
                                 <div className = 'test'>
-                                    <RouteLocal localRoute = {it}/>
+                                    <RouteLocal localRoute = {it} remove = {this.props.remove} create = {this.props.create}/>
                                     <button onClick = {() => {this.remove(it)}}>&#10005;</button>
                                 </div>
                             )

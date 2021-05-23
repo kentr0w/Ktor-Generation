@@ -1,15 +1,16 @@
 import React, {Component} from 'react'
 import './web.css'
-import web_data from './../../data/web_data'
+import { FileDrop } from 'react-file-drop'
 import WebInfo from './WebInfo'
 import WebRoute from './WebRoute'
 
 export default class WebFeature extends Component {
 
     constructor(props) {
-        super(props)                
+        super(props)
+        this.webRouteId = 0                
         this.state = {    
-            webData: web_data,        
+            webData: [],        
             newWebPath: '',
             newWebPathFile: ''
         }
@@ -25,7 +26,7 @@ export default class WebFeature extends Component {
     }
 
     remove = (web) => { 
-        this.props.remove(web)                    
+        this.props.remove('webRoutes', web)                    
         const newWebs = [...this.state.webData]
         const index = this.findCorrectWebInData(web) 
         if (index != -1) {
@@ -38,12 +39,13 @@ export default class WebFeature extends Component {
         })        
     }
 
-    create = () => {
-        const item = {id: this.state.webData.length + 1, path: this.state.newWebPath, resource: this.state.newWebPathFile }
+    create = () => {        
+        const item = {id: this.webRouteId, path: this.state.newWebPath, resource: this.state.newWebPathFile }
+        this.props.create('webRoutes', item)
         this.setState({
             webData: [...this.state.webData, item]
-        })
-        this.props.create(item)
+        })    
+        this.webRouteId += 1    
     }
 
     setNewWebPath = (it) => {
@@ -94,8 +96,19 @@ export default class WebFeature extends Component {
                             this.create(this.state.newWebPath, this.state.newWebPathFile)
                         }}>Create</button>   
                         </div>
-                    </div>                                     
+                    </div> 
+                    <div className = 'nbv'>
+                    <FileDrop                        
+                        onDrop={(files, event) => {
+                            this.props.saveFile(files[0])
+                            console.log('onDrop!', files, event)
+                        }}
+                    >
+                        Drop some files here!
+                    </FileDrop>
+                </div>                                    
                 </div>
+                
             </div>
         )
     }

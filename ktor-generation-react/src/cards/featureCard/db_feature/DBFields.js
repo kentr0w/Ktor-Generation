@@ -14,6 +14,12 @@ export default class DBFields extends Component {
                     &nbsp;
                     &nbsp;
                     <p className = 'pp'>{this.props.field.name}</p>
+                </div>
+                <div>
+                    <p className = 'pp'>Column:</p>
+                    &nbsp;
+                    &nbsp;
+                    <p className = 'pp'>{this.props.field.column}</p>
                 </div>                
                 <div>
                     <p className = 'pp'>Type: </p>

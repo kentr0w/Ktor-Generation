@@ -9,51 +9,46 @@ export default class RouteLocal extends Component {
 
     constructor(props) {
         super(props)
+        this.routeLocalId = 0
         this.state = {
             localRoute: props.localRoute,
-            miniRoutes: mini_route,
+            miniRoutes: [],
             newMacroRoutePath: '',
             newMacroRouteType: 'GET'
-        }
-        this.removeFun = props.remove
-        
+        }              
     }
 
     findCorrectMiniRoutes() {
-        var q = []
+        var result = []
         this.state.miniRoutes.map((it) => {
             if (it.parentLocalRouteId === this.props.localRoute.id) {
-                q.push(it)
+                result.push(it)
             }
         })
         
-        return q
+        return result
     }
 
-    createNewMiniRoute = () => {     
-        console.log(this.state.newMacroRoutePath)   
-        console.log(this.state.newMacroRouteType)   
-        var lateId
-        if (this.state.miniRoutes.length == 0) {
-            lateId = 1
-        } else {
-            lateId = this.state.miniRoutes[this.state.miniRoutes.length-1].id + 1
-        }
-        this.setState({
-            miniRoutes: [...this.state.miniRoutes, {id: lateId, parentLocalRouteId: this.props.localRoute.id, path: this.state.newMacroRoutePath, type: this.state.newMacroRouteType }]
+    createNewMiniRoute = () => {                     
+        const item = {id: this.routeLocalId, parentLocalRouteId: this.props.localRoute.id, path: this.state.newMacroRoutePath, type: this.state.newMacroRouteType }
+        this.props.create('miniRoutes', item)
+        this.setState({            
+            miniRoutes: [...this.state.miniRoutes, item]
         })
+        this.routeLocalId += 1
     }
 
     findCo = (fi) => {
-        var q
+        var result
         this.state.miniRoutes.map((it) => {
             if (it === fi)
-                q = it
+                result = it
         })        
-        return this.state.miniRoutes.indexOf(q)
+        return this.state.miniRoutes.indexOf(result)
     }
 
-    remove = (it) => {        
+    remove = (it) => {   
+        this.props.remove('miniRoutes', it)     
         const newMiniRoutes = [...this.state.miniRoutes]
         const index = this.findCo(it)        
         if (index != -1) {

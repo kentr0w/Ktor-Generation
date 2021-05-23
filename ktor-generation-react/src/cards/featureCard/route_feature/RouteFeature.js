@@ -8,8 +8,9 @@ import './../../../App.css'
 export default class RouteFeature extends Component {
     constructor(props) {
         super(props)
+        this.globalRoutesId = 0
         this.state = {
-            globalRoutes: globalRoutes,
+            globalRoutes: [],
             newGlobalRouteMethodName: "",
             newGlobalRouteFile: "Application",
         }
@@ -28,23 +29,27 @@ export default class RouteFeature extends Component {
     }
 
     createNewGlobalRoute = () => {
+        const item = {id: this.globalRoutesId, methodName: this.state.newGlobalRouteMethodName, file: this.state.newGlobalRouteFile }
+        this.props.create('globalRoutes', item)
         this.setState({
-            globalRoutes: [...this.state.globalRoutes, {id: this.state.globalRoutes.length + 1, methodName: this.state.newGlobalRouteMethodName, file: this.state.newGlobalRouteFile }]
+            globalRoutes: [...this.state.globalRoutes, item]
         })
+        this.globalRoutesId += 1
     }
 
-    findCo = (fi) => {
-        var q
+    findCorrect = (fi) => {
+        var result
         this.state.globalRoutes.map((it) => {
             if (it === fi)
-                q = it
+            result = it
         })        
-        return this.state.globalRoutes.indexOf(q)
+        return this.state.globalRoutes.indexOf(result)
     }
 
     removeGlobalRoute = (it) => {
+        this.props.remove('globalRoutes', it)
         const newRoutes = [...this.state.globalRoutes]
-        const index = this.findCo(it) 
+        const index = this.findCorrect(it) 
         if (index != -1) {
             newRoutes.splice(index,1)        
         }
@@ -63,7 +68,7 @@ export default class RouteFeature extends Component {
                         return (
                             <div>
                                 <button onClick = {() => {this.removeGlobalRoute(gFeature)}}>&#10005;</button>
-                                <GlobalFeature globalFeature = {gFeature}/>
+                                <GlobalFeature globalFeature = {gFeature} remove = {this.props.remove} create = {this.props.create}/>
                             </div>
                         )
                     })}                                        

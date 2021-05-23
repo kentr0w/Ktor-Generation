@@ -7,6 +7,7 @@ import DBFeature from './featureCard/db_feature/DBFeature'
 import SocketFeature from './featureCard/socket_feature/SocketFeature'
 import WebFeature from './featureCard/web_feature/WebFeature'
 import global_data from './data/global_data'
+import fs from 'fs'
 
 export default class MainView extends Component {
 
@@ -18,6 +19,13 @@ export default class MainView extends Component {
     }
 
     prepareConfig = () => {
+        const mkdirp = require('mkdirp')
+        const made = mkdirp.sync('/tmp/foo/bar/baz')
+        console.log(`made directories, starting with ${made}`)
+
+
+
+
         console.log(this.state.globalData)
         console.log(JSON.stringify({"config": this.state.globalData}))
         const requestOptions = {
@@ -26,7 +34,7 @@ export default class MainView extends Component {
                 'Content-Type': 'application/json',                
             },
             body: JSON.stringify({"titles": this.state.globalData})
-        };
+        };        
         //fetch('http://localhost:8080/generate/submit', requestOptions)            
     }
 
@@ -38,40 +46,49 @@ export default class MainView extends Component {
         })        
     }
 
-    addNewItem = (item) => {
-        this.setNewGlobal([...this.state.globalData, item])      
+    addNewItem = (name, item) => {                         
+        const newGlobal = this.state.globalData
+        newGlobal[name].push(item)
+        this.setState({
+            globalData: newGlobal
+        })        
     }
     
-    findCorrectItem = (item) => {
+    findCorrectItem = (arr, item) => {
         var result
-        this.state.globalData.map((it) => {
+        arr.map((it) => {
             if (it === item)                
                 result = it            
         })        
-        return this.state.globalData.indexOf(result)
+        return arr.indexOf(result)
     }
 
-    removeItem = (item) => {          
-        const newGlobal = [...this.state.globalData]
-        const index = this.findCorrectItem(item) 
-        if (index != -1) {            
-            newGlobal.splice(index,1)        
+    removeItem = (name, item) => {          
+        const newGlobal = this.state.globalData
+        const arr = newGlobal[name]
+        const index = this.findCorrectItem(arr, item)
+        if (index != -1) {
+            newGlobal[name].splice(index, 1)
         }
-        this.setNewGlobal(newGlobal)                  
+        this.setState({
+            globalData: newGlobal
+        })                  
     }                
 
-    addNewItemByTitle = (item) => {
-        const newWebs = [...this.state.globalData]        
-        newWebs.map((it) => {
-            if(it.feature === item.feature) {
-                it.children.map((ch) => {
-                    if(ch.title === item.title){
-                        ch.value = item.value
-                    }
-                })                                
+    addNewItemByTitle = (name, item) => {
+        const newGlobal = this.state.globalData
+        newGlobal[name].map((it) => {
+            if(it.title === item.title) {
+                it.value = item.value
             }
         })
-        this.setNewGlobal(newWebs)
+        this.setState({
+            globalData: newGlobal
+        })
+    }
+
+    saveFile = (file) => {
+        console.log(file.size)
     }
 
     render() {
@@ -79,13 +96,13 @@ export default class MainView extends Component {
             <div className = 'mainView'>
                 <GeneralCard addNewItemByTitle = {this.addNewItemByTitle}/>
                 <FileCard/>                
-                <RouteFeature/>
-                <DBFeature addNewItemByTitle = {this.addNewItemByTitle}/>
+                <RouteFeature remove = {this.removeItem} create = {this.addNewItem}/>
+                <DBFeature addNewItemByTitle = {this.addNewItemByTitle} remove = {this.removeItem} create = {this.addNewItem}/>
                 <SocketFeature addNewItemByTitle = {this.addNewItemByTitle}/>
-                <WebFeature addNewItemByTitle = {this.addNewItemByTitle} remove = {this.removeItem} create = {this.addNewItem}/>
+                <WebFeature addNewItemByTitle = {this.addNewItemByTitle} remove = {this.removeItem} create = {this.addNewItem} saveFile = {this.saveFile}/>
                 <div className = 'gen-div'>
                     <button onClick = {this.prepareConfig} className = 'gen-btn'>Generate Project</button>                
-                </div>
+                </div>                
             </div>
         )
     }

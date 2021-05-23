@@ -9,26 +9,34 @@ export default class DBEntity extends Component {
 
     constructor(props) {
         super(props)
+        this.fieldId = 0
         this.state = {        
-            fields: db_fields,
+            fields: [],
             newFieldName: '',
-            newFieldType: 'String'
+            newFieldType: 'String',
+            newColumnName: ''
         }        
     }
 
     findCorrectFields = () => {
-        var q = new Array()
+        var result = new Array()
         this.state.fields.map((it) => {
             if (it.parentEntityId === this.props.entity.id) {
-                q.push(it)
+                result.push(it)
             }
         })        
-        return q
+        return result
     }
 
     setNewEntityName = (it) => {
         this.setState({
             newFieldName: it.target.value
+        })
+    }
+
+    setNewColumnName = (it) => {
+        this.setState({
+            newColumnName: it.target.value
         })
     }
 
@@ -39,23 +47,27 @@ export default class DBEntity extends Component {
     }
 
     createNewEntity = () => {
+        const item = {id: this.fieldId, parentEntityId: this.props.entity.id , name: this.state.newFieldName, column: this.state.newColumnName, type: this.state.newFieldType }
+        this.props.create('dbFields', item)
         this.setState({
-            fields: [...this.state.fields, {id: this.state.fields.length + 1, parentEntityId: this.props.entity.id , name: this.state.newFieldName, type: this.state.newFieldType }]
+            fields: [...this.state.fields, item]
         })
+        this.fieldId += 1
     }
 
-    findCo = (fi) => {
-        var q
+    findCorrectField = (fi) => {
+        var result
         this.state.fields.map((it) => {
             if (it === fi)
-                q = it
+            result = it
         })        
-        return this.state.fields.indexOf(q)
+        return this.state.fields.indexOf(result)
     }
 
     remove = (it) => {
+        this.props.remove('dbFields', it)                   
         const newField = [...this.state.fields]
-        const index = this.findCo(it) 
+        const index = this.findCorrectField(it) 
         if (index != -1) {
             newField.splice(index,1)        
         }
@@ -63,7 +75,7 @@ export default class DBEntity extends Component {
             return {
                 fields: [...newField]
             }
-        })                   
+        })        
     }
 
 
@@ -72,6 +84,7 @@ export default class DBEntity extends Component {
             <div className = 'db-entity-main-div'>
                 <div className = 'db-entity-border'>
                     <p>Name: {this.props.entity.name}</p>
+                    <p>Table Name: {this.props.entity.tableName}</p>
                     <p>File: {this.props.entity.file}</p>
                     <p>Fields:</p>
                     <div className = 'db-field-co'>
@@ -80,7 +93,7 @@ export default class DBEntity extends Component {
                                 return (
                                     <div>
                                         <button className =  'nb' onClick = {() => {this.remove(it)}}>&#10005;</button>
-                                        <DBFields field = {it}/>
+                                        <DBFields field = {it} />
                                         <div className = 'db-entity-back-line'></div>
                                     </div>
                                 )
@@ -93,6 +106,12 @@ export default class DBEntity extends Component {
                             &nbsp;
                             &nbsp;
                             <input className = 'pretty-input' placeholder = 'Name' onChange = {this.setNewEntityName}></input>
+                        </div>
+                        <div>
+                            <p className = 'pp'>Column Name:</p>
+                            &nbsp;
+                            &nbsp;
+                            <input className = 'pretty-input' placeholder = 'Column name' onChange = {this.setNewColumnName}></input>
                         </div>
                         <div>
                             <p className = 'pp'>Type:</p>

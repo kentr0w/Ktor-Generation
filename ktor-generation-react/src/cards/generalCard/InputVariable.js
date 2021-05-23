@@ -5,8 +5,8 @@ import './../../App.css'
 function InputVariable({field, addNewItemByTitle}) {
 
     function setNewItem(it) {                    
-        const item = {feature: 'global', title: field.name, value: it.target.value}
-        addNewItemByTitle(item)
+        const item = {title: field.name, value: it.target.value}
+        addNewItemByTitle('global', item)
     }
 
     if (field.type === 'select') {
