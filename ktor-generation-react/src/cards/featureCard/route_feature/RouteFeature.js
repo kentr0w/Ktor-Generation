@@ -62,7 +62,8 @@ export default class RouteFeature extends Component {
 
     render(){
         return(
-            <div className = 'feature route-feature-main-div'>  
+            <div className = 'feature route-feature-main-div'>
+                <div className = "first-card-name"> Route</div>  
                 <div className = 'route-feature-route-blocks'>                    
                     {this.state.globalRoutes.map((gFeature) => {
                         return (

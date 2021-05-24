@@ -97,15 +97,7 @@ export default class WebFeature extends Component {
                         }}>Create</button>   
                         </div>
                     </div> 
-                    <div className = 'nbv'>
-                    <FileDrop                        
-                        onDrop={(files, event) => {
-                            this.props.saveFile(files[0])
-                            console.log('onDrop!', files, event)
-                        }}
-                    >
-                        Drop some files here!
-                    </FileDrop>
+                    <div className = 'nbv'>                    
                 </div>                                    
                 </div>
                 
