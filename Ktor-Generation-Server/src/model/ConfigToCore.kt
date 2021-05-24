@@ -65,7 +65,7 @@ data class Requests(
 @Serializable
 data class Web(
     val name: String,
-    val file: String,
+    val path: String,
     val template: String,
     val resources: List<Resources>
 )
@@ -84,7 +84,7 @@ data class Resources(
 @Serializable
 data class DataBase(
     val type: String,
-    val file: String,
+    val path: String,
     val port: String,
     val host: String,
     val dbName: String,
@@ -129,9 +129,9 @@ data class EntityFields(
 
 @Serializable
 data class Socket(
-    val file: String?,
+    val path: String?,
     val name: String,
-    val path: String,
+    val webPath: String,
     val answer: String,
     val closeWord: String,
     val closeMessage: String,

@@ -14,28 +14,21 @@ export default class MainView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          globalData: global_data
+          globalData: global_data,          
         }
     }
 
-    prepareConfig = () => {
-        const mkdirp = require('mkdirp')
-        const made = mkdirp.sync('/tmp/foo/bar/baz')
-        console.log(`made directories, starting with ${made}`)
-
-
-
-
+    prepareConfig = () => {                
         console.log(this.state.globalData)
-        console.log(JSON.stringify({"config": this.state.globalData}))
+        console.log(JSON.stringify(this.state.globalData))
         const requestOptions = {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json',                
             },
-            body: JSON.stringify({"titles": this.state.globalData})
-        };        
-        //fetch('http://localhost:8080/generate/submit', requestOptions)            
+            body: JSON.stringify(this.state.globalData)
+        };
+        fetch('http://localhost:8080/generate/submit', requestOptions)            
     }
 
     setNewGlobal = (newGlobal) => {        
@@ -87,10 +80,6 @@ export default class MainView extends Component {
         })
     }
 
-    saveFile = (file) => {
-        console.log(file.size)
-    }
-
     render() {
         return(
             <div className = 'mainView'>
@@ -99,7 +88,7 @@ export default class MainView extends Component {
                 <RouteFeature remove = {this.removeItem} create = {this.addNewItem}/>
                 <DBFeature addNewItemByTitle = {this.addNewItemByTitle} remove = {this.removeItem} create = {this.addNewItem}/>
                 <SocketFeature addNewItemByTitle = {this.addNewItemByTitle}/>
-                <WebFeature addNewItemByTitle = {this.addNewItemByTitle} remove = {this.removeItem} create = {this.addNewItem} saveFile = {this.saveFile}/>
+                <WebFeature addNewItemByTitle = {this.addNewItemByTitle} remove = {this.removeItem} create = {this.addNewItem}/>
                 <div className = 'gen-div'>
                     <button onClick = {this.prepareConfig} className = 'gen-btn'>Generate Project</button>                
                 </div>                

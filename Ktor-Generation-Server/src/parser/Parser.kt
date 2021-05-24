@@ -61,7 +61,7 @@ class Parser(private val config: ConfigFromWeb) {
     private fun parseWeb() =
         Web(
             name = config.database.find { it.title == "name" }?.value ?: "",
-            file = config.database.find { it.title == "name" }?.value ?: "",
+            path = config.database.find { it.title == "name" }?.value ?: "",
             template = "FB",
             resources = parseResources()
         )
@@ -77,7 +77,7 @@ class Parser(private val config: ConfigFromWeb) {
     private fun parseDataBase() =
         DataBase(
             type = config.database.find { it.title == "type" }?.value ?: "",
-            file = config.database.find { it.title == "file" }?.value ?: "",
+            path = config.database.find { it.title == "file" }?.value ?: "",
             port = config.database.find { it.title == "port" }?.value ?: "",
             host = config.database.find { it.title == "host" }?.value ?: "",
             dbName = config.database.find { it.title == "dbName" }?.value ?: "",
@@ -120,9 +120,9 @@ class Parser(private val config: ConfigFromWeb) {
 
     private fun parseSocket() =
         Socket(
-            file = null,
+            path = null,
             name = config.database.find { it.title == "name" }?.value ?: "",
-            path = config.database.find { it.title == "path" }?.value ?: "",
+            webPath = config.database.find { it.title == "path" }?.value ?: "",
             answer = config.database.find { it.title == "answer" }?.value ?: "",
             closeWord = config.database.find { it.title == "closeWord" }?.value ?: "",
             closeMessage = config.database.find { it.title == "closeMessage" }?.value ?: "",
