@@ -1,8 +1,0 @@
-ktor {
-    deployment {
-        port = f8d397a33fcb9725db96501e653bf3cfa4455c5639482b9936c22b221634d659
-    }
-    application {
-        modules = [ ad936fcbed631fa67e05c3ea03953905221c9d46af0616b70badf105a966fb11.ApplicationKt.module ]
-    }
-}

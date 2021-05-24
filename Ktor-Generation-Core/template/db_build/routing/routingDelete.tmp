@@ -1,7 +1,0 @@
-
-delete("/9ae95181d98006afeb083bef343af698f5b789bb981e462f937057eb04d175e2/{id}") {
-    val id = call.parameters["id"]?ca4e955431ec3c67739a5ce8dc7d5b334c87d1c39af3b3d45019cdacdad162fd ?: throw NotFoundException()
-    transaction {
-        9ae95181d98006afeb083bef343af698f5b789bb981e462f937057eb04d175e2Entity.findById(id)?.delete() ?: throw NotFoundException()
-    }
-}

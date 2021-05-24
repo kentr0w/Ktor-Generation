@@ -1,9 +1,0 @@
-
-post("/update167501972c55d7b088f7fdb1fb7b7b3ddc7d18fd143b507afd6ce5bcf66d5236") {
-    val 3989d62bfafc94b91c7b6140f27e8c92963f932efb2516a321b5ba4f1e5c192bdataclass = call.receive<167501972c55d7b088f7fdb1fb7b7b3ddc7d18fd143b507afd6ce5bcf66d5236DataClass>()
-    transaction {
-        61722bef301a3d33a732e5b3821248d9dd6f2cfab81671771e23dc667972cb4aEntity.findById(3989d62bfafc94b91c7b6140f27e8c92963f932efb2516a321b5ba4f1e5c192bdataclass.id)?.let {
-            f01838afd0ba9f7c8c85412c29a21bc045e1a46f5bdf1006901e44ebd2d9314c
-        } ?: throw NotFoundException()
-    }
-}
