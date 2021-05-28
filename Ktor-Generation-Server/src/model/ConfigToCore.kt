@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Config(
     val global: Global,
-    val features: Features
+    val features: Features?
 )
 
 /*
@@ -14,7 +14,7 @@ data class Config(
 
 @Serializable
 data class Global(
-    val projectName: String,
+    val projectName: String?,
     val buildType: String,
     val group: String,
     val version: String,
@@ -29,10 +29,10 @@ data class Global(
 
 @Serializable
 data class Features(
-    val routes: List<Routes>,
-    val web: Web,
-    val database: DataBase,
-    val socket: Socket,
+    val routes: List<Routes>?,
+    val web: Web?,
+    val database: DataBase?,
+    val socket: Socket?,
 )
 
 
@@ -41,21 +41,21 @@ data class Features(
  */
 @Serializable
 data class Routes(
-    val name: String,
-    val file: String,
-    val routeDetail: List<RouteDetail>
+    val name: String?,
+    val path: String?,
+    val routeDetail: List<RouteDetail>?
 )
 
 @Serializable
 data class RouteDetail(
-    val path: String,
-    val requests: List<Requests>
+    val url: String?,
+    val requests: List<Requests>?
 )
 
 @Serializable
 data class Requests(
-    val type: String,
-    val path: String
+    val type: String?,
+    val requestUrl: String?
 )
 
 /*
@@ -64,16 +64,16 @@ data class Requests(
 
 @Serializable
 data class Web(
-    val name: String,
-    val path: String,
-    val template: String,
+    val name: String?,
+    val path: String?,
+    val template: String?,
     val resources: List<Resources>
 )
 
 @Serializable
 data class Resources(
-    val remotePath: String,
-    val resource: String
+    val remotePath: String?,
+    val resource: String?
 )
 
 
@@ -83,21 +83,21 @@ data class Resources(
 
 @Serializable
 data class DataBase(
-    val type: String,
-    val path: String,
-    val port: String,
-    val host: String,
-    val dbName: String,
-    val username: String,
+    val type: String?,
+    val path: String?,
+    val port: String?,
+    val host: String?,
+    val dbName: String?,
+    val username: String?,
     val password: String,
     val entities: List<Entities>?,
 )
 
 @Serializable
 data class Entities(
-    val name: String,
-    val file: String,
-    val tableName: String,
+    val name: String?,
+    val file: String?,
+    val tableName: String?,
     val route: Route?,
     val primaryKey: PrimaryKey?,
     val entityFields: List<EntityFields>?
@@ -105,7 +105,7 @@ data class Entities(
 
 @Serializable
 data class Route(
-    val standardRoutes: List<String>
+    val standardRoutes: List<String>?
 )
 
 @Serializable
@@ -116,9 +116,9 @@ data class PrimaryKey(
 
 @Serializable
 data class EntityFields(
-    val variableName: String,
-    val columnName: String,
-    val type: String,
+    val variableName: String?,
+    val columnName: String?,
+    val type: String?,
     val length: String?,
     val fieldDetail: List<String>?
 )
@@ -130,9 +130,9 @@ data class EntityFields(
 @Serializable
 data class Socket(
     val path: String?,
-    val name: String,
-    val webPath: String,
-    val answer: String,
-    val closeWord: String,
-    val closeMessage: String,
+    val name: String?,
+    val webPath: String?,
+    val answer: String?,
+    val closeWord: String?,
+    val closeMessage: String?,
 )

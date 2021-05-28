@@ -70,7 +70,7 @@ public class Core {
                 buildGeneration = new MavenGeneration(newPath.toString());
                 break;
         }
-        System.out.println(buildGeneration.generate());
+        buildGeneration.generate();
         FileTreeGeneration fileTreeGeneration = new FileTreeGeneration(fileReader.readProject(), global.getProjectPath());
         Boolean result = fileTreeGeneration.generate();
         if (result) {

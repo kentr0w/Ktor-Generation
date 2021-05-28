@@ -6,8 +6,8 @@ export default class WebInfo extends Component {
         super(props)        
     }
     
-    setNewItem = (it) => {           
-        const item = {title: 'webFeatureName', value: it.target.value}
+    setNewItem = (name, it) => {           
+        const item = {title: name, value: it.target.value}
         this.props.addNewItemByTitle('web', item)
     }
 
@@ -18,7 +18,9 @@ export default class WebInfo extends Component {
                         <p className = 'pp'>Name:</p>
                         &nbsp;
                         &nbsp;
-                        <input className = 'pretty-input' placeholder = 'Name' onChange = {this.setNewItem}></input>
+                        <input className = 'pretty-input' placeholder = 'Name' onChange = {(it) => {
+                            this.setNewItem('name', it)
+                        }}></input>
                     </div>
                     <div className = 'web-field'>
                         <p className = 'pp'>File:</p>

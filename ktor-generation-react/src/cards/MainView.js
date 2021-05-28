@@ -7,7 +7,6 @@ import DBFeature from './featureCard/db_feature/DBFeature'
 import SocketFeature from './featureCard/socket_feature/SocketFeature'
 import WebFeature from './featureCard/web_feature/WebFeature'
 import global_data from './data/global_data'
-import fs from 'fs'
 
 export default class MainView extends Component {
 
@@ -15,10 +14,17 @@ export default class MainView extends Component {
         super(props);
         this.state = {
           globalData: global_data,          
-        }
+        }        
     }
 
-    prepareConfig = () => {                
+    prepareConfig = () => {            
+        this.state.globalData.global.map((it) => {
+            if (it.title === "projectName"){
+                if (it.value === undefined) {                        
+                    return
+                }
+            }
+        })
         console.log(this.state.globalData)
         console.log(JSON.stringify(this.state.globalData))
         const requestOptions = {

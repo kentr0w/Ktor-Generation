@@ -1,71 +1,18 @@
+---
 global:
-  folder: "user"
-  projectName: "own-ktor-project"
-  buildType: 'Gradle'
+  projectName: "qwe"
+  buildType: "Gradle"
   group: "com.example"
   version: "0.0.1-SNAPSHOT"
   ktorVersion: "1.5.0"
   kotlinVersion: "1.4.21"
   port: "8080"
 features:
-  routes:
-    - name: "Car"
-      path: "controllers/Hello.kt"
-      routeDetail:
-        - url: "/car"
-          requests:
-            - type: 'GET'
-              requestUrl: "/getCar"
-            - type: 'POST'
-              requestUrl: "/saveCar"
-        - url: "/electro"
-          requests:
-            - type: 'GET'
-              requestUrl: "getCar"
+  routes: []
   web:
-    name: "Static"
-    path: "src/controllers/Hello.kt"
-    template: "user/template"
+    name: "wefev"
+    path: "Application.kt"
+    template: "FB"
     resources:
-      - remotePath: "/index"
-        resource: "index.html"
-  database:
-    type: 'MYSQL'
-    path: "own-ktor-project/src/hehe.kt"
-    port: "3306"
-    host: "localhost"
-    dbName: "test"
-    username: "root"
-    password: ""
-    entities:
-      - name: "User"
-        path: "controllers/Hello.kt"
-        tableName: "User"
-        route:
-          standardRoutes:
-            - 'GETAll'
-            - 'SAVE'
-            - 'UPDATE'
-            - 'DELETE'
-        primaryKey:
-          idName: "id"
-          type: 'LONG'
-        entityFields:
-          - variableName: "name"
-            columnName: "name"
-            type: 'VARCHAR'
-            length: "10"
-            fieldDetail:
-              - 'NULLABLE'
-          - variableName: "age"
-            columnName: "age"
-            type: 'INTEGER'
-            fieldDetail:
-              - 'NULLABLE'
-  socket:
-    path: "own-ktor-project/src/hehe.kt"
-    name: "websocket"
-    webPath: "web"
-    answer: "You said: $text"
-    closeWord: "End"
-    closeMessage: "End"
+      - remotePath: "ewf"
+        resource: "efwe"

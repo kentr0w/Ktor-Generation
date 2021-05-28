@@ -79,10 +79,10 @@ public class WebFeature extends FeatureObject {
             return;
         }
         CustomLogger.writeLog(LogType.INFO, "Starting to implement web-feature");
-        if (!checkTemplateFiles()) {
+        /*if (!checkTemplateFiles()) {
             CustomLogger.writeLog(LogType.ERROR, "Web-feature won't be implemented");
             return;
-        }
+        }*/
         StringBuilder code = new StringBuilder();
         for(WebResource resource: this.resources) {
             resource.setResource("template" + File.separator + resource.getResource());

@@ -1,6 +1,6 @@
 var global_data = {
     global: [        
-            {title: 'projectName', value: ''},
+            {title: 'projectName', value: undefined},
             {title: 'buildType', value: 'Gradle'},
             {title: 'group', value: 'com.example'},
             {title: 'version', value: '0.0.1-SNAPSHOT'},
@@ -9,24 +9,24 @@ var global_data = {
             {title: 'port', value: '8080'},        
     ],
     database: [
-            {title: 'dbName', value: ''},
-            {title: 'host', value: 'localhost'},
-            {title: 'port', value: '3306'},
-            {title: 'username', value: 'root'},
+            {title: 'dbName', value: undefined},
+            {title: 'host', value: undefined},
+            {title: 'port', value: undefined},
+            {title: 'username', value: undefined},
             {title: 'password', value: ''},
             {title: 'type', value: 'MYSQL'},
-            {title: 'path', value: ''},        
+            {title: 'path', value: undefined},        
     ],
     socket: [
-            {title: 'name', value: ''},
-            {title: 'webPath', value: ''},
-            {title: 'answer', value: ''},
-            {title: 'closeWord', value: ''},
-            {title: 'closeMessage', value: ''},
+            {title: 'name', value: undefined},
+            {title: 'webPath', value: undefined},
+            {title: 'answer', value: undefined},
+            {title: 'closeWord', value: undefined},
+            {title: 'closeMessage', value: undefined},
         ],
     web: [
-            {title: 'name', value: ''},
-            {title: 'file', value: ''},
+            {title: 'name', value: undefined},
+            {title: 'file', value: undefined},
     ],
 
     
