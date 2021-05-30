@@ -1,6 +1,6 @@
 ---
 global:
-  projectName: "qwe"
+  projectName: "qweq"
   buildType: "Gradle"
   group: "com.example"
   version: "0.0.1-SNAPSHOT"
@@ -9,10 +9,3 @@ global:
   port: "8080"
 features:
   routes: []
-  web:
-    name: "wefev"
-    path: "Application.kt"
-    template: "FB"
-    resources:
-      - remotePath: "ewf"
-        resource: "efwe"

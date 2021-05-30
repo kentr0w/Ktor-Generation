@@ -7,6 +7,10 @@ import DBFeature from './featureCard/db_feature/DBFeature'
 import SocketFeature from './featureCard/socket_feature/SocketFeature'
 import WebFeature from './featureCard/web_feature/WebFeature'
 import global_data from './data/global_data'
+import TreeData from './fileCard/tree/treeData';
+import {saveAs} from "file-saver";
+import axios from 'axios';
+import download from 'downloadjs'
 
 export default class MainView extends Component {
 
@@ -14,7 +18,13 @@ export default class MainView extends Component {
         super(props);
         this.state = {
           globalData: global_data,          
+          data: TreeData,
         }        
+    }
+
+    treeDataSet = (newData) => {
+        this.setState({newData})
+        console.log(newData)        
     }
 
     prepareConfig = () => {            
@@ -27,14 +37,31 @@ export default class MainView extends Component {
         })
         console.log(this.state.globalData)
         console.log(JSON.stringify(this.state.globalData))
+        console.log(JSON.stringify(this.state.data))
+        const q = {"feature" : this.state.globalData, "files" : this.state.data}
         const requestOptions = {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json',                
             },
-            body: JSON.stringify(this.state.globalData)
+            body: JSON.stringify(q)
         };
-        fetch('http://localhost:8080/generate/submit', requestOptions)            
+        fetch('http://localhost:8080/generate/submit', requestOptions)
+          
+        /*const method = 'GET';
+        const url = 'http://localhost:8080/generate/get';    
+        axios({
+            url: url,
+            method: 'GET',
+            responseType: 'blob', // important
+          }).then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'file.zip');
+            document.body.appendChild(link);
+            link.click();
+          });*/
     }
 
     setNewGlobal = (newGlobal) => {        
@@ -90,7 +117,7 @@ export default class MainView extends Component {
         return(
             <div className = 'mainView'>
                 <GeneralCard addNewItemByTitle = {this.addNewItemByTitle}/>
-                <FileCard/>                
+                <FileCard treeDataSet = {this.treeDataSet} data = {this.state.data}/>                
                 <RouteFeature remove = {this.removeItem} create = {this.addNewItem}/>
                 <DBFeature addNewItemByTitle = {this.addNewItemByTitle} remove = {this.removeItem} create = {this.addNewItem}/>
                 <SocketFeature addNewItemByTitle = {this.addNewItemByTitle}/>

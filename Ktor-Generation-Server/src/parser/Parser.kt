@@ -1,10 +1,36 @@
 package org.dk.parser
 
+import com.fasterxml.jackson.databind.JsonNode
 import org.dk.model.*
 
+fun parseFiles(rootNode: JsonNode): Tree {
+    val name = rootNode["name"].toString().replace("\"", "")
+    val root = Node(name, null)
+    rootNode["children"].forEach {
+        DFSTree(root, it)
+    }
+    return Tree(root)
+}
+
+private fun DFSTree(parent: Node, jsonNode: JsonNode) {
+    val name = jsonNode["name"].toString().replace("\"", "")
+    val node = Node(name, parent)
+    parent.addChild(node)
+    jsonNode["children"].forEach {
+        DFSTree(node, it)
+    }
+}
+
+/**
+ *
+ */
 class Parser(private val config: ConfigFromWeb) {
 
-    fun parse() =
+
+    /**
+     *
+     */
+    fun parse(): Config =
         Config(
             global = parseGlobalFields(),
             features = parseFeatures()

@@ -15,7 +15,7 @@ export default class FileCard extends Component {
         return(
             <div className = 'file-card'>
                 <div className = "second-card-name">File Tree</div>          
-                <Tree/>
+                <Tree treeDataSet = {this.props.treeDataSet} data = {this.props.data}/>
             </div>
         )
     }

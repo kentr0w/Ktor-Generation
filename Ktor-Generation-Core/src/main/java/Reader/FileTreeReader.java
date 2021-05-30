@@ -57,7 +57,11 @@ public class FileTreeReader {
                 .getChildren()
                 .stream()
                 .filter(it -> !it.getDir())
-                .map(Node::getName)
+                .map ( it -> {
+                        System.out.println(it.getName().replaceAll("\\s+",""));
+                        return it.getName().replaceAll("\\s+","");
+                    }
+                )
                 .collect(Collectors.toList())
                 .contains("Application.kt");
         result = this.tree.getRoot().getName().equals("src") && result && isApplicationFile;

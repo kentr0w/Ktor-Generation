@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import './../Section.css'
 import './../../../App.css'
-import TreeData from './treeData';
-
-
 
 export default class Tree extends Component {
 
     constructor(props) {
       super(props);
       this.state = {
-        data: TreeData,
+        // data: TreeData,
         editableNode: ''
       }
     }
@@ -23,26 +20,27 @@ export default class Tree extends Component {
         editMode: true,
         children: []
       }
-  
-      this.setState({
-        data: root
-      });
+      this.props.treeDataSet(root)
+      //this.setState({data: root});
     }
   
     handleEditChange = (e, value) => {
       value[e.target.name] = e.target.value;
-      this.setState({ value });
+      this.props.treeDataSet(value)
+      //this.setState({ value });
     }
   
     deleteNode = (parent, index) => {
       parent.splice(index, 1);
-      this.setState({ parent });
+      this.props.treeDataSet(parent)
+      //this.setState({ parent });
     }
   
     makeEditable = (value) => {
       this.state.editableNode = JSON.parse(JSON.stringify(value));
       value.editMode = true;
-      this.setState({ value });
+      this.props.treeDataSet(value)
+      //this.setState({ value });
     }
   
     closeForm = (value, parent, index) => {
@@ -50,23 +48,27 @@ export default class Tree extends Component {
         value.name = this.state.editableNode.name;
         value.exportValue = this.state.editableNode.exportValue;
         value.editMode = false;
-        this.setState({ value });
+        this.props.treeDataSet(value)
+        //this.setState({ value });
       }
       else {
         console.log(index);
         parent.splice(index, 1);
-        this.setState({ parent });
+        this.props.treeDataSet(parent)
+        //this.setState({ parent });
       }
     }
   
     doneEdit = (value) => {
       value.editMode = false;
-      this.setState({ value });
+      this.props.treeDataSet(value)
+      //this.setState({ value });
     }
   
     toggleView = (ob) => {
       ob.showChildren = !ob.showChildren;
-      this.setState({ ob });
+      this.props.treeDataSet(ob)
+      //this.setState({ ob });
     }
   
     addMember = (parent) => {
@@ -78,7 +80,8 @@ export default class Tree extends Component {
         children: []
       }
       parent.push(newChild);
-      this.setState({ parent });
+      this.props.treeDataSet(parent)
+      //this.setState({ parent });
     }
   
     addChild = (node) => {
@@ -90,7 +93,8 @@ export default class Tree extends Component {
         editMode: true,
         children: []
       });
-      this.setState({ node });
+      this.props.treeDataSet(node)
+      //this.setState({ node });
     }
   
     nodeEditForm = (value, parent, index) => {
@@ -176,7 +180,9 @@ export default class Tree extends Component {
         <ul >
           {children}
           <li>
-            <div className="node add_node" onClick={(e)=> { e.stopPropagation();this.addMember(node) }}>                   
+            <div className="node add_node" onClick={(e)=> { e.stopPropagation();this.addMember(node) }}> 
+              <i className="fa fa-square" ></i>
+              <a >Add New</a>                  
             </div>
           </li>
         </ul>
@@ -184,22 +190,22 @@ export default class Tree extends Component {
     }
   
     getNodes = () => {
-      if (typeof this.state.data.name === 'undefined') return null;
-      let children = this.makeChildren(this.state.data.children);
+      if (typeof this.props.data.name === 'undefined') return null;
+      let children = this.makeChildren(this.props.data.children);
       let root = (
-        <span className="root">{this.state.data.name}
+        <span className="root">{this.props.data.name}
           <span className="actions">            
-            <i className="fa fa-pencil" onClick={(e)=> { e.stopPropagation(); this.makeEditable(this.state.data) }}> edit </i>
+            <i className="fa fa-pencil" onClick={(e)=> { e.stopPropagation(); this.makeEditable(this.props.data) }}> edit </i>
             &nbsp;
             &nbsp;
-            <i className="fa fa-plus" onClick={(e)=> { e.stopPropagation(); this.addChild(this.state.data) }}> Add child </i>
+            <i className="fa fa-plus" onClick={(e)=> { e.stopPropagation(); this.addChild(this.props.data) }}> Add child </i>
           </span>
         </span>
   
       )
       return (
         <div className="tree">          
-          {(this.state.data.editMode) ? this.nodeEditForm(this.state.data) : root}
+          {(this.props.data.editMode) ? this.nodeEditForm(this.props.data) : root}
           {children}
         </div>
       );

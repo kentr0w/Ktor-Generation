@@ -1,6 +1,7 @@
 package org.dk.model
 
 import kotlinx.serialization.Serializable
+import java.io.File
 
 @Serializable
 data class Config(
@@ -136,3 +137,38 @@ data class Socket(
     val closeWord: String?,
     val closeMessage: String?,
 )
+
+
+class Tree(val root: Node) {
+
+    fun prettyPrint(node: Node, index: Int, text: String): String {
+        var name = node.name
+        if (node.children.isEmpty()) {
+            if (!node.name.endsWith(".kt"))
+                name += ".kt"
+        }
+        val type = if (node.children.isEmpty()) " file" else " dir"
+        var resultText = " ".repeat(index * 4) + name + type + "\n"
+        node.children.forEach {
+            resultText += prettyPrint(it, index + 1, resultText)
+        }
+        return resultText
+    }
+
+    fun writeToFile(path: String) {
+        val file = File(path)
+        file.createNewFile()
+        file.writeText(prettyPrint(root, 0, ""))
+    }
+
+}
+
+class Node(
+    val name: String,
+    val parent: Node?
+) {
+    var children = mutableListOf<Node>()
+    fun addChild(node: Node) {
+        children.add(node)
+    }
+}

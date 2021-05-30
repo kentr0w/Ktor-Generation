@@ -6,20 +6,20 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper
 import com.google.gson.Gson
 import io.ktor.application.*
-import io.ktor.http.content.*
 import io.ktor.request.*
 import io.ktor.routing.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.consumesAll
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.withContext
 import org.dk.model.ConfigFromWeb
 import org.dk.parser.Parser
 import java.io.File
 import java.io.IOException
-import java.io.InputStream
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicLong
+import com.fasterxml.jackson.core.JsonFactory
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import io.ktor.response.*
+import org.dk.parser.parseFiles
+
 
 val folderName = AtomicLong(0L)
 val pathToCore = "resources/Ktor-Generation-Core-1.0-SNAPSHOT.jar"
@@ -36,6 +36,11 @@ fun Application.generateRoute() {
                 println("Finish")
             }
             post("/submit") {
+                val jsonText = call.receive<String>()
+                val rootNode = ObjectMapper(JsonFactory()).readTree(jsonText)
+                val mapper = jacksonObjectMapper()
+                val configFromWeb: ConfigFromWeb = mapper.readValue(rootNode["feature"].toString())
+                val files = rootNode["files"]
 
                 println("Generate folder")
                 val pathToFolder = "folders/${folderName.getAndIncrement()}"
@@ -45,8 +50,6 @@ fun Application.generateRoute() {
                 }
                 newFolder.mkdirs()
                 println("Generated")
-
-                val configFromWeb = call.receive<ConfigFromWeb>()
 
                 println(configFromWeb.toString())
 
@@ -68,10 +71,16 @@ fun Application.generateRoute() {
                 yaml2?.let { file2.writeText(it) }
                 println("Wrote config")
 
+                val tree = parseFiles(files)
+                tree.writeToFile(pathToFolder + File.separator + "project.tr")
+
                 println("Starting to copy jar")
                 println(File(pathToCore).exists())
                 println(File(pathToFolder).exists())
-                File(pathToCore).copyTo(File(pathToFolder + File.separator + "Ktor-Generation-Core-1.0-SNAPSHOT.jar"), true)
+                File(pathToCore).copyTo(
+                    File(pathToFolder + File.separator + "Ktor-Generation-Core-1.0-SNAPSHOT.jar"),
+                    true
+                )
                 println("Copied")
 
                 println("Starting")
@@ -81,7 +90,13 @@ fun Application.generateRoute() {
                 println(q)
                 println("Finish")
             }
+            get("/get") {
+                println("qwer")
+                call.respondFile(File("folders/0.zip"))
+            }
         }
+
+
     }
 }
 
