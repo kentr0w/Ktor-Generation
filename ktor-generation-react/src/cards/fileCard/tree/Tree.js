@@ -6,8 +6,7 @@ export default class Tree extends Component {
 
     constructor(props) {
       super(props);
-      this.state = {
-        // data: TreeData,
+      this.state = {        
         editableNode: ''
       }
     }
@@ -20,27 +19,23 @@ export default class Tree extends Component {
         editMode: true,
         children: []
       }
-      this.props.treeDataSet(root)
-      //this.setState({data: root});
+      this.props.treeDataSet(root)     
     }
   
     handleEditChange = (e, value) => {
       value[e.target.name] = e.target.value;
-      this.props.treeDataSet(value)
-      //this.setState({ value });
+      this.props.treeDataSet(value)      
     }
   
     deleteNode = (parent, index) => {
       parent.splice(index, 1);
-      this.props.treeDataSet(parent)
-      //this.setState({ parent });
+      this.props.treeDataSet(parent)      
     }
   
     makeEditable = (value) => {
       this.state.editableNode = JSON.parse(JSON.stringify(value));
       value.editMode = true;
-      this.props.treeDataSet(value)
-      //this.setState({ value });
+      this.props.treeDataSet(value)      
     }
   
     closeForm = (value, parent, index) => {
@@ -48,27 +43,22 @@ export default class Tree extends Component {
         value.name = this.state.editableNode.name;
         value.exportValue = this.state.editableNode.exportValue;
         value.editMode = false;
-        this.props.treeDataSet(value)
-        //this.setState({ value });
+        this.props.treeDataSet(value)        
       }
-      else {
-        console.log(index);
+      else {        
         parent.splice(index, 1);
-        this.props.treeDataSet(parent)
-        //this.setState({ parent });
+        this.props.treeDataSet(parent)        
       }
     }
   
     doneEdit = (value) => {
       value.editMode = false;
       this.props.treeDataSet(value)
-      //this.setState({ value });
     }
   
     toggleView = (ob) => {
       ob.showChildren = !ob.showChildren;
       this.props.treeDataSet(ob)
-      //this.setState({ ob });
     }
   
     addMember = (parent) => {
@@ -81,7 +71,6 @@ export default class Tree extends Component {
       }
       parent.push(newChild);
       this.props.treeDataSet(parent)
-      //this.setState({ parent });
     }
   
     addChild = (node) => {
@@ -94,7 +83,6 @@ export default class Tree extends Component {
         children: []
       });
       this.props.treeDataSet(node)
-      //this.setState({ node });
     }
   
     nodeEditForm = (value, parent, index) => {

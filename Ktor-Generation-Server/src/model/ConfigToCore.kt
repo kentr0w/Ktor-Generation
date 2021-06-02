@@ -16,6 +16,7 @@ data class Config(
 @Serializable
 data class Global(
     val projectName: String?,
+    val folder: String?,
     val buildType: String,
     val group: String,
     val version: String,
@@ -85,7 +86,7 @@ data class Resources(
 @Serializable
 data class DataBase(
     val type: String?,
-    val path: String?,
+    val path: String,
     val port: String?,
     val host: String?,
     val dbName: String?,
@@ -97,7 +98,7 @@ data class DataBase(
 @Serializable
 data class Entities(
     val name: String?,
-    val file: String?,
+    val path: String?,
     val tableName: String?,
     val route: Route?,
     val primaryKey: PrimaryKey?,
@@ -130,7 +131,7 @@ data class EntityFields(
 
 @Serializable
 data class Socket(
-    val path: String?,
+    val path: String,
     val name: String?,
     val webPath: String?,
     val answer: String?,
@@ -161,6 +162,27 @@ class Tree(val root: Node) {
         file.writeText(prettyPrint(root, 0, ""))
     }
 
+    fun findParentsByName(name: String): String {
+        var node = findByName(root, name) ?: return ""
+        val parents = mutableListOf(node.name)
+        while (node.parent?.name != "src") {
+            node.parent?.name?.let { parents.add(it) }
+            node = node.parent!!
+        }
+        return parents.reversed().joinToString(File.separator)
+    }
+
+    fun findByName(node: Node, name: String): Node? {
+        if (node.name == name)
+            return node
+        var result: Node? = null
+        node.children.forEach {
+            val result2 = findByName(it, name)
+            if (result2 != null)
+                result = result2
+        }
+        return result
+    }
 }
 
 class Node(

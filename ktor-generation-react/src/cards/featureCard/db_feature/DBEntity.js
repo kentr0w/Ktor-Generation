@@ -13,7 +13,7 @@ export default class DBEntity extends Component {
         this.state = {        
             fields: [],
             newFieldName: '',
-            newFieldType: 'String',
+            newFieldType: 'VARCHAR',
             newColumnName: ''
         }        
     }
@@ -116,10 +116,10 @@ export default class DBEntity extends Component {
                         <div>
                             <p className = 'pp'>Type:</p>
                             <select onChange = {this.setNewEntityType}>
-                                <option>String</option>
-                                <option>Integer</option>
-                                <option>Double</option>
-                                <option>Date</option>
+                                <option>VARCHAR</option>
+                                <option>INTEGER</option>
+                                <option>DOUBLE</option>
+                                <option>DATE</option>
                             </select>
                         </div>
                         <button onClick = {this.createNewEntity}>Create new field</button>

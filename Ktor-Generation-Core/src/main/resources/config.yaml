@@ -1,11 +1,74 @@
----
 global:
-  projectName: "qweq"
-  buildType: "Gradle"
+  folder: "user"
+  projectName: "own-ktor-project"
+  buildType: 'Gradle'
   group: "com.example"
   version: "0.0.1-SNAPSHOT"
   ktorVersion: "1.5.0"
   kotlinVersion: "1.4.21"
   port: "8080"
 features:
-  routes: []
+  routes:
+    - name: "Item"
+      file: "Item.kt"
+      routeDetail:
+        - path: "/item"
+          requests:
+            - type: 'GET'
+              path: "/getItem"
+            - type: 'POST'
+              path: "/saveItem"
+  web:
+    name: "Static"
+    file: "Static.kt"
+    template: "user/template"
+    resources:
+      - remotePath: "/static"
+        resource: "index.html"
+  database:
+    type: 'MYSQL'
+    file: "DataBase.kt"
+    port: "3306"
+    host: "localhost"
+    dbName: "test"
+    username: "root"
+    password: ""
+    entities:
+      - name: "User"
+        file: "DataBase.kt"
+        tableName: "User"
+        route:
+          standardRoutes:
+            - 'GETAll'
+            - 'SAVE'
+            - 'UPDATE'
+            - 'DELETE'
+          routeDetail:
+            - path: "/user"
+              requests:
+                - type: 'GET'
+                  path: "/getUser"
+                - type: 'POST'
+                  path: "/saveUser"
+        primaryKey:
+          idName: "id"
+          type: 'LONG'
+        entityFields:
+          - variableName: "name"
+            columnName: "name"
+            type: 'VARCHAR'
+            length: "10"
+            fieldDetail:
+              - 'NULLABLE'
+          - variableName: "age"
+            columnName: "age"
+            type: 'INTEGER'
+            fieldDetail:
+              - 'NULLABLE'
+  socket:
+    file: "Socket.kt"
+    name: "websocket"
+    path: "web"
+    answer: "You said: $text"
+    closeWord: "bye"
+    closeMessage: "Bye"

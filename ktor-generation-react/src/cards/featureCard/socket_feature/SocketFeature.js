@@ -7,7 +7,8 @@ export default class SocketFeature extends Component {
         super(props)
     }
 
-    setNewItem = (name, it) => {               
+    setNewItem = (name, it) => { 
+        console.log(it.target.value)              
         const item = {title: name, value: it.target.value}
         this.props.addNewItemByTitle('socket', item)
     }
@@ -59,11 +60,18 @@ export default class SocketFeature extends Component {
                     </div>
                     <p className = 'pp'> File: </p>
                     &nbsp;
-                    &nbsp;
-                    <select>
-                        <option>Application</option>
-                        <option>Another</option>
-                    </select>
+                    &nbsp;  
+                    <select onChange = {(it) => {
+                        this.setNewItem('path', it)
+                    }}>
+                    {
+                        this.props.treeData.map((fileName) => {
+                            return (
+                                <option >{fileName}</option>
+                            )
+                        })                        
+                    }       
+                    </select>                           
                 </div>
             </div>
         )

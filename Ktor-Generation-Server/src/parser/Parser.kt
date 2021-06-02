@@ -24,7 +24,10 @@ private fun DFSTree(parent: Node, jsonNode: JsonNode) {
 /**
  *
  */
-class Parser(private val config: ConfigFromWeb) {
+class Parser(
+    private val config: ConfigFromWeb,
+    private val tree: Tree
+) {
 
 
     /**
@@ -39,6 +42,7 @@ class Parser(private val config: ConfigFromWeb) {
     private fun parseGlobalFields(): Global {
         return Global(
             projectName = config.global.find { it.title == "projectName" }?.value,
+            folder = config.global.find { it.title == "projectName" }?.value,
             buildType = config.global.find { it.title == "buildType" }?.value ?: "",
             group = config.global.find { it.title == "group" }?.value ?: "",
             version = config.global.find { it.title == "version" }?.value ?: "",
@@ -61,7 +65,7 @@ class Parser(private val config: ConfigFromWeb) {
         config.globalRoutes.map {
             Routes(
                 name = it.methodName,
-                path = it.file,
+                path = tree.findParentsByName(it.file) + ".kt",
                 routeDetail = it.id?.let { parseToRouteDetail(it) }
             )
         }
@@ -110,7 +114,8 @@ class Parser(private val config: ConfigFromWeb) {
     private fun parseDataBase(): DataBase? {
         val dataBase = DataBase(
             type = config.database.find { it.title == "type" }?.value,
-            path = config.database.find { it.title == "file" }?.value ?: "Application.kt",
+            path = config.database.find { it.title == "file" }?.value?.let { tree.findParentsByName(it) + ".kt" }
+                ?: "Application.kt",
             port = config.database.find { it.title == "port" }?.value,
             host = config.database.find { it.title == "host" }?.value,
             dbName = config.database.find { it.title == "dbName" }?.value,
@@ -136,7 +141,7 @@ class Parser(private val config: ConfigFromWeb) {
         config.dbEntities.map {
             Entities(
                 name = it.name,
-                file = it.file,
+                path = tree.findParentsByName(it.file) + ".kt",
                 tableName = it.tableName,
                 route = it.id?.let { parseRoutes(it) },
                 primaryKey = PrimaryKey(idName = "id", type = "LONG"),
@@ -166,9 +171,9 @@ class Parser(private val config: ConfigFromWeb) {
 
     private fun parseSocket(): Socket? {
         val socket = Socket(
-            path = "",
+            path = config.socket.find { it.title == "path" }?.value?.let { tree.findParentsByName(it) + ".kt" } ?: "Application.kt",
             name = config.socket.find { it.title == "name" }?.value,
-            webPath = config.socket.find { it.title == "path" }?.value,
+            webPath = config.socket.find { it.title == "webPath" }?.value,
             answer = config.socket.find { it.title == "answer" }?.value,
             closeWord = config.socket.find { it.title == "closeWord" }?.value,
             closeMessage = config.socket.find { it.title == "closeMessage" }?.value,

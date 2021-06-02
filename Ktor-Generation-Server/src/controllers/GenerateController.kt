@@ -1,25 +1,25 @@
 package org.dk.controllers
 
+import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.gson.Gson
 import io.ktor.application.*
 import io.ktor.request.*
+import io.ktor.response.*
 import io.ktor.routing.*
 import org.dk.model.ConfigFromWeb
 import org.dk.parser.Parser
-import java.io.File
-import java.io.IOException
+import org.dk.parser.parseFiles
+import java.io.*
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicLong
-import com.fasterxml.jackson.core.JsonFactory
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
-import io.ktor.response.*
-import org.dk.parser.parseFiles
-
+import java.util.zip.ZipEntry
+import java.util.zip.ZipOutputStream
 
 val folderName = AtomicLong(0L)
 val pathToCore = "resources/Ktor-Generation-Core-1.0-SNAPSHOT.jar"
@@ -27,14 +27,6 @@ val pathToCore = "resources/Ktor-Generation-Core-1.0-SNAPSHOT.jar"
 fun Application.generateRoute() {
     routing {
         route("/generate") {
-            get("/submit") {
-                println("Starting")
-                val q = "java -jar Ktor-Generation-Core-1.0-SNAPSHOT.jar".runCommand(
-                    File("/home/ubuntu/IdeaProjects/Ktor-Generation/Ktor-Generation-Server/resources")
-                )
-                println(q)
-                println("Finish")
-            }
             post("/submit") {
                 val jsonText = call.receive<String>()
                 val rootNode = ObjectMapper(JsonFactory()).readTree(jsonText)
@@ -42,61 +34,49 @@ fun Application.generateRoute() {
                 val configFromWeb: ConfigFromWeb = mapper.readValue(rootNode["feature"].toString())
                 val files = rootNode["files"]
 
-                println("Generate folder")
                 val pathToFolder = "folders/${folderName.getAndIncrement()}"
                 val newFolder = File(pathToFolder)
                 if (newFolder.exists()) {
                     newFolder.deleteRecursively()
                 }
                 newFolder.mkdirs()
-                println("Generated")
 
-                println(configFromWeb.toString())
-
-                println("Starting to write config from web")
                 val yaml = asYaml(Gson().toJson(configFromWeb))
                 val file = File(pathToFolder + File.separator + "config2.yaml")
                 file.createNewFile()
                 yaml?.let { file.writeText(it) }
-                println("Wrote config")
 
-                println("Starting to parse")
-                val config = Parser(configFromWeb).parse()
-                println("Parsed")
+                val tree = parseFiles(files)
+                val config = Parser(configFromWeb, tree).parse()
 
-                println("Starting to write config")
                 val yaml2 = asYaml(Gson().toJson(config))
                 val file2 = File(pathToFolder + File.separator + "config.yaml")
                 file2.createNewFile()
                 yaml2?.let { file2.writeText(it) }
-                println("Wrote config")
 
-                val tree = parseFiles(files)
+
                 tree.writeToFile(pathToFolder + File.separator + "project.tr")
 
-                println("Starting to copy jar")
-                println(File(pathToCore).exists())
-                println(File(pathToFolder).exists())
+
                 File(pathToCore).copyTo(
                     File(pathToFolder + File.separator + "Ktor-Generation-Core-1.0-SNAPSHOT.jar"),
                     true
                 )
-                println("Copied")
 
-                println("Starting")
                 val q = "java -jar Ktor-Generation-Core-1.0-SNAPSHOT.jar".runCommand(
                     File(pathToFolder)
                 )
-                println(q)
-                println("Finish")
+
+                zipAll(pathToFolder + File.separator + "null", pathToFolder + File.separator + "newZip")
+                call.respondText(pathToFolder.split(File.separator).last())
             }
-            get("/get") {
-                println("qwer")
-                call.respondFile(File("folders/0.zip"))
+
+            get("/file/{id}") {
+                val id = call.parameters["id"]
+                val file = File("folders/$id" + File.separator + "newZip")
+                call.respondFile(file)
             }
         }
-
-
     }
 }
 
@@ -113,6 +93,51 @@ fun String.runCommand(workingDir: File) {
     } catch (e: IOException) {
         e.printStackTrace()
         null
+    }
+}
+
+fun zipAll(directory: String, zipFile: String) {
+    val sourceFile = File(directory)
+    ZipOutputStream(BufferedOutputStream(FileOutputStream(zipFile))).use {
+        zipFiles(it, sourceFile, "")
+    }
+}
+
+private fun zipFiles(zipOut: ZipOutputStream, sourceFile: File, parentDirPath: String) {
+    val data = ByteArray(2048)
+    sourceFile.listFiles()?.forEach { f ->
+        if (f.isDirectory) {
+            val path = if (parentDirPath == "") {
+                f.name
+            } else {
+                parentDirPath + File.separator + f.name
+            }
+            val entry = ZipEntry(path + File.separator)
+            entry.time = f.lastModified()
+            entry.isDirectory
+            entry.size = f.length()
+            zipOut.putNextEntry(entry)
+            //Call recursively to add files within this directory
+            zipFiles(zipOut, f, path)
+        } else {
+            FileInputStream(f).use { fi ->
+                BufferedInputStream(fi).use { origin ->
+                    val path = parentDirPath + File.separator + f.name
+                    val entry = ZipEntry(path)
+                    entry.time = f.lastModified()
+                    entry.isDirectory
+                    entry.size = f.length()
+                    zipOut.putNextEntry(entry)
+                    while (true) {
+                        val readBytes = origin.read(data)
+                        if (readBytes == -1) {
+                            break
+                        }
+                        zipOut.write(data, 0, readBytes)
+                    }
+                }
+            }
+        }
     }
 }
 
